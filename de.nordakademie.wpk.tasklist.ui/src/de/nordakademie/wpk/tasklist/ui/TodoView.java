@@ -10,6 +10,9 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.TreeColumn;
 
+import de.nordakademie.wpk.todolist.core.api.Task;
+import de.nordakademie.wpk.todolist.core.api.TaskList;
+
 public class TodoView {
 	Tree tree;
 	TreeItem tasklists;
@@ -29,10 +32,6 @@ public class TodoView {
 		tasklists = new TreeItem(tree, SWT.NONE);
 		tasklists.setText("Tasklisten");
 		
-		//TreeItem trtmTestitem = new TreeItem(tasklists, SWT.NONE);
-		//trtmTestitem.setText("testitem");
-		//tasklists.setExpanded(true);
-		
 		TreeColumn emptyColumn = new TreeColumn(tree, SWT.NONE);
 		emptyColumn.setWidth(79);
 		emptyColumn.setText(" ");
@@ -46,15 +45,15 @@ public class TodoView {
 		tasksColumn.setText("Tasks");
 	}
 	
-	public void addTasklist(){
+	public void addTasklist(TaskList tasklistObject){
 		TreeItem tasklist = new TreeItem(tasklists, SWT.NONE);
-		tasklist.setText("Tasklistname");
+		tasklist.setText(tasklistObject.getName());
 		tasklist.setExpanded(true);
 	}
 	
-	public void addTask(TreeItem tasklist){
+	public void addTask(TreeItem tasklist, Task taskObject){
 		TreeItem task = new TreeItem(tasklist, SWT.NONE); 
-		task.setText("Taskname");
+		task.setText(taskObject.getTitle());
 		task.setExpanded(true);
 	}
 
