@@ -1,6 +1,6 @@
 package de.nordakademie.wpk.todolist.core.api;
 
-import java.util.List;
+import java.util.Set;
 
 public interface TaskService {
 
@@ -9,7 +9,7 @@ public interface TaskService {
 	 * 
 	 * @return
 	 */
-	List<TaskList> loadAll();
+	Set<TaskList> loadAll();
 
 	void updateTask(Task task, TaskList tasklist);
 

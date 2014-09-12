@@ -6,12 +6,12 @@ import java.util.List;
 public class TaskList extends HashSet<Task> {
 
 	private static final long serialVersionUID = 1L;
-	private Long id;
+	private String id;
 	private String name;
 	private Provider provider;
 	private List<Task> tasks;
 
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
 
@@ -31,7 +31,7 @@ public class TaskList extends HashSet<Task> {
 		this.tasks = tasks;
 	}
 
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
