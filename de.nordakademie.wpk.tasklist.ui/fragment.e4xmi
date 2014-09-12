@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="ASCII"?>
+<fragment:ModelFragments xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:advanced="http://www.eclipse.org/ui/2010/UIModel/application/ui/advanced" xmlns:basic="http://www.eclipse.org/ui/2010/UIModel/application/ui/basic" xmlns:fragment="http://www.eclipse.org/ui/2010/UIModel/fragment" xmi:id="_qLN94DqOEeS0rqYIPM1jkw">
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_uTlhcDqOEeS0rqYIPM1jkw" featurename="children" parentElementId="de.nordakademie.wpk.tasklist.product.perspectivestack">
+    <elements xsi:type="advanced:Perspective" xmi:id="_VMYXADqPEeS0rqYIPM1jkw" elementId="de.nordakademie.wpk.tasklist.ui.perspective" label="Tasklist">
+      <children xsi:type="basic:PartSashContainer" xmi:id="_aLn4MDqPEeS0rqYIPM1jkw" elementId="de.nordakademie.wpk.tasklist.ui.container" selectedElement="_gJC44DqPEeS0rqYIPM1jkw" horizontal="true">
+        <children xsi:type="basic:Part" xmi:id="_gJC44DqPEeS0rqYIPM1jkw" elementId="de.nordakademie.wpk.tasklist.ui.part.tasklist" contributionURI="bundleclass://de.nordakademie.wpk.tasklist.ui/de.nordakademie.wpk.tasklist.ui.TodoView" label="Tasklist"/>
+      </children>
+    </elements>
+  </fragments>
+</fragment:ModelFragments>
