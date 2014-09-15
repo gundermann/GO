@@ -4,11 +4,10 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
 import org.eclipse.e4.ui.di.Focus;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Tree;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.TreeItem;
-import org.eclipse.swt.widgets.TreeColumn;
 
 import de.nordakademie.wpk.todolist.core.api.Task;
 import de.nordakademie.wpk.todolist.core.api.TaskList;
