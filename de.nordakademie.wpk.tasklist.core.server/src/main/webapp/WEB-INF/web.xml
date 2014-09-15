@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	id="WebApp_ID" version="2.5">
+
+	<display-name>nak-wpk-todolist-core</display-name>
+
+	<context-param>
+		<param-name>webAppRootKey</param-name>
+		<param-value>de.nordakademie.wpk.todolist.core</param-value>
+	</context-param>
+
+	<!-- This listener loads our application context [/WEB-INF/applicationContext] -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:applicationContext-core.xml</param-value>
+	</context-param>
+
+	<!-- Here comes the dispatcher servlet that delegates to our exported services. -->
+	<servlet>
+		<servlet-name>remote</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+	        <param-name>contextConfigLocation</param-name>
+	        <param-value>classpath:applicationContext-core-servlet.xml</param-value>
+	    </init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<!-- The frontend handles ALL /remote/* URL's. Please note that these URL's
+		are virtual and don't correspondend to any HTML files but exported
+		services instead. Also note that JSP's aren't mapped to the frontend
+		servlet!!! -->
+	<servlet-mapping>
+		<servlet-name>remote</servlet-name>
+		<url-pattern>/remote/*</url-pattern>
+	</servlet-mapping>
+</web-app>
