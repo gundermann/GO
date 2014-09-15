@@ -5,6 +5,6 @@
                       http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi.xsd">
                       
     <osgi:service id="taskServiceOSGi" ref="taskService"
-        interface="de.nordakademie.wpk.todolist.core.api.TaskService">
+        interface="de.nordakademie.wpk.tasklist.core.api.TaskService">
     </osgi:service>
 </beans>
