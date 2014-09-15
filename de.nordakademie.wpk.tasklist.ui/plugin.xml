@@ -8,5 +8,13 @@
             uri="fragment.e4xmi">
       </fragment>
    </extension>
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="de.nordakademie.wpk.tasklist.ui.TaskEditor"
+            id="de.nordakademie.wpk.tasklist.ui.TaskEditor"
+            name="Task Editor">
+      </editor>
+   </extension>
 
 </plugin>

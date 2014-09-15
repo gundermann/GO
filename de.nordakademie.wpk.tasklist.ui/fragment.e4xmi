@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="ASCII"?>
-<fragment:ModelFragments xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:advanced="http://www.eclipse.org/ui/2010/UIModel/application/ui/advanced" xmlns:basic="http://www.eclipse.org/ui/2010/UIModel/application/ui/basic" xmlns:fragment="http://www.eclipse.org/ui/2010/UIModel/fragment" xmi:id="_qLN94DqOEeS0rqYIPM1jkw">
+<fragment:ModelFragments xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:advanced="http://www.eclipse.org/ui/2010/UIModel/application/ui/advanced" xmlns:basic="http://www.eclipse.org/ui/2010/UIModel/application/ui/basic" xmlns:commands="http://www.eclipse.org/ui/2010/UIModel/application/commands" xmlns:fragment="http://www.eclipse.org/ui/2010/UIModel/fragment" xmi:id="_qLN94DqOEeS0rqYIPM1jkw">
   <fragments xsi:type="fragment:StringModelFragment" xmi:id="_uTlhcDqOEeS0rqYIPM1jkw" featurename="children" parentElementId="de.nordakademie.wpk.tasklist.product.perspectivestack">
     <elements xsi:type="advanced:Perspective" xmi:id="_VMYXADqPEeS0rqYIPM1jkw" elementId="de.nordakademie.wpk.tasklist.ui.perspective" label="Tasklist">
       <children xsi:type="basic:PartSashContainer" xmi:id="_aLn4MDqPEeS0rqYIPM1jkw" elementId="de.nordakademie.wpk.tasklist.ui.container" selectedElement="_gJC44DqPEeS0rqYIPM1jkw" horizontal="true">
         <children xsi:type="basic:Part" xmi:id="_gJC44DqPEeS0rqYIPM1jkw" elementId="de.nordakademie.wpk.tasklist.ui.part.tasklist" contributionURI="bundleclass://de.nordakademie.wpk.tasklist.ui/de.nordakademie.wpk.tasklist.ui.TodoView" label="Tasklist"/>
+        <children xsi:type="basic:PartStack" xmi:id="_Fe5jYDyxEeSo2eU6PC6tHA" elementId="de.nordakademie.wpk.tasklist.ui.editors"/>
       </children>
     </elements>
+  </fragments>
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_UQGG0DyxEeSo2eU6PC6tHA" featurename="commands" parentElementId="org.eclipse.e4.ide.application">
+    <elements xsi:type="commands:Command" xmi:id="_UnnO8DyxEeSo2eU6PC6tHA" elementId="de.nordakademie.wpk.tasklist.ui.command.editTask"/>
+  </fragments>
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_aC39wDyxEeSo2eU6PC6tHA" featurename="handlers" parentElementId="org.eclipse.e4.ide.application">
+    <elements xsi:type="commands:Handler" xmi:id="_cg--8DyxEeSo2eU6PC6tHA" elementId="de.nordakademie.wpk.tasklist.ui.handler.editTask" contributionURI="bundleclass://de.nordakademie.wpk.tasklist.ui/de.nordakademie.wpk.tasklist.ui.handler.TaskEditHandler" command="_UnnO8DyxEeSo2eU6PC6tHA"/>
   </fragments>
 </fragment:ModelFragments>

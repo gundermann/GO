@@ -13,11 +13,11 @@ import org.eclipse.swt.widgets.TreeColumn;
 import de.nordakademie.wpk.todolist.core.api.Task;
 import de.nordakademie.wpk.todolist.core.api.TaskList;
 
-public class TodoView {
+public class TaskView {
 	Tree tree;
 	TreeItem tasklists;
 
-	public TodoView() {
+	public TaskView() {
 	}
 
 	/**
