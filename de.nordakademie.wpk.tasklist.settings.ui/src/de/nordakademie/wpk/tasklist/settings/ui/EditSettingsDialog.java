@@ -2,19 +2,22 @@ package de.nordakademie.wpk.tasklist.settings.ui;
 
 import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
 public class EditSettingsDialog extends TitleAreaDialog{
-	private Text txtEmail;
-	private Text txtEmail_1;
-	private Text txtPasswort;
+	private Text txtGoogleEmail;
+	private Text txtWunderlistEmail;
+	private Text txtWunderlistPasswort;
 	
 	
 	/**
@@ -48,30 +51,31 @@ public class EditSettingsDialog extends TitleAreaDialog{
 		Composite container = new Composite(area, SWT.NONE);
 		container.setLayout(new GridLayout(3, false));
 		GridData gd_container = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
-		gd_container.heightHint = 34;
+		gd_container.heightHint = 83;
 		gd_container.widthHint = 63;
 		container.setLayoutData(gd_container);
 		
-		txtEmail = new Text(container, SWT.BORDER);
-		txtEmail.setText("E-Mail");
-		txtEmail.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		Label lblGoogletaskanbindung = new Label(container, SWT.NONE);
+		lblGoogletaskanbindung.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+		lblGoogletaskanbindung.setText("GoogleTask Anbindung");
+		
+		txtGoogleEmail = new Text(container, SWT.BORDER);
+		txtGoogleEmail.setText("E-Mail");
+		txtGoogleEmail.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		new Label(container, SWT.NONE);
 		
-		Button btnGoogletaskAnbindungHinzufgen = new Button(container, SWT.NONE);
-		btnGoogletaskAnbindungHinzufgen.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
-		btnGoogletaskAnbindungHinzufgen.setText("Google-Task Anbindung hinzuf\u00FCgen");
+		Label lblWunderlistAnbindung = new Label(container, SWT.NONE);
+		lblWunderlistAnbindung.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+		lblWunderlistAnbindung.setText("Wunderlist Anbindung");
 		
-		txtEmail_1 = new Text(container, SWT.BORDER);
-		txtEmail_1.setText("E-Mail");
-		txtEmail_1.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		txtWunderlistEmail = new Text(container, SWT.BORDER);
+		txtWunderlistEmail.setText("E-Mail");
+		txtWunderlistEmail.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		
-		txtPasswort = new Text(container, SWT.BORDER);
-		txtPasswort.setText("Passwort");
-		txtPasswort.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		txtWunderlistPasswort = new Text(container, SWT.BORDER);
+		txtWunderlistPasswort.setText("Passwort");
+		txtWunderlistPasswort.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		
-		Button btnWunderlistAnbindungHinzufgen = new Button(container, SWT.NONE);
-		btnWunderlistAnbindungHinzufgen.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
-		btnWunderlistAnbindungHinzufgen.setText("Wunderlist Anbindung hinzuf\u00FCgen");
 		return container;
 		
 	}
