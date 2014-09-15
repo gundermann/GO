@@ -20,9 +20,6 @@ public class TaskView {
 	public TaskView() {
 	}
 
-	/**
-	 * Create contents of the view part.
-	 */
 	@PostConstruct
 	public void createControls(Composite parent) {
 		
@@ -31,18 +28,6 @@ public class TaskView {
 		
 		tasklists = new TreeItem(tree, SWT.NONE);
 		tasklists.setText("Tasklisten");
-		
-		TreeColumn emptyColumn = new TreeColumn(tree, SWT.NONE);
-		emptyColumn.setWidth(79);
-		emptyColumn.setText(" ");
-		
-		TreeColumn tasklistsColumn = new TreeColumn(tree, SWT.NONE);
-		tasklistsColumn.setWidth(93);
-		tasklistsColumn.setText("Tasklisten");
-		
-		TreeColumn tasksColumn = new TreeColumn(tree, SWT.NONE);
-		tasksColumn.setWidth(100);
-		tasksColumn.setText("Tasks");
 	}
 	
 	public void addTasklist(TaskList tasklistObject){
