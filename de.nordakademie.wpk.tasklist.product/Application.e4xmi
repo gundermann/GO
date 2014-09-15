@@ -8,14 +8,11 @@
         <children xsi:type="menu:MenuSeparator" xmi:id="_mCRWsDyrEeSyJYa3wliO_Q" elementId=""/>
         <children xsi:type="menu:HandledMenuItem" xmi:id="_85x3MDm8EeSBvOnM1JrFZQ" elementId="" label="Schließen" command="_C39QYDm-EeSBvOnM1JrFZQ"/>
       </children>
-      <children xsi:type="menu:Menu" xmi:id="_FeI9IDyrEeSyJYa3wliO_Q" elementId="" label="Einstellungen">
-        <children xsi:type="menu:HandledMenuItem" xmi:id="_OIkWoDyrEeSyJYa3wliO_Q" elementId="" label="Einstellungen" command="_aI-NcDyrEeSyJYa3wliO_Q"/>
-      </children>
+      <children xsi:type="menu:Menu" xmi:id="_FeI9IDyrEeSyJYa3wliO_Q" elementId="menu:org.eclipse.ui.main.menu.settings" label="Einstellungen"/>
     </mainMenu>
   </children>
   <handlers xmi:id="_GmCEoDm-EeSBvOnM1JrFZQ" elementId="de.nordakademie.wpk.tasklist.product.handler.quitCommand" contributionURI="bundleclass://de.nordakademie.wpk.tasklist.product/de.nordakademie.wpk.tasklist.product.handler.QuitHandler" command="_C39QYDm-EeSBvOnM1JrFZQ"/>
   <handlers xmi:id="_Gd90IDnGEeSsSIfCg_aqfQ" elementId="de.nordakademie.wpk.tasklist.product.handler.refreshHandler" contributionURI="bundleclass://de.nordakademie.wpk.tasklist.product/de.nordakademie.wpk.tasklist.product.handler.RefreshHandler" command="_CK4OUDnGEeSsSIfCg_aqfQ"/>
-  <handlers xmi:id="_efgI0DyrEeSyJYa3wliO_Q" elementId="de.nordakademie.wpk.tasklist.product.handler.settingHandler" contributionURI="bundleclass://de.nordakademie.wpk.tasklist.product/de.nordakademie.wpk.tasklist.product.handler.SettingHandler"/>
   <bindingTables xmi:id="_INNrkDnDEeSsSIfCg_aqfQ" elementId="de.nordakademie.wpk.tasklist.product.bindingtable.0" bindingContext="_eyhaqTm6EeS6ZOJJGhDcew">
     <bindings xmi:id="_LAx_YDnDEeSsSIfCg_aqfQ" elementId="de.nordakademie.wpk.tasklist.product.keybinding.quitBinding" keySequence="M1+Q" command="_C39QYDm-EeSBvOnM1JrFZQ"/>
     <bindings xmi:id="_L1QB4DnGEeSsSIfCg_aqfQ" elementId="de.nordakademie.wpk.tasklist.product.keybinding.refreshBinding" keySequence="M1+R" command="_CK4OUDnGEeSsSIfCg_aqfQ"/>
@@ -26,7 +23,6 @@
   </rootContext>
   <commands xmi:id="_C39QYDm-EeSBvOnM1JrFZQ" elementId="org.eclipse.ui.file.exit" commandName="schliessenCommand"/>
   <commands xmi:id="_CK4OUDnGEeSsSIfCg_aqfQ" elementId="de.nordakademie.wpk.tasklist.product.command.refresh" commandName="aktualisierenCommand"/>
-  <commands xmi:id="_aI-NcDyrEeSyJYa3wliO_Q" elementId="de.nordakademie.wpk.tasklist.product.command.settings" commandName="einstellungenCommand"/>
   <addons xmi:id="_eyhaojm6EeS6ZOJJGhDcew" elementId="org.eclipse.e4.core.commands.service" contributionURI="bundleclass://org.eclipse.e4.core.commands/org.eclipse.e4.core.commands.CommandServiceAddon"/>
   <addons xmi:id="_eyhaozm6EeS6ZOJJGhDcew" elementId="org.eclipse.e4.ui.contexts.service" contributionURI="bundleclass://org.eclipse.e4.ui.services/org.eclipse.e4.ui.services.ContextServiceAddon"/>
   <addons xmi:id="_eyhapDm6EeS6ZOJJGhDcew" elementId="org.eclipse.e4.ui.bindings.service" contributionURI="bundleclass://org.eclipse.e4.ui.bindings/org.eclipse.e4.ui.bindings.BindingServiceAddon"/>

@@ -1,2 +1,12 @@
 <?xml version="1.0" encoding="ASCII"?>
-<fragment:ModelFragments xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:fragment="http://www.eclipse.org/ui/2010/UIModel/fragment" xmi:id="_CQya4DysEeSyJYa3wliO_Q"/>
+<fragment:ModelFragments xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:commands="http://www.eclipse.org/ui/2010/UIModel/application/commands" xmlns:fragment="http://www.eclipse.org/ui/2010/UIModel/fragment" xmlns:menu="http://www.eclipse.org/ui/2010/UIModel/application/ui/menu" xmi:id="_CQya4DysEeSyJYa3wliO_Q">
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_vlzWEDzlEeSin-G_A5qAPA" featurename="commands" parentElementId="org.eclipse.e4.ide.application">
+    <elements xsi:type="commands:Command" xmi:id="_3Ql3gDzlEeSin-G_A5qAPA" elementId="de.nordakademie.wpk.tasklist.product.command.settings" commandName="einstellungenCommand"/>
+  </fragments>
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_8rARwDzlEeSin-G_A5qAPA" featurename="handlers" parentElementId="org.eclipse.e4.ide.application">
+    <elements xsi:type="commands:Handler" xmi:id="_AbVIwDzmEeSin-G_A5qAPA" elementId="de.nordakademie.wpk.tasklist.product.handler.settingHandler" contributionURI="bundleclass://de.nordakademie.wpk.tasklist.settings.ui/de.nordakademie.wpk.tasklist.settings.ui.SettingHandler" command="_3Ql3gDzlEeSin-G_A5qAPA"/>
+  </fragments>
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_KwjQIDzmEeSin-G_A5qAPA" featurename="children" parentElementId="menu:org.eclipse.ui.main.menu.settings">
+    <elements xsi:type="menu:HandledMenuItem" xmi:id="_ZI9gIDzmEeSin-G_A5qAPA" elementId="de.nordakademie.wpk.tasklist.settings.ui.handledmenuitem.einstellungen" label="Einstellungen" command="_3Ql3gDzlEeSin-G_A5qAPA"/>
+  </fragments>
+</fragment:ModelFragments>

@@ -1,22 +1,23 @@
  
-package de.nordakademie.wpk.tasklist.product.handler;
+package de.nordakademie.wpk.tasklist.settings.ui;
 
-import org.eclipse.core.commands.AbstractHandler;
+import javax.inject.Inject;
+
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.e4.core.di.annotations.CanExecute;
+import org.eclipse.e4.core.di.annotations.Execute;
+import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.handlers.HandlerUtil;
 
-import de.nordakademie.wpk.tasklist.settings.ui.EditSettingsDialog;
-
-public class SettingHandler extends AbstractHandler{
+public class SettingHandler {
 	
-	@Override
-	public Object execute(ExecutionEvent event) throws ExecutionException {
+	@Execute
+	public void execute(Shell shell) throws ExecutionException {
 		
-		Shell shell = HandlerUtil.getActiveShell(event);
 		EditSettingsDialog dialog = new EditSettingsDialog(shell, shell.getStyle());
 		
 		int result = dialog.open();
@@ -30,7 +31,10 @@ public class SettingHandler extends AbstractHandler{
 			MessageDialog.openError(shell, "Abgebrochen", "Einstellungen wurden nicht gespeichert");
 		}
 		
-		return null;
 	}
 		
-}
+	
+	@CanExecute
+	public boolean canExecute(){
+		return true;
+	}}
