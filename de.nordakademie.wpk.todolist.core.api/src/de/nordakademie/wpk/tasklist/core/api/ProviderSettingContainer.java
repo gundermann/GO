@@ -1,4 +1,4 @@
-package de.nordakademie.wpk.todolist.core.api;
+package de.nordakademie.wpk.tasklist.core.api;
 
 public interface ProviderSettingContainer {
 

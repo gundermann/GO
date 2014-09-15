@@ -1,4 +1,4 @@
-package de.nordakademie.wpk.todolist.core.api;
+package de.nordakademie.wpk.tasklist.core.api;
 
 import java.util.HashSet;
 import java.util.List;
