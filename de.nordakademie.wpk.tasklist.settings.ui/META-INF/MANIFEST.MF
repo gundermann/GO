@@ -1,10 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Ui
-Bundle-SymbolicName: de.nordakademie.wpk.tasklist.ui;singleton:=true
+Bundle-Name: Ui für die Einstellungen
+Bundle-SymbolicName: de.nordakademie.wpk.tasklist.settings.ui;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Vendor: Kathrin Kurtz
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-Vendor: Niels Gundermann
 Require-Bundle: org.eclipse.core.runtime;bundle-version="3.10.0",
  org.eclipse.e4.ui.di;bundle-version="1.0.0",
  org.eclipse.e4.ui.model.workbench;bundle-version="1.1.0",
@@ -14,7 +13,6 @@ Require-Bundle: org.eclipse.core.runtime;bundle-version="3.10.0",
  org.eclipse.ui.forms;bundle-version="3.6.100",
  org.eclipse.e4.core.services;bundle-version="1.2.0",
  org.eclipse.ui.views;bundle-version="3.7.0",
- de.nordakademie.wpk.tasklist.core.api;bundle-version="1.0.0",
  de.nordakademie.wpk.tasklist.product;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
