@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Tasklist Client
+Bundle-SymbolicName: de.nordakademie.wpk.tasklist.core.client
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: Niels Gundermann
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Require-Bundle: de.nordakademie.wpk.tasklist.core.api;bundle-version="1.0.0"
