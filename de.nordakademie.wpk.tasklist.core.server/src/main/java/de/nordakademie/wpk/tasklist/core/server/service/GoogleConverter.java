@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import de.nordakademie.wpk.todolist.core.api.TaskList;
+import de.nordakademie.wpk.tasklist.core.api.TaskList;
 
 public class GoogleConverter {
 

@@ -7,14 +7,18 @@ import java.util.Set;
 import com.google.api.services.tasks.Tasks;
 import com.google.api.services.tasks.model.TaskLists;
 
-import de.nordakademie.wpk.todolist.core.api.Task;
-import de.nordakademie.wpk.todolist.core.api.TaskList;
-import de.nordakademie.wpk.todolist.core.api.TaskService;
+import de.nordakademie.wpk.tasklist.core.api.ProviderSetting;
+import de.nordakademie.wpk.tasklist.core.api.Task;
+import de.nordakademie.wpk.tasklist.core.api.TaskList;
+import de.nordakademie.wpk.tasklist.core.api.TaskService;
 
 public class TaskServiceImpl implements TaskService{
+	
+	public TaskServiceImpl(){
+	}
 
-	public Set<TaskList> loadAll() {
-		GoogleConnection googleConnection = new GoogleConnection();
+	public Set<TaskList> loadAll(ProviderSetting setting) {
+		GoogleConnection googleConnection = new GoogleConnection(setting);
 		Tasks tasksService = googleConnection.getTasksService();
 		TaskLists tasklist = null;
 		try {

@@ -9,7 +9,7 @@ public interface TaskService {
 	 * 
 	 * @return
 	 */
-	Set<TaskList> loadAll();
+	Set<TaskList> loadAll(ProviderSetting setting);
 
 	void updateTask(Task task, TaskList tasklist);
 

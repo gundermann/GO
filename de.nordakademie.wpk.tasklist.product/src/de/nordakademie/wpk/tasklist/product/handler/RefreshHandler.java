@@ -8,8 +8,6 @@ import de.nordakademie.wpk.tasklist.settings.ui.jobs.LoadAllJob;
 
 public class RefreshHandler {
 	
-	
-	
 	@Execute
 	public void execute() {
 		//TODO INJECT

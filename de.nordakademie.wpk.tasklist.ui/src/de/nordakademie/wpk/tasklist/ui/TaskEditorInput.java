@@ -1,6 +1,6 @@
 package de.nordakademie.wpk.tasklist.ui;
 
-import de.nordakademie.wpk.todolist.core.api.Task;
+import de.nordakademie.wpk.tasklist.core.api.Task;
 
 public class TaskEditorInput implements EditorInput<Task> {
 

@@ -20,8 +20,9 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 import org.osgi.framework.Constants;
 
-import de.nordakademie.wpk.todolist.core.api.Task;
-import de.nordakademie.wpk.todolist.core.api.TaskService;
+import de.nordakademie.wpk.tasklist.core.api.Task;
+import de.nordakademie.wpk.tasklist.core.api.TaskService;
+
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 

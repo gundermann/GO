@@ -1,23 +1,27 @@
 package de.nordakademie.wpk.tasklist.core.client;
 
-import de.nordakademie.wpk.todolist.core.api.ProviderSetting;
+import de.nordakademie.wpk.tasklist.core.api.Provider;
+import de.nordakademie.wpk.tasklist.core.api.ProviderSetting;
 
 public class SettingLoader {
 
 	public ProviderSetting loadFromFile(String string) {
 		String username = loadUsername();
 		String password = loadPassword();
-		return new ProviderSettingImpl(username, password );
+		Provider provider = loadProvider();
+		return new ProviderSettingImpl(provider, username, password );
+	}
+
+	private Provider loadProvider() {
+		return Provider.GOOGLE;
 	}
 
 	private String loadPassword() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	private String loadUsername() {
-		// TODO Auto-generated method stub
-		return null;
+		return "gundermann.niels.ng@googlemail.com";
 	}
 
 }

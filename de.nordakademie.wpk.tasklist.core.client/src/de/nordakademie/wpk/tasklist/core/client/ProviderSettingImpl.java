@@ -1,13 +1,16 @@
 package de.nordakademie.wpk.tasklist.core.client;
 
-import de.nordakademie.wpk.todolist.core.api.ProviderSetting;
+import de.nordakademie.wpk.tasklist.core.api.Provider;
+import de.nordakademie.wpk.tasklist.core.api.ProviderSetting;
 
 public class ProviderSettingImpl implements ProviderSetting{
 
 	private String username;
 	private String password;
+	private Provider provider;
 
-	public ProviderSettingImpl(String username, String password) {
+	public ProviderSettingImpl(Provider provider, String username, String password) {
+		this.provider = provider;
 		this.username = username;
 		this.password = password;
 	}
@@ -19,6 +22,10 @@ public class ProviderSettingImpl implements ProviderSetting{
 	@Override
 	public String getPassword() {
 		return password;
+	}
+	@Override
+	public Provider getProvider() {
+		return provider;
 	}
 
 }

@@ -16,15 +16,15 @@
    <license url="http://www.example.com/license">
       [Enter License Description here.]
    </license>
-   
-    <plugin
+
+   <plugin
          id="de.nordakademie.wpk.tasklist.product"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-         
-          <plugin
+
+   <plugin
          id="org.eclipse.gemini.blueprint.core"
          download-size="0"
          install-size="0"
@@ -47,6 +47,27 @@
 
    <plugin
          id="org.springframework"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="de.nordakademie.wpk.tasklist.core.api"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="de.nordakademie.wpk.tasklist.core.client"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="de.nordakademie.wpk.tasklist.jobs"
          download-size="0"
          install-size="0"
          version="0.0.0"

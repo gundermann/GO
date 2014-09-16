@@ -1,6 +1,6 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-	<bean name="/todoservice" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
-		<property name="serviceInterface" value="de.nordakademie.wpk.todolist.core.api.TaskService"/>
+	<bean name="/taskservice" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
+		<property name="serviceInterface" value="de.nordakademie.wpk.tasklist.core.api.TaskService"/>
 		<property name="service" ref="taskService"/>
 	</bean>
 </beans>

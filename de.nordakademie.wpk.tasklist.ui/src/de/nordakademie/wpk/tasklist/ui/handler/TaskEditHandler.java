@@ -6,8 +6,9 @@ import javax.inject.Inject;
 import org.eclipse.e4.core.di.annotations.CanExecute;
 import org.eclipse.e4.core.di.annotations.Execute;
 import org.eclipse.e4.ui.workbench.modeling.ESelectionService;
+
+import de.nordakademie.wpk.tasklist.core.api.Task;
 import de.nordakademie.wpk.tasklist.ui.TaskEditorInput;
-import de.nordakademie.wpk.todolist.core.api.Task;
 
 public class TaskEditHandler extends AbstractEditorHandler{
 	@Inject

@@ -2,6 +2,7 @@ package de.nordakademie.wpk.tasklist.ui;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.inject.Inject;
 
 import org.eclipse.e4.ui.di.Focus;
 import org.eclipse.swt.SWT;
@@ -9,13 +10,14 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 
-import de.nordakademie.wpk.todolist.core.api.Task;
-import de.nordakademie.wpk.todolist.core.api.TaskList;
+import de.nordakademie.wpk.tasklist.core.api.Task;
+import de.nordakademie.wpk.tasklist.core.api.TaskList;
+import de.nordakademie.wpk.tasklist.core.api.TaskService;
 
 public class TaskView {
 	Tree tree;
 	TreeItem tasklists;
-
+	
 	public TaskView() {
 	}
 
