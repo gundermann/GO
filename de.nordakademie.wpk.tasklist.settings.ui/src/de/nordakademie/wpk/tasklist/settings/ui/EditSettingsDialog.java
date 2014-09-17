@@ -72,7 +72,7 @@ public class EditSettingsDialog extends TitleAreaDialog{
 		txtWunderlistEmail.setText("E-Mail");
 		txtWunderlistEmail.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		
-		txtWunderlistPasswort = new Text(container, SWT.BORDER);
+		txtWunderlistPasswort = new Text(container, SWT.PASSWORD | SWT.BORDER);
 		txtWunderlistPasswort.setText("Passwort");
 		txtWunderlistPasswort.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		
