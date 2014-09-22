@@ -26,12 +26,6 @@ public class TaskView {
 	Tree tree;
 	TreeItem tasklists;
 	
-	@Inject 
-	TaskService taskSercive;
-	
-	@Inject
-	IEventBroker eventBroker;
-	
 	public TaskView() {
 	}
 
@@ -43,8 +37,6 @@ public class TaskView {
 		
 		tasklists = new TreeItem(tree, SWT.NONE);
 		tasklists.setText("Tasklisten");
-		
-		new LoadAllJob(taskSercive,eventBroker).schedule();
 		
 	}	
 
@@ -77,6 +69,7 @@ public class TaskView {
 	}
 
 	private void refreshInput(Set<TaskList> tasklists) {
+		this.tasklists.clearAll(true);
 		for (TaskList taskList : tasklists) {
 			TreeItem addTasklist = addTasklist(taskList);
 			for (Task task : taskList.getTasks()) {
