@@ -7,24 +7,23 @@ import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 
 import org.eclipse.e4.core.di.annotations.Optional;
-import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.e4.ui.di.Focus;
 import org.eclipse.e4.ui.di.UIEventTopic;
+import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 
 import de.nordakademie.wpk.tasklist.core.api.Task;
 import de.nordakademie.wpk.tasklist.core.api.TaskList;
-import de.nordakademie.wpk.tasklist.core.api.TaskService;
-import de.nordakademie.wpk.tasklist.ui.jobs.LoadAllJob;
 import de.nordakademie.wpk.tasklist.ui.jobs.Topics;
+import de.nordakademie.wpk.tasklist.ui.provider.TaskListTreeLabelProvider;
+import de.nordakademie.wpk.tasklist.ui.provider.TasklistTreeContentProvider;
 
 public class TaskView {
 	
-	Tree tree;
 	TreeItem tasklists;
+	private TreeViewer treeViewer;
 	
 	public TaskView() {
 	}
@@ -32,12 +31,17 @@ public class TaskView {
 	@PostConstruct
 	public void createControls(Composite parent) {
 		
-		tree = new Tree(parent, SWT.BORDER);
-		tree.setHeaderVisible(true);
 		
-		tasklists = new TreeItem(tree, SWT.NONE);
-		tasklists.setText("Tasklisten");
+		treeViewer = new TreeViewer(parent,  SWT.BORDER);
+//		treeViewer.setContentProvider(new TasklistTreeContentProvider());
+		treeViewer.setLabelProvider(new TaskListTreeLabelProvider());
+		treeViewer.expandAll();
 		
+//		tree = new Tree(parent, SWT.BORDER);
+//		tree.setHeaderVisible(true);
+//		
+//		
+
 	}	
 
 	public TreeItem addTasklist(TaskList tasklistObject){
@@ -59,7 +63,7 @@ public class TaskView {
 
 	@Focus
 	public void setFocus() {
-		tree.setFocus();
+		treeViewer.getTree().setFocus();
 	}
 	
 	@Inject
