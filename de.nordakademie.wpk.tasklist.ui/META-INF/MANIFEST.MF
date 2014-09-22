@@ -17,6 +17,6 @@ Require-Bundle: org.eclipse.core.runtime;bundle-version="3.10.0",
  de.nordakademie.wpk.tasklist.product;bundle-version="1.0.0",
  javax.inject,
  org.eclipse.ui;bundle-version="3.106.0",
- de.nordakademie.wpk.tasklist.core.client
+ de.nordakademie.wpk.tasklist.core.client;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8

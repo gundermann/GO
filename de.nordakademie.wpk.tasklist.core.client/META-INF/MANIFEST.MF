@@ -9,3 +9,6 @@ Require-Bundle: de.nordakademie.wpk.tasklist.core.api;bundle-version="1.0.0",
  org.springframework;bundle-version="3.2.9"
 Spring-Context: *;create-asynchronously:=false
 Export-Package: de.nordakademie.wpk.tasklist.core.client
+Bundle-ClassPath: META-INF/lib/jackson-core-asl-1.5.0.jar,
+ META-INF/lib/jackson-mapper-asl-1.5.0.jar,
+ .

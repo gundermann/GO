@@ -8,22 +8,25 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.e4.core.services.events.IEventBroker;
 
-import de.nordakademie.wpk.tasklist.core.api.GoogleSetting;
+import de.nordakademie.wpk.tasklist.core.api.NoSettingFoundException;
+import de.nordakademie.wpk.tasklist.core.api.Provider;
+import de.nordakademie.wpk.tasklist.core.api.ProviderSetting;
 import de.nordakademie.wpk.tasklist.core.api.TaskList;
 import de.nordakademie.wpk.tasklist.core.api.TaskService;
-import de.nordakademie.wpk.tasklist.core.client.TaskListContainer;
 
 public class LoadAllJob extends Job {
 
 	TaskService taskService;
 	private IEventBroker eventBroker;
+	private ProviderSetting setting;
 	
 
 
-	public LoadAllJob(TaskService taskService, IEventBroker eventBroker) {
+	public LoadAllJob(TaskService taskService, IEventBroker eventBroker, ProviderSetting setting) {
 		super("Lade Tasklisten");
 		this.taskService = taskService;
 		this.eventBroker = eventBroker;
+		this.setting = setting;
 		setUser(true);
 		setRule(new LoadAllSchedulingRule());
 	}
@@ -34,8 +37,8 @@ public class LoadAllJob extends Job {
 //		try {
 //			ProviderSetting settings = ProviderSettingContainer.getInstance()
 //			.getSettings(Provider.GOOGLE);
-		Set<TaskList> loadAll = taskService.loadAll(new GoogleSetting());
-			TaskListContainer.getInstance().setTaskLists(loadAll);
+		Set<TaskList> loadAll = null;
+			loadAll = taskService.loadAll(setting);
 //		} catch (NoSettingFoundException e) {
 //			monitor.done();
 //			e.printStackTrace();
