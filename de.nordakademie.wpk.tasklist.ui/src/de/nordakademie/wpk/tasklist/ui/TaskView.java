@@ -6,7 +6,10 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 
+import org.eclipse.e4.core.di.annotations.Optional;
+import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.e4.ui.di.Focus;
+import org.eclipse.e4.ui.di.UIEventTopic;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Tree;
@@ -15,8 +18,8 @@ import org.eclipse.swt.widgets.TreeItem;
 import de.nordakademie.wpk.tasklist.core.api.Task;
 import de.nordakademie.wpk.tasklist.core.api.TaskList;
 import de.nordakademie.wpk.tasklist.core.api.TaskService;
-import de.nordakademie.wpk.tasklist.core.client.TaskListContainer;
 import de.nordakademie.wpk.tasklist.ui.jobs.LoadAllJob;
+import de.nordakademie.wpk.tasklist.ui.jobs.Topics;
 
 public class TaskView {
 	
@@ -25,6 +28,9 @@ public class TaskView {
 	
 	@Inject 
 	TaskService taskSercive;
+	
+	@Inject
+	IEventBroker eventBroker;
 	
 	public TaskView() {
 	}
@@ -38,22 +44,15 @@ public class TaskView {
 		tasklists = new TreeItem(tree, SWT.NONE);
 		tasklists.setText("Tasklisten");
 		
-		refresh();
+		new LoadAllJob(taskSercive,eventBroker).schedule();
 		
 	}	
 
-	private void refresh() {
-		new LoadAllJob(taskSercive).schedule();
-		Set<TaskList> taskLists = TaskListContainer.getInstance().getTaskLists();
-		for (TaskList taskList : taskLists) {
-			addTasklist(taskList);
-		}
-	}
-
-	public void addTasklist(TaskList tasklistObject){
+	public TreeItem addTasklist(TaskList tasklistObject){
 		TreeItem tasklist = new TreeItem(tasklists, SWT.NONE);
 		tasklist.setText(tasklistObject.getName());
 		tasklist.setExpanded(true);
+		return tasklist;
 	}
 	
 	public void addTask(TreeItem tasklist, Task taskObject){
@@ -69,6 +68,22 @@ public class TaskView {
 	@Focus
 	public void setFocus() {
 		tree.setFocus();
+	}
+	
+	@Inject
+	@Optional
+	private void handleChangeEvent(@UIEventTopic(Topics.ALL_TASKS_UPDATED) Set<TaskList> tasklists){
+		refreshInput(tasklists);
+	}
+
+	private void refreshInput(Set<TaskList> tasklists) {
+		for (TaskList taskList : tasklists) {
+			TreeItem addTasklist = addTasklist(taskList);
+			for (Task task : taskList.getTasks()) {
+				addTask(addTasklist, task);
+			};
+		}
+		
 	}
 
 }
