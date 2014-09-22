@@ -8,12 +8,22 @@ public class ProviderSettingImpl implements ProviderSetting{
 	private String username;
 	private String password;
 	private Provider provider;
-
-	public ProviderSettingImpl(Provider provider, String username, String password) {
-		this.provider = provider;
+	
+	public ProviderSettingImpl(){
+	}
+	
+	public void setUsername(String username) {
 		this.username = username;
+	}
+
+	public void setPassword(String password) {
 		this.password = password;
 	}
+
+	public void setProvider(Provider provider) {
+		this.provider = provider;
+	}
+
 	@Override
 	public String getUserName() {
 		return username;
