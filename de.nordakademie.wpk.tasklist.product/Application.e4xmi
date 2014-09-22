@@ -4,7 +4,6 @@
     <children xsi:type="advanced:PerspectiveStack" xmi:id="_vkN5YDm-EeSBvOnM1JrFZQ" elementId="de.nordakademie.wpk.tasklist.product.perspectivestack"/>
     <mainMenu xmi:id="_5_VfUDm8EeSBvOnM1JrFZQ" elementId="menu:org.eclipse.ui.main.menu">
       <children xsi:type="menu:Menu" xmi:id="_7PjKADm8EeSBvOnM1JrFZQ" elementId="menu:org.eclipse.ui.main.menu.file" label="Datei">
-        <children xsi:type="menu:MenuSeparator" xmi:id="_mCRWsDyrEeSyJYa3wliO_Q" elementId=""/>
         <children xsi:type="menu:HandledMenuItem" xmi:id="_85x3MDm8EeSBvOnM1JrFZQ" elementId="" label="Schließen" command="_C39QYDm-EeSBvOnM1JrFZQ"/>
       </children>
       <children xsi:type="menu:Menu" xmi:id="_FeI9IDyrEeSyJYa3wliO_Q" elementId="menu:org.eclipse.ui.main.menu.settings" label="Einstellungen"/>

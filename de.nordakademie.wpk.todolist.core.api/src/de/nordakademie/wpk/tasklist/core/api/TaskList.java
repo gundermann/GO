@@ -1,9 +1,10 @@
 package de.nordakademie.wpk.tasklist.core.api;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.List;
 
-public class TaskList extends HashSet<Task> {
+public class TaskList extends HashSet<Task> implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	private String id;

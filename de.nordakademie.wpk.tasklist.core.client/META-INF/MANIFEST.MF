@@ -8,3 +8,4 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: de.nordakademie.wpk.tasklist.core.api;bundle-version="1.0.0",
  org.springframework;bundle-version="3.2.9"
 Spring-Context: *;create-asynchronously:=false
+Export-Package: de.nordakademie.wpk.tasklist.core.client

@@ -14,7 +14,7 @@
   </fragments>
   <fragments xsi:type="fragment:StringModelFragment" xmi:id="_aC39wDyxEeSo2eU6PC6tHA" featurename="handlers" parentElementId="org.eclipse.e4.ide.application">
     <elements xsi:type="commands:Handler" xmi:id="_cg--8DyxEeSo2eU6PC6tHA" elementId="de.nordakademie.wpk.tasklist.ui.handler.editTask" contributionURI="bundleclass://de.nordakademie.wpk.tasklist.ui/de.nordakademie.wpk.tasklist.ui.handler.TaskEditHandler" command="_UnnO8DyxEeSo2eU6PC6tHA"/>
-    <elements xsi:type="commands:Handler" xmi:id="_tSS_4D45EeSuztW4V1hOtQ" elementId="" contributionURI="bundleclass://de.nordakademie.wpk.tasklist.ui/de.nordakademie.wpk.tasklist.ui.handler.RefreshHandler" command="_qnveID45EeSuztW4V1hOtQ"/>
+    <elements xsi:type="commands:Handler" xmi:id="_tSS_4D45EeSuztW4V1hOtQ" elementId="de.nordakademie.wpk.tasklist.ui.handler.refresh" contributionURI="bundleclass://de.nordakademie.wpk.tasklist.ui/de.nordakademie.wpk.tasklist.ui.handler.RefreshHandler" command="_qnveID45EeSuztW4V1hOtQ"/>
   </fragments>
   <fragments xsi:type="fragment:StringModelFragment" xmi:id="_N4edUD45EeSuztW4V1hOtQ" featurename="children" parentElementId="menu:org.eclipse.ui.main.menu.file">
     <elements xsi:type="menu:HandledMenuItem" xmi:id="_n2EnwD45EeSuztW4V1hOtQ" elementId="de.nordakademie.wpk.tasklist.ui.handledmenuitem.aktualisieren" label="Aktualisieren" command="_qnveID45EeSuztW4V1hOtQ"/>
