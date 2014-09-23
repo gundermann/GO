@@ -24,6 +24,7 @@ public class TasklistTreeContentProvider implements ITreeContentProvider {
 		    {
 		        if (treeInputSet)
 		        {
+		        	treeInputSet = false;
 		        	TreeRootItem model = (TreeRootItem) inputElement;
 		            return model.getTaskLists();
 		        }

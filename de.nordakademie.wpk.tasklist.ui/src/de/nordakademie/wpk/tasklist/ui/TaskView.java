@@ -1,6 +1,6 @@
 package de.nordakademie.wpk.tasklist.ui;
 
-import java.util.Set;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -12,7 +12,6 @@ import org.eclipse.e4.ui.di.UIEventTopic;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.TreeItem;
 
 import de.nordakademie.wpk.tasklist.core.api.TaskList;
 import de.nordakademie.wpk.tasklist.ui.jobs.Topics;
@@ -52,16 +51,15 @@ public class TaskView {
 	@Inject
 	@Optional
 	private void handleChangeEvent(
-			@UIEventTopic(Topics.ALL_TASKS_UPDATED) Set<TaskList> tasklists) {
+			@UIEventTopic(Topics.ALL_TASKS_UPDATED) List<TaskList> tasklists) {
 		refreshInput(tasklists);
 	}
 
-	private void refreshInput(Set<TaskList> tasklists) {
+	private void refreshInput(List<TaskList> tasklists) {
 		TreeRootItem root = new TreeRootItem();
 		for (TaskList taskList : tasklists) {
 			root.addTasklist(taskList);
 		}
-		treeViewer.setContentProvider(new TasklistTreeContentProvider());
 		treeViewer.setInput(root);
 
 	}

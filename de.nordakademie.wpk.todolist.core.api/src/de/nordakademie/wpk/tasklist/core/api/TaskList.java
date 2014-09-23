@@ -2,7 +2,7 @@ package de.nordakademie.wpk.tasklist.core.api;
 
 import java.io.Serializable;
 import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 public class TaskList extends HashSet<Task> implements Serializable{
 
@@ -10,7 +10,7 @@ public class TaskList extends HashSet<Task> implements Serializable{
 	private String id;
 	private String name;
 	private Provider provider;
-	private Set<Task> tasks;
+	private List<Task> tasks;
 
 	public String getId() {
 		return id;
@@ -24,11 +24,11 @@ public class TaskList extends HashSet<Task> implements Serializable{
 		this.provider = provider;
 	}
 
-	public Set<Task> getTasks() {
+	public List<Task> getTasks() {
 		return tasks;
 	}
 
-	public void setTasks(Set<Task> tasks) {
+	public void setTasks(List<Task> tasks) {
 		this.tasks = tasks;
 	}
 
@@ -43,7 +43,5 @@ public class TaskList extends HashSet<Task> implements Serializable{
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	
 
 }

@@ -1,6 +1,6 @@
 package de.nordakademie.wpk.tasklist.ui.jobs;
 
-import java.util.Set;
+import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -36,7 +36,7 @@ public class LoadAllJob extends Job {
 //		try {
 //			ProviderSetting settings = ProviderSettingContainer.getInstance()
 //			.getSettings(Provider.GOOGLE);
-		Set<TaskList> loadAll = null;
+		List<TaskList> loadAll = null;
 			loadAll = taskService.loadAll(new GoogleSetting());
 //		} catch (NoSettingFoundException e) {
 //			monitor.done();

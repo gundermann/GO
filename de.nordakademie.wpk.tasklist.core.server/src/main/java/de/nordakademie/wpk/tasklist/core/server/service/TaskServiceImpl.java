@@ -1,5 +1,6 @@
 package de.nordakademie.wpk.tasklist.core.server.service;
 
+import java.util.List;
 import java.util.Set;
 
 import com.google.api.services.tasks.Tasks;
@@ -14,7 +15,7 @@ public class TaskServiceImpl implements TaskService {
 	public TaskServiceImpl() {
 	}
 
-	public Set<TaskList> loadAll(ProviderSetting setting) {
+	public List<TaskList> loadAll(ProviderSetting setting) {
 		GoogleConnection googleConnection = new GoogleConnection(setting);
 		Tasks tasksService = googleConnection.getTasksService();
 		GoogleConverter googleConverter = new GoogleConverter();
