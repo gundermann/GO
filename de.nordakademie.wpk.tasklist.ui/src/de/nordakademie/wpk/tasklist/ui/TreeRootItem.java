@@ -1,27 +1,21 @@
 package de.nordakademie.wpk.tasklist.ui;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
-import de.nordakademie.wpk.tasklist.core.api.TaskList;
 
 public class TreeRootItem {
 
-	Set<TaskList> tasklists;
+	List<TreeTasklistsItem> children;
 
-	public Object[] getTaskLists() {
-		return tasklists.toArray();
+	public TreeRootItem(TreeTasklistsItem child) {
+		this.children = new ArrayList<TreeTasklistsItem>();
+		this.children.add(child);
 	}
 
-	public TreeRootItem() {
-		tasklists = new HashSet<TaskList>();
+	public Object[] getChilden() {
+		return children.toArray();
 	}
 
-	public String toString() {
-		return "Tasklisten";
-	}
 
-	public void addTasklist(TaskList taskList) {
-		tasklists.add(taskList);
-	}
 }

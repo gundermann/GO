@@ -5,11 +5,10 @@ import org.eclipse.jface.viewers.Viewer;
 
 import de.nordakademie.wpk.tasklist.core.api.TaskList;
 import de.nordakademie.wpk.tasklist.ui.TreeRootItem;
+import de.nordakademie.wpk.tasklist.ui.TreeTasklistsItem;
 
 public class TasklistTreeContentProvider implements ITreeContentProvider {
 
-	private boolean treeInputSet = false;    
-	
 	@Override
 	public void dispose() {
 	}
@@ -20,34 +19,24 @@ public class TasklistTreeContentProvider implements ITreeContentProvider {
 
 	@Override
 	public Object[] getElements(Object inputElement) {
-		 if (inputElement instanceof TreeRootItem)
-		    {
-		        if (treeInputSet)
-		        {
-		        	treeInputSet = false;
-		        	TreeRootItem model = (TreeRootItem) inputElement;
-		            return model.getTaskLists();
-		        }
-		        else
-		        {
-		            treeInputSet = true;
-		            return new Object[] { inputElement };
-		        }
-		    }
-		    return null;
+		    return getChildren(inputElement);
 	}
 
 	@Override
 	public Object[] getChildren(Object parentElement) {
 		if (parentElement instanceof TreeRootItem) {
 			TreeRootItem parentNode = (TreeRootItem) parentElement;
+			return parentNode.getChilden();
+		}
+		else if(parentElement instanceof TreeTasklistsItem){
+			TreeTasklistsItem parentNode = (TreeTasklistsItem) parentElement;
 			return parentNode.getTaskLists();
 		}
 		else if(parentElement instanceof TaskList){
 			TaskList parentNode = (TaskList) parentElement;
 			return parentNode.getTasks().toArray();
 		}
-		return null;
+		return new String[]{"Tasklisten"};
 	}
 
 	@Override
@@ -59,6 +48,10 @@ public class TasklistTreeContentProvider implements ITreeContentProvider {
 	public boolean hasChildren(Object element) {
 		if (element instanceof TreeRootItem) {
 			TreeRootItem node = (TreeRootItem) element;
+			return node.getChilden().length > 0;
+		}
+		else if(element instanceof TreeTasklistsItem){
+			TreeTasklistsItem node = (TreeTasklistsItem) element;
 			return node.getTaskLists().length > 0;
 		}
 		else if(element instanceof TaskList){

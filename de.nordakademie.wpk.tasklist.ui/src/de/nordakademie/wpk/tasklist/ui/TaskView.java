@@ -35,7 +35,7 @@ public class TaskView {
 	}
 
 	private Object getInitinalInput() {
-		TreeRootItem root = new TreeRootItem();
+		TreeRootItem root = new TreeRootItem(new TreeTasklistsItem());
 		return root;
 	}
 
@@ -56,9 +56,12 @@ public class TaskView {
 	}
 
 	private void refreshInput(List<TaskList> tasklists) {
-		TreeRootItem root = new TreeRootItem();
+		
+		TreeTasklistsItem tasklistsItem = new TreeTasklistsItem();
+		TreeRootItem root = new TreeRootItem(tasklistsItem );
+		
 		for (TaskList taskList : tasklists) {
-			root.addTasklist(taskList);
+			tasklistsItem.addTasklist(taskList);
 		}
 		treeViewer.setInput(root);
 
