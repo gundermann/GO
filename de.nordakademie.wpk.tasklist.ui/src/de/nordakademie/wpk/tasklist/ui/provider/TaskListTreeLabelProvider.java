@@ -1,9 +1,11 @@
 package de.nordakademie.wpk.tasklist.ui.provider;
 
-import org.eclipse.jface.viewers.IBaseLabelProvider;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.swt.graphics.Image;
+
+import de.nordakademie.wpk.tasklist.core.api.Task;
+import de.nordakademie.wpk.tasklist.core.api.TaskList;
 
 public class TaskListTreeLabelProvider implements ILabelProvider {
 
@@ -39,8 +41,11 @@ public class TaskListTreeLabelProvider implements ILabelProvider {
 
 	@Override
 	public String getText(Object element) {
-		// TODO Auto-generated method stub
-		return "Test";
+		if(element instanceof TaskList)
+			return ((TaskList) element).getName();
+		else if(element instanceof Task)
+			return ((Task) element).getTitle();
+		return element.toString();
 	}
 
 
