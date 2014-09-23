@@ -23,5 +23,5 @@ public interface TaskService {
 
 	void deleteTaskList(TaskList tasklist);
 
-	Task loadTask(String id, );
+	Task loadTask(String taskId, String tasklistId, ProviderSetting setting);
 }

@@ -29,14 +29,10 @@ public class GoogleConverter {
 			taskList.setName(googleTaskList.getTitle());
 			System.out.println(taskList.getName());
 			taskList.setProvider(Provider.GOOGLE);
-			try {
-				taskList.setTasks(convertGoogleTasks(tasksService.tasks().list(
-						googleTaskList.getId())));
-			} catch (IOException e) {
-				e.printStackTrace();
-			} finally {
-				convertedTasklists.add(taskList);
-			}
+			List<Task> convertGoogleTasks = convertGoogleTasks(tasksService,
+					taskList.getId());
+			taskList.setTasks(convertGoogleTasks);
+			convertedTasklists.add(taskList);
 		}
 		for (TaskList taskList : convertedTasklists) {
 			System.out.println(taskList.getName());
@@ -44,8 +40,14 @@ public class GoogleConverter {
 		return convertedTasklists;
 	}
 
-	private List<Task> convertGoogleTasks(
-			com.google.api.services.tasks.Tasks.TasksOperations.List list) {
+	private List<Task> convertGoogleTasks(Tasks tasksService,
+			String tasklistId) {
+		com.google.api.services.tasks.Tasks.TasksOperations.List list = null;
+		try {
+			list = tasksService.tasks().list(tasklistId);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
 		List<Task> convertedTasks = new ArrayList<Task>();
 		try {
 			for (com.google.api.services.tasks.model.Task googleTask : list
@@ -53,13 +55,25 @@ public class GoogleConverter {
 				Task task = new Task();
 				task.setId(googleTask.getId());
 				task.setTitle(googleTask.getTitle());
-				System.out.println("Task " + task.getTitle() + " converted");
+				task.setTasklistId(tasklistId);
 				convertedTasks.add(task);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return convertedTasks;
+	}
+
+	public Task convertTask(Tasks tasksService, String taskId, String tasklistId) {
+		Task task = null;
+			 List<Task> convertGoogleTasks = convertGoogleTasks(tasksService, tasklistId);
+			for (Task taskInTasklist : convertGoogleTasks) {
+				if (taskInTasklist.getId().equals(taskId)) {
+					task = taskInTasklist;
+					break;
+				}
+			}
+		return task;
 	}
 
 }

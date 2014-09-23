@@ -19,6 +19,8 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
+import de.nordakademie.wpk.tasklist.core.api.GoogleSetting;
+import de.nordakademie.wpk.tasklist.core.api.Provider;
 import de.nordakademie.wpk.tasklist.core.api.Task;
 import de.nordakademie.wpk.tasklist.core.api.TaskService;
 
@@ -149,14 +151,15 @@ public class TaskEditor {
 		String todoUri = editorPart.getPersistedState().get(
 				Constants.RESOURCE_URI_KEY);
 		String[] split = todoUri.split("/");
-		String id = split[2];
-		task = taskService.loadTask(id);
-//		if (task != null) {
-//			txtNewText.setText(task.getName());
-//			txtNewText_1.setText(task.getDescription());
-//			combo.select(task.getPriority());
-//			txtNewText_3.setText(task.getResponsablePerson());
-//		}
+//		String providerName = split[1];
+		String tasklistId = split[1];
+		String taskId = split[2];
+//		Provider provider = Provider.valueOf(providerName);
+		task = taskService.loadTask(taskId, tasklistId, new GoogleSetting());
+		if (task != null) {
+			txtName.setText(task.getTitle());
+		
+		}
 	}
 
 	@Focus

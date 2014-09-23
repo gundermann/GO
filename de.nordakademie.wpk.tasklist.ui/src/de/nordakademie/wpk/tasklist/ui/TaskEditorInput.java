@@ -37,7 +37,7 @@ public class TaskEditorInput implements EditorInput<Task> {
 
 	@Override
 	public String getResourceURIString() {
-		return String.format("resource:/%s/%s/%s", task.getId());
+		return String.format("resource:/%s/%s", task.getTasklist(), task.getId());
 	}
 
 	@Override

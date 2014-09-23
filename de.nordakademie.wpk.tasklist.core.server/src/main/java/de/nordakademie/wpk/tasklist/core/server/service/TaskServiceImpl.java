@@ -52,4 +52,12 @@ public class TaskServiceImpl implements TaskService {
 
 	}
 
+	public Task loadTask(String taskId, String tasklistId,
+			ProviderSetting setting) {
+		GoogleConnection googleConnection = new GoogleConnection(setting);
+		Tasks tasksService = googleConnection.getTasksService();
+		GoogleConverter googleConverter = new GoogleConverter();
+		return googleConverter.convertTask(tasksService, taskId, tasklistId);
+	}
+
 }

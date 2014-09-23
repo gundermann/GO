@@ -5,11 +5,12 @@ import java.util.Date;
 
 public class Task implements Serializable {
 
-	private static final long serialVersionUID = 2L;
+	private static final long serialVersionUID = 3L;
 	private String id;
 	private String title;
 	private Date lastSync;
 	private Integer position;
+	private String tasklistId;
 	private String comment;
 	private Boolean status;
 	private Date dateOfDue;
@@ -79,4 +80,13 @@ public class Task implements Serializable {
 		this.dateOfCompletion = dateOfCompletion;
 	}
 
+	public String getTasklist() {
+		return tasklistId;
+	}
+
+	public void setTasklistId(String tasklistId) {
+		this.tasklistId = tasklistId;
+	}
+
+	
 }
