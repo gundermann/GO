@@ -55,7 +55,12 @@ public class GoogleConverter {
 				Task task = new Task();
 				task.setId(googleTask.getId());
 				task.setTitle(googleTask.getTitle());
-				task.setTasklistId(tasklistId);
+				task.setComment(googleTask.getNotes());
+				task.setStatus(googleTask.getCompleted() != null);
+				System.out.println(googleTask.getCompleted());
+				task.setLastSync(null);
+				task.setDateOfDue(null);
+				task.setDateOfCompletion(null);
 				convertedTasks.add(task);
 			}
 		} catch (IOException e) {

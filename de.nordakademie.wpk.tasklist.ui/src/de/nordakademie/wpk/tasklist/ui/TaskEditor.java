@@ -45,6 +45,7 @@ public class TaskEditor {
 	private TaskService taskService;
 	private Combo comboPriority;
 	private Task task;
+	private Button btnFertig;
 
 	@PostConstruct
 	public void createPartControl(Composite parent) {
@@ -61,7 +62,7 @@ public class TaskEditor {
 		sctnNewSection.setClient(composite);
 		composite.setLayout(new GridLayout(2, false));
 		
-		Button btnFertig = new Button(composite, SWT.CHECK);
+		btnFertig = new Button(composite, SWT.CHECK);
 		btnFertig.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -151,14 +152,15 @@ public class TaskEditor {
 		String todoUri = editorPart.getPersistedState().get(
 				Constants.RESOURCE_URI_KEY);
 		String[] split = todoUri.split("/");
-//		String providerName = split[1];
-		String tasklistId = split[1];
-		String taskId = split[2];
+		String providerName = split[1];
+		String tasklistId = split[2];
+		String taskId = split[3];
 //		Provider provider = Provider.valueOf(providerName);
 		task = taskService.loadTask(taskId, tasklistId, new GoogleSetting());
 		if (task != null) {
 			txtName.setText(task.getTitle());
-		
+			txtComment.setText(task.getComment());
+			btnFertig.setSelection(task.getStatus());
 		}
 	}
 

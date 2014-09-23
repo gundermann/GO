@@ -1,7 +1,6 @@
 package de.nordakademie.wpk.tasklist.core.server.service;
 
 import java.util.List;
-import java.util.Set;
 
 import com.google.api.services.tasks.Tasks;
 
@@ -16,15 +15,17 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	public List<TaskList> loadAll(ProviderSetting setting) {
+		GoogleConverter googleConverter = new GoogleConverter();
+		return googleConverter.convertTaskLists(getTaskService(setting));
+	}
+
+	private Tasks getTaskService(ProviderSetting setting) {
 		GoogleConnection googleConnection = new GoogleConnection(setting);
 		Tasks tasksService = googleConnection.getTasksService();
-		GoogleConverter googleConverter = new GoogleConverter();
-		System.out.println("TASKSERVICE");
-		return googleConverter.convertTaskLists(tasksService);
+		return tasksService;
 	}
 
 	public void updateTask(Task task, TaskList tasklist) {
-
 	}
 
 	public void updateTaskList(TaskList tasklist) {
@@ -54,10 +55,8 @@ public class TaskServiceImpl implements TaskService {
 
 	public Task loadTask(String taskId, String tasklistId,
 			ProviderSetting setting) {
-		GoogleConnection googleConnection = new GoogleConnection(setting);
-		Tasks tasksService = googleConnection.getTasksService();
 		GoogleConverter googleConverter = new GoogleConverter();
-		return googleConverter.convertTask(tasksService, taskId, tasklistId);
+		return googleConverter.convertTask(getTaskService(setting), taskId, tasklistId);
 	}
 
 }

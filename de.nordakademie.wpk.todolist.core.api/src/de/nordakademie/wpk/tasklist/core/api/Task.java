@@ -5,19 +5,18 @@ import java.util.Date;
 
 public class Task implements Serializable {
 
-	private static final long serialVersionUID = 3L;
+	private static final long serialVersionUID = 4L;
 	private String id;
 	private String title;
 	private Date lastSync;
 	private Integer position;
-	private String tasklistId;
 	private String comment;
 	private Boolean status;
 	private Date dateOfDue;
 	private Date dateOfCompletion;
 
 	public String getId() {
-		return id;
+		return id == null ? "" : id;
 	}
 
 	public void setId(String id) {
@@ -25,7 +24,7 @@ public class Task implements Serializable {
 	}
 
 	public String getTitle() {
-		return title;
+		return title == null ? "" : title;
 	}
 
 	public void setTitle(String title) {
@@ -49,7 +48,7 @@ public class Task implements Serializable {
 	}
 
 	public String getComment() {
-		return comment;
+		return comment == null ? "" : comment;
 	}
 
 	public void setComment(String comment) {
@@ -57,7 +56,7 @@ public class Task implements Serializable {
 	}
 
 	public Boolean getStatus() {
-		return status;
+		return status == null ? false : status;
 	}
 
 	public void setStatus(Boolean status) {
@@ -80,13 +79,4 @@ public class Task implements Serializable {
 		this.dateOfCompletion = dateOfCompletion;
 	}
 
-	public String getTasklist() {
-		return tasklistId;
-	}
-
-	public void setTasklistId(String tasklistId) {
-		this.tasklistId = tasklistId;
-	}
-
-	
 }

@@ -13,6 +13,7 @@ import org.eclipse.e4.ui.services.EMenuService;
 import org.eclipse.e4.ui.workbench.modeling.ESelectionService;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.ITreeSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
@@ -47,10 +48,10 @@ public class TaskView {
 
 		treeViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			public void selectionChanged(SelectionChangedEvent event) {
-				if (event.getSelection() instanceof IStructuredSelection) {
-					IStructuredSelection selection = (IStructuredSelection) event
+				if (event.getSelection() instanceof ITreeSelection) {
+					ITreeSelection selection = (ITreeSelection) event
 							.getSelection();
-					selectionService.setSelection(selection.getFirstElement());
+					selectionService.setSelection(selection);
 				}
 			}
 		});
