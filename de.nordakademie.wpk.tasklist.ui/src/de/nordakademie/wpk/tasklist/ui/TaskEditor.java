@@ -18,7 +18,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
-import org.osgi.framework.Constants;
 
 import de.nordakademie.wpk.tasklist.core.api.Task;
 import de.nordakademie.wpk.tasklist.core.api.TaskService;
@@ -41,9 +40,9 @@ public class TaskEditor {
 	private IEventBroker eventBroker;
 
 	@Inject
-	private TaskService todoService;
+	private TaskService taskService;
 	private Combo comboPriority;
-	private Task todo;
+	private Task task;
 
 	@PostConstruct
 	public void createPartControl(Composite parent) {
@@ -147,16 +146,16 @@ public class TaskEditor {
 	}
 
 	private void initInput() {
-//		String todoUri = editorPart.getPersistedState().get(
-//				Constants.RESOURCE_URI_KEY);
-//		String[] split = todoUri.split("/");
-//		Long id = Long.parseLong(split[2]);
-//		todo = todoService.loadTodo(id);
-//		if (todo != null) {
-//			txtNewText.setText(todo.getName());
-//			txtNewText_1.setText(todo.getDescription());
-//			combo.select(todo.getPriority());
-//			txtNewText_3.setText(todo.getResponsablePerson());
+		String todoUri = editorPart.getPersistedState().get(
+				Constants.RESOURCE_URI_KEY);
+		String[] split = todoUri.split("/");
+		String id = split[2];
+		task = taskService.loadTask(id);
+//		if (task != null) {
+//			txtNewText.setText(task.getName());
+//			txtNewText_1.setText(task.getDescription());
+//			combo.select(task.getPriority());
+//			txtNewText_3.setText(task.getResponsablePerson());
 //		}
 	}
 

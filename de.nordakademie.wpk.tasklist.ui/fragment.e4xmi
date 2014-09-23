@@ -3,7 +3,11 @@
   <fragments xsi:type="fragment:StringModelFragment" xmi:id="_uTlhcDqOEeS0rqYIPM1jkw" featurename="children" parentElementId="de.nordakademie.wpk.tasklist.product.perspectivestack">
     <elements xsi:type="advanced:Perspective" xmi:id="_VMYXADqPEeS0rqYIPM1jkw" elementId="de.nordakademie.wpk.tasklist.ui.perspective" label="Tasklist">
       <children xsi:type="basic:PartSashContainer" xmi:id="_aLn4MDqPEeS0rqYIPM1jkw" elementId="de.nordakademie.wpk.tasklist.ui.container" selectedElement="_gJC44DqPEeS0rqYIPM1jkw" horizontal="true">
-        <children xsi:type="basic:Part" xmi:id="_gJC44DqPEeS0rqYIPM1jkw" elementId="de.nordakademie.wpk.tasklist.ui.part.tasklist" contributionURI="bundleclass://de.nordakademie.wpk.tasklist.ui/de.nordakademie.wpk.tasklist.ui.TaskView" label="Tasklist"/>
+        <children xsi:type="basic:Part" xmi:id="_gJC44DqPEeS0rqYIPM1jkw" elementId="de.nordakademie.wpk.tasklist.ui.part.tasklist" contributionURI="bundleclass://de.nordakademie.wpk.tasklist.ui/de.nordakademie.wpk.tasklist.ui.TaskView" label="Tasklist">
+          <menus xsi:type="menu:PopupMenu" xmi:id="_iPh8kENIEeS3JOGtcs5vGw" elementId="popup:taskContextMenu">
+            <children xsi:type="menu:HandledMenuItem" xmi:id="_m4o1sENIEeS3JOGtcs5vGw" elementId="de.nordakademie.wpk.tasklist.ui.handledmenuitem." label="Bearbeiten" command="_UnnO8DyxEeSo2eU6PC6tHA"/>
+          </menus>
+        </children>
         <children xsi:type="basic:PartStack" xmi:id="_Fe5jYDyxEeSo2eU6PC6tHA" elementId="de.nordakademie.wpk.tasklist.ui.editors"/>
       </children>
     </elements>

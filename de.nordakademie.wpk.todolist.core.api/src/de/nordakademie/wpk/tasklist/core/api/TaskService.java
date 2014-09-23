@@ -22,4 +22,6 @@ public interface TaskService {
 	void deleteTask(Task task, TaskList tasklist);
 
 	void deleteTaskList(TaskList tasklist);
+
+	Task loadTask(String id, );
 }

@@ -32,12 +32,12 @@ public class TaskEditorInput implements EditorInput<Task> {
 
 	@Override
 	public String getPartId() {
-		return String.format("%s#%d", TaskEditor.class.getName(), task.getId());
+		return String.format("%s#%s", TaskEditor.class.getName(), task.getId());
 	}
 
 	@Override
 	public String getResourceURIString() {
-		return String.format("resource:/task/%d", task.getId());
+		return String.format("resource:/%s/%s/%s", task.getId());
 	}
 
 	@Override
