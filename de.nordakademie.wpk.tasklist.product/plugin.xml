@@ -15,6 +15,10 @@
                name="appName"
                value="de.nordakademie.wpk.tasklist.product">
          </property>
+         <property
+         	name="applicationXMI"
+         	value="de.nordakademie.wpk.tasklist.product/Application.e4xmi">
+         </property>
       </product>
    </extension>
 
