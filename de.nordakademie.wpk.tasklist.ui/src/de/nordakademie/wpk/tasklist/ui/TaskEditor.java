@@ -24,6 +24,7 @@ import org.eclipse.ui.forms.widgets.Section;
 import de.nordakademie.wpk.tasklist.core.api.GoogleSetting;
 import de.nordakademie.wpk.tasklist.core.api.Task;
 import de.nordakademie.wpk.tasklist.core.api.TaskService;
+import de.nordakademie.wpk.tasklist.ui.jobs.LoadAllJob;
 
 public class TaskEditor {
 
@@ -60,7 +61,7 @@ public class TaskEditor {
 		formToolkit.paintBordersFor(composite);
 		sctnNewSection.setClient(composite);
 		composite.setLayout(new GridLayout(2, false));
-		
+
 		btnFertig = new Button(composite, SWT.CHECK);
 		btnFertig.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -69,20 +70,19 @@ public class TaskEditor {
 		});
 		formToolkit.adapt(btnFertig, true, true);
 		btnFertig.setText("Erledigt am:");
-		
+
 		Label lblDateOfCompletion = new Label(composite, SWT.NONE);
 		formToolkit.adapt(lblDateOfCompletion, true, true);
 
-		Label lblName = formToolkit.createLabel(composite, "Name:",
-				SWT.NONE);
+		Label lblName = formToolkit.createLabel(composite, "Name:", SWT.NONE);
 
 		txtName = formToolkit.createText(composite, "New Text", SWT.NONE);
 		txtName.setText("");
-		txtName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
-				false, 1, 1));
+		txtName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false,
+				1, 1));
 
-		Label lblComment = formToolkit.createLabel(composite,
-				"Kommentar:", SWT.NONE);
+		Label lblComment = formToolkit.createLabel(composite, "Kommentar:",
+				SWT.NONE);
 		GridData gd_lblComment = new GridData(SWT.LEFT, SWT.CENTER, false,
 				false, 1, 1);
 		gd_lblComment.heightHint = 19;
@@ -98,8 +98,8 @@ public class TaskEditor {
 
 		comboPriority = new Combo(composite, SWT.NONE);
 		comboPriority.setItems(new String[] { "0", "1", "2", "3", "4", "5" });
-		comboPriority.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1,
-				1));
+		comboPriority.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
+				false, 1, 1));
 		formToolkit.adapt(comboPriority);
 		formToolkit.paintBordersFor(comboPriority);
 		comboPriority.select(0);
@@ -107,22 +107,23 @@ public class TaskEditor {
 		Label lblResponseable = formToolkit.createLabel(composite,
 				"Verantwortlicher:", SWT.NONE);
 
-		txtResponseable = formToolkit.createText(composite, "New Text", SWT.NONE);
+		txtResponseable = formToolkit.createText(composite, "New Text",
+				SWT.NONE);
 		txtResponseable.setText("");
 		txtResponseable.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
 				false, 1, 1));
-		
+
 		Label lblFaelligkeit = new Label(composite, SWT.NONE);
 		formToolkit.adapt(lblFaelligkeit, true, true);
 		lblFaelligkeit.setText("F\u00E4lligkeit:");
-		
+
 		Label lblDueTo = new Label(composite, SWT.NONE);
 		formToolkit.adapt(lblDueTo, true, true);
-		
+
 		Label lblLetzteAktualisierung = new Label(composite, SWT.NONE);
 		formToolkit.adapt(lblLetzteAktualisierung, true, true);
 		lblLetzteAktualisierung.setText("Letzte Aktualisierung:");
-		
+
 		Label lblLastSync = new Label(composite, SWT.NONE);
 		formToolkit.adapt(lblLastSync, true, true);
 
@@ -143,9 +144,9 @@ public class TaskEditor {
 
 		txtName.addModifyListener(new ChangeListener(editorPart));
 		txtComment.addModifyListener(new ChangeListener(editorPart));
-//		txtDescription.addModifyListener(new ChangeListener(editorPart));
-//		comboPriority.addModifyListener(new ChangeListener(editorPart));
-//		txtResponseable.addModifyListener(new ChangeListener(editorPart));
+		// txtDescription.addModifyListener(new ChangeListener(editorPart));
+		// comboPriority.addModifyListener(new ChangeListener(editorPart));
+		// txtResponseable.addModifyListener(new ChangeListener(editorPart));
 	}
 
 	private void initInput() {
@@ -154,13 +155,18 @@ public class TaskEditor {
 		String[] split = todoUri.split("/");
 		String providerName = split[1];
 		tasklistId = split[2];
-		String taskId = split[3];
-//		Provider provider = Provider.valueOf(providerName);
-		task = taskService.loadTask(taskId, tasklistId, new GoogleSetting());
-		if (task != null) {
-			txtName.setText(task.getTitle());
-			txtComment.setText(task.getComment());
-			btnFertig.setSelection(task.getStatus());
+		if (split.length > 3) {
+			String taskId = split[3];
+			task = taskService
+					.loadTask(taskId, tasklistId, new GoogleSetting());
+			if (task != null) {
+				txtName.setText(task.getTitle());
+				txtComment.setText(task.getComment());
+				btnFertig.setSelection(task.getStatus());
+			}
+		} else {
+			txtName.setText("Neue Task");
+			editorPart.setDirty(true);
 		}
 	}
 
@@ -171,10 +177,30 @@ public class TaskEditor {
 
 	@Persist
 	public void save() {
+		if (task != null) {
+			updateTask();
+		} else {
+			saveNewTask();
+		}
+
+	}
+
+	private void saveNewTask() {
+		task = new Task();
+		task.setTitle(txtName.getText());
+		taskService.addTask(task, tasklistId, new GoogleSetting());
+		task.setComment(txtComment.getText());
+		editorPart.setDirty(false);
+		new LoadAllJob(taskService, eventBroker, new GoogleSetting())
+				.schedule();
+		// eventBroker.post(Topics.TASK_UPDATED, task);
+	}
+
+	private void updateTask() {
 		task.setTitle(txtName.getText());
 		task.setComment(txtComment.getText());
 		taskService.updateTask(task, tasklistId, new GoogleSetting());
 		editorPart.setDirty(false);
-//		eventBroker.post(Topics.TASK_UPDATED, task);
 	}
+
 }

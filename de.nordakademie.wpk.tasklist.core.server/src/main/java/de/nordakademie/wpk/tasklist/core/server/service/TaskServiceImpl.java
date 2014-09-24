@@ -11,11 +11,13 @@ import de.nordakademie.wpk.tasklist.core.api.TaskService;
 
 public class TaskServiceImpl implements TaskService {
 
+	private GoogleConverter googleConverter;
+
 	public TaskServiceImpl() {
+		 googleConverter = new GoogleConverter();
 	}
 
 	public List<TaskList> loadAll(ProviderSetting setting) {
-		GoogleConverter googleConverter = new GoogleConverter();
 		return googleConverter.convertTaskLists(getTaskService(setting));
 	}
 
@@ -47,17 +49,15 @@ public class TaskServiceImpl implements TaskService {
 
 	public Task loadTask(String taskId, String tasklistId,
 			ProviderSetting setting) {
-		GoogleConverter googleConverter = new GoogleConverter();
 		return googleConverter.convertTask(getTaskService(setting), taskId, tasklistId);
 	}
 
 	public void addTask(Task task, String tasklistId, ProviderSetting setting) {
-		// TODO Auto-generated method stub
+		googleConverter.addTask(getTaskService(setting), task, tasklistId);
 		
 	}
 
 	public void updateTask(Task task, String tasklistId, ProviderSetting setting) {
-		GoogleConverter googleConverter = new GoogleConverter();
 		googleConverter.updateTask(getTaskService(setting), task, tasklistId);
 	}
 

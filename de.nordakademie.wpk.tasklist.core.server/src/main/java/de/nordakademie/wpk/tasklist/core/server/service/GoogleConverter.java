@@ -84,9 +84,7 @@ public class GoogleConverter {
 	public void updateTask(Tasks taskService, Task task, String tasklistId) {
 		com.google.api.services.tasks.model.Task googleTask = findGoogleTask(
 				taskService, tasklistId, task.getId());
-		googleTask.setTitle(task.getTitle());
-		googleTask.setNotes(task.getComment());
-		// TODO andere Eigenschaften
+		setupGoogleTaskFromTask(googleTask, task);
 		try {
 			taskService.tasks()
 					.update(tasklistId, googleTask.getId(), googleTask)
@@ -117,6 +115,23 @@ public class GoogleConverter {
 			e.printStackTrace();
 		}
 		return foundGoogleTask;
+	}
+
+	public void addTask(Tasks taskService, Task task, String tasklistId) {
+		com.google.api.services.tasks.model.Task googleTask = new com.google.api.services.tasks.model.Task();
+		setupGoogleTaskFromTask(googleTask, task);
+		try {
+			taskService.tasks().insert(tasklistId, googleTask).execute();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void setupGoogleTaskFromTask(
+			com.google.api.services.tasks.model.Task googleTask, Task task) {
+		googleTask.setTitle(task.getTitle());
+		googleTask.setNotes(task.getComment());
+		// TODO andere Eigenschaften
 	}
 
 }
