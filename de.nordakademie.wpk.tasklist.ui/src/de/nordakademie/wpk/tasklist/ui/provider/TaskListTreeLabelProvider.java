@@ -50,6 +50,14 @@ public class TaskListTreeLabelProvider implements ILabelProvider {
 			ImageDescriptor imageDcr = ImageDescriptor.createFromURL(url );
 			return imageDcr.createImage();
 		}
+		else if (element instanceof Task) {
+			if(TaskHelper.isTaskDueWithinThreeDays((Task)element)){
+				Bundle bundle = FrameworkUtil.getBundle(TaskListTreeLabelProvider.class);
+			    URL url = FileLocator.find(bundle, new Path("icons/due.png"), null);
+				ImageDescriptor imageDcr = ImageDescriptor.createFromURL(url );
+				return imageDcr.createImage();
+			}
+		}
 		return null;
 	}
 

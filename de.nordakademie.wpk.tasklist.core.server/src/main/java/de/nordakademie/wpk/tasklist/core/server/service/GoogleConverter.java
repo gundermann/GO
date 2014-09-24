@@ -71,7 +71,7 @@ public class GoogleConverter {
 	}
 
 	private Date convertToJavaDate(DateTime due) {
-		return new Date(due.getValue());
+		return due != null ? new Date(due.getValue()) : null;
 	}
 
 	public Task convertTask(Tasks tasksService, String taskId, String tasklistId) {
