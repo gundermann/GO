@@ -8,8 +8,11 @@ import org.eclipse.e4.ui.di.Focus;
 import org.eclipse.e4.ui.di.Persist;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -26,13 +29,14 @@ import de.nordakademie.wpk.tasklist.core.api.Task;
 import de.nordakademie.wpk.tasklist.core.api.TaskService;
 import de.nordakademie.wpk.tasklist.ui.jobs.LoadAllJob;
 
+import org.eclipse.swt.widgets.DateTime;
+
 public class TaskEditor {
 
 	private final FormToolkit formToolkit = new FormToolkit(
 			Display.getDefault());
 	private Text txtName;
 	private Text txtComment;
-	private Text txtResponseable;
 
 	@Inject
 	private MPart editorPart;
@@ -42,7 +46,6 @@ public class TaskEditor {
 
 	@Inject
 	private TaskService taskService;
-	private Combo comboPriority;
 	private Task task;
 	private Button btnFertig;
 	private String tasklistId;
@@ -93,32 +96,13 @@ public class TaskEditor {
 		txtComment.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
 				false, 1, 1));
 
-		Label lblPriority = formToolkit.createLabel(composite,
-				"Priorit\u00E4t:", SWT.NONE);
-
-		comboPriority = new Combo(composite, SWT.NONE);
-		comboPriority.setItems(new String[] { "0", "1", "2", "3", "4", "5" });
-		comboPriority.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
-				false, 1, 1));
-		formToolkit.adapt(comboPriority);
-		formToolkit.paintBordersFor(comboPriority);
-		comboPriority.select(0);
-
-		Label lblResponseable = formToolkit.createLabel(composite,
-				"Verantwortlicher:", SWT.NONE);
-
-		txtResponseable = formToolkit.createText(composite, "New Text",
-				SWT.NONE);
-		txtResponseable.setText("");
-		txtResponseable.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
-				false, 1, 1));
-
 		Label lblFaelligkeit = new Label(composite, SWT.NONE);
 		formToolkit.adapt(lblFaelligkeit, true, true);
 		lblFaelligkeit.setText("F\u00E4lligkeit:");
-
-		Label lblDueTo = new Label(composite, SWT.NONE);
-		formToolkit.adapt(lblDueTo, true, true);
+		
+		DateTime dateTime = new DateTime(composite, SWT.BORDER);
+		formToolkit.adapt(dateTime);
+		formToolkit.paintBordersFor(dateTime);
 
 		Label lblLetzteAktualisierung = new Label(composite, SWT.NONE);
 		formToolkit.adapt(lblLetzteAktualisierung, true, true);
@@ -136,8 +120,14 @@ public class TaskEditor {
 		new Label(composite, SWT.NONE);
 		new Label(composite, SWT.NONE);
 
-		Button btnCreate = formToolkit.createButton(composite, "Create",
+		Button btnSave = formToolkit.createButton(composite, "Speichern",
 				SWT.NONE);
+		btnSave.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				save();
+			}
+		});
 		new Label(composite, SWT.NONE);
 
 		initInput();
@@ -182,6 +172,7 @@ public class TaskEditor {
 		} else {
 			saveNewTask();
 		}
+		editorPart.setDirty(false);
 
 	}
 
