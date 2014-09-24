@@ -2,6 +2,7 @@ package de.nordakademie.wpk.tasklist.core.server.service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -57,17 +58,21 @@ public class GoogleConverter {
 				task.setId(googleTask.getId());
 				task.setTitle(googleTask.getTitle());
 				task.setComment(googleTask.getNotes());
-				task.setStatus(googleTask.getCompleted() != null);
-				System.out.println(googleTask.getCompleted());
-				task.setLastSync(null);
+				task.setStatus(convertStatusFromGoogle(googleTask.getStatus()));
+				task.setLastSync(convertToJavaDate(googleTask.getUpdated()));
 				task.setDateOfDue(convertToJavaDate(googleTask.getDue()));
-				task.setDateOfCompletion(null);
+				task.setDateOfCompletion(convertToJavaDate(googleTask
+						.getCompleted()));
 				convertedTasks.add(task);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return convertedTasks;
+	}
+
+	private Boolean convertStatusFromGoogle(String status) {
+		return status.equals("completed") ? true : false;
 	}
 
 	private Date convertToJavaDate(DateTime due) {
@@ -137,7 +142,24 @@ public class GoogleConverter {
 			com.google.api.services.tasks.model.Task googleTask, Task task) {
 		googleTask.setTitle(task.getTitle());
 		googleTask.setNotes(task.getComment());
+		googleTask.setStatus(convertToGoogleStatus(task.getStatus()));
+		googleTask.setCompleted(convertJavaToGooleDate(task
+				.getDateOfCompletion()));
+		googleTask.setDue(convertJavaToGooleDate(task.getDateOfDue()));
 		// TODO andere Eigenschaften
+	}
+
+	private String convertToGoogleStatus(Boolean status) {
+		return status == true ? "completed" : "needsAction";
+	}
+
+	private DateTime convertJavaToGooleDate(Date date) {
+		if(date == null)
+			return null;
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		DateTime dateTime = new DateTime(cal.getTime());
+		return dateTime;
 	}
 
 }

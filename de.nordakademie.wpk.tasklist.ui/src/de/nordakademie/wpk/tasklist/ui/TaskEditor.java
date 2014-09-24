@@ -49,6 +49,7 @@ public class TaskEditor {
 	private String tasklistId;
 	private DateTime dateTime;
 	private Button btnCheckDateDue;
+	private Label lblDateOfCompletion;
 
 	@PostConstruct
 	public void createPartControl(Composite parent) {
@@ -69,12 +70,18 @@ public class TaskEditor {
 		btnFertig.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				editorPart.setDirty(true);
+				if (btnFertig.getSelection())
+					lblDateOfCompletion.setText(DateHelper
+							.getCurrentDateAsString());
+				else
+					lblDateOfCompletion.setText("");
 			}
 		});
 		formToolkit.adapt(btnFertig, true, true);
 		btnFertig.setText("Erledigt am:");
 
-		Label lblDateOfCompletion = new Label(composite, SWT.NONE);
+		lblDateOfCompletion = new Label(composite, SWT.NONE);
 		formToolkit.adapt(lblDateOfCompletion, true, true);
 
 		Label lblName = formToolkit.createLabel(composite, "Name:", SWT.NONE);
@@ -114,7 +121,6 @@ public class TaskEditor {
 				editorPart.setDirty(true);
 			}
 		});
-		
 
 		formToolkit.adapt(btnCheckDateDue, true, true);
 
@@ -155,9 +161,6 @@ public class TaskEditor {
 				editorPart.setDirty(true);
 			}
 		});
-		// txtDescription.addModifyListener(new ChangeListener(editorPart));
-		// comboPriority.addModifyListener(new ChangeListener(editorPart));
-		// txtResponseable.addModifyListener(new ChangeListener(editorPart));
 	}
 
 	private void initInput() {
@@ -174,6 +177,8 @@ public class TaskEditor {
 				txtName.setText(task.getTitle());
 				txtComment.setText(task.getComment());
 				btnFertig.setSelection(task.getStatus());
+				lblDateOfCompletion.setText(DateHelper.getDateAsSting(task
+						.getDateOfCompletion()));
 				Date dateOfDue = task.getDateOfDue();
 				if (dateOfDue == null) {
 					btnCheckDateDue.setSelection(false);
@@ -205,17 +210,11 @@ public class TaskEditor {
 			saveNewTask();
 		}
 		editorPart.setDirty(false);
-
 	}
 
 	private void saveNewTask() {
 		task = new Task();
-		task.setTitle(txtName.getText());
-		task.setComment(txtComment.getText());
-		if (btnCheckDateDue.getSelection()) {
-			task.setDateOfDue(TaskHelper.getDate(dateTime.getYear(),
-					dateTime.getMonth(), dateTime.getDay()));
-		}
+		setupTask();
 		taskService.addTask(task, tasklistId, new GoogleSetting());
 		editorPart.setDirty(false);
 		new LoadAllJob(taskService, eventBroker, new GoogleSetting())
@@ -223,15 +222,22 @@ public class TaskEditor {
 		// eventBroker.post(Topics.TASK_UPDATED, task);
 	}
 
-	private void updateTask() {
+	private void setupTask() {
 		task.setTitle(txtName.getText());
 		task.setComment(txtComment.getText());
+		task.setStatus(btnFertig.getSelection());
+			task.setDateOfCompletion(DateHelper
+					.getDateFromString(lblDateOfCompletion.getText()));
 		if (btnCheckDateDue.getSelection()) {
 			task.setDateOfDue(TaskHelper.getDate(dateTime.getYear(),
 					dateTime.getMonth(), dateTime.getDay()));
-		}else{
-			task.setDateOfDue(null);
 		}
+		else
+			task.setDateOfDue(null);		
+	}
+
+	private void updateTask() {
+		setupTask();
 		taskService.updateTask(task, tasklistId, new GoogleSetting());
 		editorPart.setDirty(false);
 	}
