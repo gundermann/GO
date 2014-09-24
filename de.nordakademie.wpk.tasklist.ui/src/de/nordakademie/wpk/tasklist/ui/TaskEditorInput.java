@@ -20,8 +20,10 @@ public class TaskEditorInput implements EditorInput<Task> {
 
 	@Override
 	public String getTooltip() {
-		return task.getComment() != null ? task.getComment().substring(0, 10)
-				: "";
+		return task.getComment() != null ? task.getComment().substring(
+				0,
+				task.getComment().length() > 10 ? 10 : task.getComment()
+						.length()) : "";
 	}
 
 	@Override

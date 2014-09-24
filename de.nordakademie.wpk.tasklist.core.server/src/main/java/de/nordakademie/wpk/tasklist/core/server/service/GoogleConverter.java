@@ -40,8 +40,7 @@ public class GoogleConverter {
 		return convertedTasklists;
 	}
 
-	private List<Task> convertGoogleTasks(Tasks tasksService,
-			String tasklistId) {
+	private List<Task> convertGoogleTasks(Tasks tasksService, String tasklistId) {
 		com.google.api.services.tasks.Tasks.TasksOperations.List list = null;
 		try {
 			list = tasksService.tasks().list(tasklistId);
@@ -71,14 +70,53 @@ public class GoogleConverter {
 
 	public Task convertTask(Tasks tasksService, String taskId, String tasklistId) {
 		Task task = null;
-			 List<Task> convertGoogleTasks = convertGoogleTasks(tasksService, tasklistId);
-			for (Task taskInTasklist : convertGoogleTasks) {
-				if (taskInTasklist.getId().equals(taskId)) {
-					task = taskInTasklist;
+		List<Task> convertGoogleTasks = convertGoogleTasks(tasksService,
+				tasklistId);
+		for (Task taskInTasklist : convertGoogleTasks) {
+			if (taskInTasklist.getId().equals(taskId)) {
+				task = taskInTasklist;
+				break;
+			}
+		}
+		return task;
+	}
+
+	public void updateTask(Tasks taskService, Task task, String tasklistId) {
+		com.google.api.services.tasks.model.Task googleTask = findGoogleTask(
+				taskService, tasklistId, task.getId());
+		googleTask.setTitle(task.getTitle());
+		googleTask.setNotes(task.getComment());
+		// TODO andere Eigenschaften
+		try {
+			taskService.tasks()
+					.update(tasklistId, googleTask.getId(), googleTask)
+					.execute();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private com.google.api.services.tasks.model.Task findGoogleTask(
+			Tasks taskService, String tasklistId, String taskId) {
+		com.google.api.services.tasks.model.Task foundGoogleTask = null;
+		com.google.api.services.tasks.Tasks.TasksOperations.List list = null;
+		try {
+			list = taskService.tasks().list(tasklistId);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		try {
+			for (com.google.api.services.tasks.model.Task googleTask : list
+					.execute().getItems()) {
+				if (googleTask.getId().equals(taskId)) {
+					foundGoogleTask = googleTask;
 					break;
 				}
 			}
-		return task;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return foundGoogleTask;
 	}
 
 }

@@ -25,20 +25,12 @@ public class TaskServiceImpl implements TaskService {
 		return tasksService;
 	}
 
-	public void updateTask(Task task, TaskList tasklist) {
-	}
-
 	public void updateTaskList(TaskList tasklist) {
 		// TODO Auto-generated method stub
 
 	}
 
 	public void addTaskList(TaskList tasklist) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void addTask(Task task, TaskList tasklist) {
 		// TODO Auto-generated method stub
 
 	}
@@ -57,6 +49,16 @@ public class TaskServiceImpl implements TaskService {
 			ProviderSetting setting) {
 		GoogleConverter googleConverter = new GoogleConverter();
 		return googleConverter.convertTask(getTaskService(setting), taskId, tasklistId);
+	}
+
+	public void addTask(Task task, String tasklistId, ProviderSetting setting) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void updateTask(Task task, String tasklistId, ProviderSetting setting) {
+		GoogleConverter googleConverter = new GoogleConverter();
+		googleConverter.updateTask(getTaskService(setting), task, tasklistId);
 	}
 
 }

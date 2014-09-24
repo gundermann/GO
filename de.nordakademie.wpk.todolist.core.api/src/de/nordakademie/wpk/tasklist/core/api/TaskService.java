@@ -11,13 +11,13 @@ public interface TaskService {
 	 */
 	List<TaskList> loadAll(ProviderSetting setting);
 
-	void updateTask(Task task, TaskList tasklist);
+	void updateTask(Task task, String tasklistId, ProviderSetting setting);
 
 	void updateTaskList(TaskList tasklist);
 
 	void addTaskList(TaskList tasklist);
 
-	void addTask(Task task, TaskList tasklist);
+	void addTask(Task task, String tasklistId, ProviderSetting setting);
 
 	void deleteTask(Task task, TaskList tasklist);
 

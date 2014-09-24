@@ -8,6 +8,8 @@ import org.eclipse.e4.ui.di.Focus;
 import org.eclipse.e4.ui.di.Persist;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -20,12 +22,8 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
 import de.nordakademie.wpk.tasklist.core.api.GoogleSetting;
-import de.nordakademie.wpk.tasklist.core.api.Provider;
 import de.nordakademie.wpk.tasklist.core.api.Task;
 import de.nordakademie.wpk.tasklist.core.api.TaskService;
-
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 
 public class TaskEditor {
 
@@ -46,6 +44,7 @@ public class TaskEditor {
 	private Combo comboPriority;
 	private Task task;
 	private Button btnFertig;
+	private String tasklistId;
 
 	@PostConstruct
 	public void createPartControl(Composite parent) {
@@ -142,7 +141,8 @@ public class TaskEditor {
 
 		initInput();
 
-//		txtName.addModifyListener(new ChangeListener(editorPart));
+		txtName.addModifyListener(new ChangeListener(editorPart));
+		txtComment.addModifyListener(new ChangeListener(editorPart));
 //		txtDescription.addModifyListener(new ChangeListener(editorPart));
 //		comboPriority.addModifyListener(new ChangeListener(editorPart));
 //		txtResponseable.addModifyListener(new ChangeListener(editorPart));
@@ -153,7 +153,7 @@ public class TaskEditor {
 				Constants.RESOURCE_URI_KEY);
 		String[] split = todoUri.split("/");
 		String providerName = split[1];
-		String tasklistId = split[2];
+		tasklistId = split[2];
 		String taskId = split[3];
 //		Provider provider = Provider.valueOf(providerName);
 		task = taskService.loadTask(taskId, tasklistId, new GoogleSetting());
@@ -171,10 +171,10 @@ public class TaskEditor {
 
 	@Persist
 	public void save() {
-//		todoService.saveTodo(todo.getId(), txtNewText.getText(),
-//				txtNewText_1.getText(), combo.getSelectionIndex(),
-//				txtNewText_3.getText());
-//		editorPart.setDirty(false);
-//		eventBroker.post(Topics.TODO_CHANGED, todo);
+		task.setTitle(txtName.getText());
+		task.setComment(txtComment.getText());
+		taskService.updateTask(task, tasklistId, new GoogleSetting());
+		editorPart.setDirty(false);
+//		eventBroker.post(Topics.TASK_UPDATED, task);
 	}
 }
