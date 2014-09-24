@@ -27,23 +27,21 @@ public class TaskServiceImpl implements TaskService {
 		return tasksService;
 	}
 
-	public void updateTaskList(TaskList tasklist) {
-		// TODO Auto-generated method stub
+	public void updateTaskList(TaskList tasklist, ProviderSetting setting) {
+		googleConverter.updateTaskList(getTaskService(setting), tasklist);
+	}
+
+	public void addTaskList(TaskList tasklist, ProviderSetting setting) {
+		googleConverter.addTasklist(getTaskService(setting), tasklist);
+	}
+
+	public void deleteTask(Task task, TaskList tasklist, ProviderSetting setting) {
+		googleConverter.deleteTask(getTaskService(setting), task, tasklist);
 
 	}
 
-	public void addTaskList(TaskList tasklist) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void deleteTask(Task task, TaskList tasklist) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void deleteTaskList(TaskList tasklist) {
-		// TODO Auto-generated method stub
+	public void deleteTaskList(TaskList tasklist, ProviderSetting setting) {
+		googleConverter.deleteTasklist(getTaskService(setting), tasklist);
 
 	}
 

@@ -13,15 +13,15 @@ public interface TaskService {
 
 	void updateTask(Task task, String tasklistId, ProviderSetting setting);
 
-	void updateTaskList(TaskList tasklist);
+	void updateTaskList(TaskList tasklist, ProviderSetting setting);
 
-	void addTaskList(TaskList tasklist);
+	void addTaskList(TaskList tasklist,ProviderSetting setting);
 
 	void addTask(Task task, String tasklistId, ProviderSetting setting);
 
-	void deleteTask(Task task, TaskList tasklist);
+	void deleteTask(Task task, TaskList tasklist, ProviderSetting setting);
 
-	void deleteTaskList(TaskList tasklist);
+	void deleteTaskList(TaskList tasklist, ProviderSetting setting);
 
 	Task loadTask(String taskId, String tasklistId, ProviderSetting setting);
 }

@@ -162,4 +162,42 @@ public class GoogleConverter {
 		return dateTime;
 	}
 
+	public void deleteTasklist(Tasks taskService, TaskList tasklist) {
+		try {
+			taskService.tasklists().delete(tasklist.getId()).execute();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void deleteTask(Tasks taskService, Task task, TaskList tasklist) {
+		try {
+			taskService.tasks().delete(tasklist.getId(), task.getId()).execute();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void updateTaskList(Tasks taskService, TaskList tasklist) {
+		com.google.api.services.tasks.model.TaskList googleTasklist;
+		try {
+			googleTasklist = taskService.tasklists().get(tasklist.getId()).execute();
+			googleTasklist.setTitle(tasklist.getName());
+			taskService.tasklists().update(tasklist.getId(), googleTasklist).execute();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void addTasklist(Tasks taskService, TaskList tasklist) {
+		com.google.api.services.tasks.model.TaskList googleTasklist = new com.google.api.services.tasks.model.TaskList();
+		googleTasklist.setTitle(tasklist.getName());
+		try {
+			taskService.tasklists().insert(googleTasklist).execute();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
+
 }
