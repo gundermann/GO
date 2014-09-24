@@ -20,4 +20,31 @@ public class TaskHelper {
 		return false;
 	}
 
+	public static int getYear(Date dateOfDue) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(dateOfDue);
+		return cal.get(Calendar.YEAR);
+	}
+
+	public static int getMonth(Date dateOfDue) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(dateOfDue);
+		return cal.get(Calendar.MONTH);
+	}
+
+	public static int getDay(Date dateOfDue) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(dateOfDue);
+		return cal.get(Calendar.DAY_OF_MONTH);
+	}
+
+	public static Date getDate(int year, int month, int day) {
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.YEAR, year);
+		cal.set(Calendar.MONTH, month);
+		cal.set(Calendar.DAY_OF_MONTH, day);
+		return cal.getTime();
+	}
+
+
 }

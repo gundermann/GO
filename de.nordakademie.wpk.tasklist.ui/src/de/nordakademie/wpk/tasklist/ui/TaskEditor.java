@@ -1,5 +1,7 @@
 package de.nordakademie.wpk.tasklist.ui;
 
+import java.util.Date;
+
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
@@ -8,16 +10,13 @@ import org.eclipse.e4.ui.di.Focus;
 import org.eclipse.e4.ui.di.Persist;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.ControlEvent;
-import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.DateTime;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
@@ -28,8 +27,7 @@ import de.nordakademie.wpk.tasklist.core.api.GoogleSetting;
 import de.nordakademie.wpk.tasklist.core.api.Task;
 import de.nordakademie.wpk.tasklist.core.api.TaskService;
 import de.nordakademie.wpk.tasklist.ui.jobs.LoadAllJob;
-
-import org.eclipse.swt.widgets.DateTime;
+import de.nordakademie.wpk.tasklist.ui.provider.TaskHelper;
 
 public class TaskEditor {
 
@@ -49,6 +47,8 @@ public class TaskEditor {
 	private Task task;
 	private Button btnFertig;
 	private String tasklistId;
+	private DateTime dateTime;
+	private Button btnCheckDateDue;
 
 	@PostConstruct
 	public void createPartControl(Composite parent) {
@@ -99,8 +99,26 @@ public class TaskEditor {
 		Label lblFaelligkeit = new Label(composite, SWT.NONE);
 		formToolkit.adapt(lblFaelligkeit, true, true);
 		lblFaelligkeit.setText("F\u00E4lligkeit:");
+
+		Composite composite_1 = new Composite(composite, SWT.NONE);
+		formToolkit.adapt(composite_1);
+		formToolkit.paintBordersFor(composite_1);
+		composite_1.setLayout(new GridLayout(2, false));
+
+		btnCheckDateDue = new Button(composite_1, SWT.CHECK);
+		btnCheckDateDue.setBounds(0, 0, 111, 20);
+		btnCheckDateDue.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				dateTime.setEnabled(btnCheckDateDue.getSelection());
+				editorPart.setDirty(true);
+			}
+		});
 		
-		DateTime dateTime = new DateTime(composite, SWT.BORDER);
+
+		formToolkit.adapt(btnCheckDateDue, true, true);
+
+		dateTime = new DateTime(composite_1, SWT.BORDER);
 		formToolkit.adapt(dateTime);
 		formToolkit.paintBordersFor(dateTime);
 
@@ -110,9 +128,6 @@ public class TaskEditor {
 
 		Label lblLastSync = new Label(composite, SWT.NONE);
 		formToolkit.adapt(lblLastSync, true, true);
-
-		new Label(composite, SWT.NONE);
-		new Label(composite, SWT.NONE);
 		new Label(composite, SWT.NONE);
 		new Label(composite, SWT.NONE);
 		new Label(composite, SWT.NONE);
@@ -134,6 +149,12 @@ public class TaskEditor {
 
 		txtName.addModifyListener(new ChangeListener(editorPart));
 		txtComment.addModifyListener(new ChangeListener(editorPart));
+		dateTime.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				editorPart.setDirty(true);
+			}
+		});
 		// txtDescription.addModifyListener(new ChangeListener(editorPart));
 		// comboPriority.addModifyListener(new ChangeListener(editorPart));
 		// txtResponseable.addModifyListener(new ChangeListener(editorPart));
@@ -153,6 +174,17 @@ public class TaskEditor {
 				txtName.setText(task.getTitle());
 				txtComment.setText(task.getComment());
 				btnFertig.setSelection(task.getStatus());
+				Date dateOfDue = task.getDateOfDue();
+				if (dateOfDue == null) {
+					btnCheckDateDue.setSelection(false);
+					dateTime.setEnabled(false);
+				} else {
+					btnCheckDateDue.setSelection(true);
+					dateTime.setEnabled(true);
+					dateTime.setDate(TaskHelper.getYear(dateOfDue),
+							TaskHelper.getMonth(dateOfDue),
+							TaskHelper.getDay(dateOfDue));
+				}
 			}
 		} else {
 			txtName.setText("Neue Task");
@@ -179,8 +211,12 @@ public class TaskEditor {
 	private void saveNewTask() {
 		task = new Task();
 		task.setTitle(txtName.getText());
-		taskService.addTask(task, tasklistId, new GoogleSetting());
 		task.setComment(txtComment.getText());
+		if (btnCheckDateDue.getSelection()) {
+			task.setDateOfDue(TaskHelper.getDate(dateTime.getYear(),
+					dateTime.getMonth(), dateTime.getDay()));
+		}
+		taskService.addTask(task, tasklistId, new GoogleSetting());
 		editorPart.setDirty(false);
 		new LoadAllJob(taskService, eventBroker, new GoogleSetting())
 				.schedule();
@@ -190,8 +226,13 @@ public class TaskEditor {
 	private void updateTask() {
 		task.setTitle(txtName.getText());
 		task.setComment(txtComment.getText());
+		if (btnCheckDateDue.getSelection()) {
+			task.setDateOfDue(TaskHelper.getDate(dateTime.getYear(),
+					dateTime.getMonth(), dateTime.getDay()));
+		}else{
+			task.setDateOfDue(null);
+		}
 		taskService.updateTask(task, tasklistId, new GoogleSetting());
 		editorPart.setDirty(false);
 	}
-
 }
