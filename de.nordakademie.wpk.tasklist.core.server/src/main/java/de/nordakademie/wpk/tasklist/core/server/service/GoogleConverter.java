@@ -2,8 +2,10 @@ package de.nordakademie.wpk.tasklist.core.server.service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import com.google.api.client.util.DateTime;
 import com.google.api.services.tasks.Tasks;
 import com.google.api.services.tasks.model.TaskLists;
 
@@ -58,7 +60,7 @@ public class GoogleConverter {
 				task.setStatus(googleTask.getCompleted() != null);
 				System.out.println(googleTask.getCompleted());
 				task.setLastSync(null);
-				task.setDateOfDue(null);
+				task.setDateOfDue(convertToJavaDate(googleTask.getDue()));
 				task.setDateOfCompletion(null);
 				convertedTasks.add(task);
 			}
@@ -66,6 +68,10 @@ public class GoogleConverter {
 			e.printStackTrace();
 		}
 		return convertedTasks;
+	}
+
+	private Date convertToJavaDate(DateTime due) {
+		return new Date(due.getValue());
 	}
 
 	public Task convertTask(Tasks tasksService, String taskId, String tasklistId) {
