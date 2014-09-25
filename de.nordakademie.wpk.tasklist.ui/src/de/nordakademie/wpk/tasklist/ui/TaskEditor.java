@@ -54,7 +54,7 @@ public class TaskEditor {
 	@PostConstruct
 	public void createPartControl(Composite parent) {
 		Section sctnNewSection = formToolkit.createSection(parent,
-				Section.TWISTIE | Section.TITLE_BAR);
+				Section.TITLE_BAR);
 		sctnNewSection.setBounds(0, 0, 448, 350);
 		formToolkit.paintBordersFor(sctnNewSection);
 		sctnNewSection.setText("Edit details");
