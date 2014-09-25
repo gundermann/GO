@@ -18,9 +18,11 @@ public class TaskHelper {
 			Calendar cal = Calendar.getInstance();
 			cal.add(Calendar.DAY_OF_MONTH, 3);
 			Date dateInThreeDays = cal.getTime();
-
-			if (dateInThreeDays.compareTo(task.getDateOfDue()) >= 0) {
+			
+			if(task.getStatus()){
+				if (dateInThreeDays.compareTo(task.getDateOfDue()) >= 0) {
 				return true;
+				}
 			}
 		}
 		return false;
