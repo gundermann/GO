@@ -6,11 +6,16 @@ import org.eclipse.e4.ui.workbench.IWorkbench;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Shell;
 
+/**
+ * 
+ * @author Kathrin Kurtz
+ *
+ */
 public class QuitHandler {
 	@Execute
 	public void execute(IWorkbench workbench, Shell shell) {
 		if (MessageDialog.openConfirm(shell, "Confirmation",
-				"Do you want to exit?")) {
+				"Wollen Sie die Anwendung wirklich schlieﬂen?")) {
 			workbench.close();
 		}
 	}

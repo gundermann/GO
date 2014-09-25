@@ -1,4 +1,3 @@
- 
 package de.nordakademie.wpk.tasklist.ui.handler;
 
 import javax.inject.Inject;
@@ -10,7 +9,7 @@ import org.eclipse.jface.viewers.ITreeSelection;
 
 import de.nordakademie.wpk.tasklist.core.api.Task;
 import de.nordakademie.wpk.tasklist.core.api.TaskList;
-import de.nordakademie.wpk.tasklist.ui.TaskEditorInput;
+import de.nordakademie.wpk.tasklist.ui.editors.TaskEditorInput;
 
 public class AddTaskHandler  extends AbstractEditorHandler {
 	

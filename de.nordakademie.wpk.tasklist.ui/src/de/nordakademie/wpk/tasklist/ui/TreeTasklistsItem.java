@@ -5,6 +5,13 @@ import java.util.List;
 
 import de.nordakademie.wpk.tasklist.core.api.TaskList;
 
+/**
+ * Hier können die Tasklisten direkt eingefügt werden und werden vom
+ * Content-Provider als Baumstruktur ausgelesen.
+ * 
+ * @author Niels Gundermann
+ *
+ */
 public class TreeTasklistsItem {
 
 	List<TaskList> tasklists;

@@ -21,7 +21,6 @@ import org.eclipse.swt.widgets.Composite;
 
 import de.nordakademie.wpk.tasklist.core.api.Task;
 import de.nordakademie.wpk.tasklist.core.api.TaskList;
-import de.nordakademie.wpk.tasklist.ui.jobs.Topics;
 import de.nordakademie.wpk.tasklist.ui.provider.TaskListTreeLabelProvider;
 import de.nordakademie.wpk.tasklist.ui.provider.TasklistTreeContentProvider;
 

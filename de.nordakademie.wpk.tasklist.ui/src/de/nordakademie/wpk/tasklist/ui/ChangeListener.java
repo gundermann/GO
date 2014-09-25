@@ -4,6 +4,13 @@ import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 
+
+/**
+ * Setzt bei jeder Textänderung den Editor-Part dirty.
+ * Quelle: Vorlesung
+ * @author Niels Gundermann
+ *
+ */
 public class ChangeListener implements ModifyListener {
 
 	private MPart editorPart;

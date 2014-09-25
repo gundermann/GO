@@ -3,7 +3,13 @@ package de.nordakademie.wpk.tasklist.ui;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * Das Root-Item für den Tree, welches einen Liste von TreeTasklistItems
+ * enthält.
+ * 
+ * @author Niels Gundermann
+ *
+ */
 public class TreeRootItem {
 
 	List<TreeTasklistsItem> children;
@@ -16,6 +22,5 @@ public class TreeRootItem {
 	public Object[] getChilden() {
 		return children.toArray();
 	}
-
 
 }

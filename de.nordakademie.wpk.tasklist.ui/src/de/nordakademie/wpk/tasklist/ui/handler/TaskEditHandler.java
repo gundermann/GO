@@ -9,8 +9,13 @@ import org.eclipse.jface.viewers.ITreeSelection;
 
 import de.nordakademie.wpk.tasklist.core.api.Task;
 import de.nordakademie.wpk.tasklist.core.api.TaskList;
-import de.nordakademie.wpk.tasklist.ui.TaskEditorInput;
+import de.nordakademie.wpk.tasklist.ui.editors.TaskEditorInput;
 
+/**
+ * Öffnet einen Editor zum Bearbeiten der selektierten Task.
+ * @author Niels Gundermann
+ *
+ */
 public class TaskEditHandler extends AbstractEditorHandler {
 	@Inject
 	private ESelectionService selectionService;
