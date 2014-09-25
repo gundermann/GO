@@ -1,5 +1,7 @@
 package de.nordakademie.wpk.tasklist.ui;
 
+import java.util.Date;
+
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
@@ -8,23 +10,24 @@ import org.eclipse.e4.ui.di.Focus;
 import org.eclipse.e4.ui.di.Persist;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.DateTime;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
-import org.osgi.framework.Constants;
 
+import de.nordakademie.wpk.tasklist.core.api.GoogleSetting;
 import de.nordakademie.wpk.tasklist.core.api.Task;
 import de.nordakademie.wpk.tasklist.core.api.TaskService;
-
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
+import de.nordakademie.wpk.tasklist.ui.jobs.LoadAllJob;
+import de.nordakademie.wpk.tasklist.ui.provider.TaskHelper;
 
 public class TaskEditor {
 
@@ -32,7 +35,6 @@ public class TaskEditor {
 			Display.getDefault());
 	private Text txtName;
 	private Text txtComment;
-	private Text txtResponseable;
 
 	@Inject
 	private MPart editorPart;
@@ -41,9 +43,13 @@ public class TaskEditor {
 	private IEventBroker eventBroker;
 
 	@Inject
-	private TaskService todoService;
-	private Combo comboPriority;
+	private TaskService taskService;
 	private Task task;
+	private Button btnFertig;
+	private String tasklistId;
+	private DateTime dateTime;
+	private Button btnCheckDateDue;
+	private Label lblDateOfCompletion;
 
 	@PostConstruct
 	public void createPartControl(Composite parent) {
@@ -59,29 +65,34 @@ public class TaskEditor {
 		formToolkit.paintBordersFor(composite);
 		sctnNewSection.setClient(composite);
 		composite.setLayout(new GridLayout(2, false));
-		
-		Button btnFertig = new Button(composite, SWT.CHECK);
+
+		btnFertig = new Button(composite, SWT.CHECK);
 		btnFertig.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				editorPart.setDirty(true);
+				if (btnFertig.getSelection())
+					lblDateOfCompletion.setText(DateHelper
+							.getCurrentDateAsString());
+				else
+					lblDateOfCompletion.setText("");
 			}
 		});
 		formToolkit.adapt(btnFertig, true, true);
 		btnFertig.setText("Erledigt am:");
-		
-		Label lblDateOfCompletion = new Label(composite, SWT.NONE);
+
+		lblDateOfCompletion = new Label(composite, SWT.NONE);
 		formToolkit.adapt(lblDateOfCompletion, true, true);
 
-		Label lblName = formToolkit.createLabel(composite, "Name:",
-				SWT.NONE);
+		Label lblName = formToolkit.createLabel(composite, "Name:", SWT.NONE);
 
 		txtName = formToolkit.createText(composite, "New Text", SWT.NONE);
 		txtName.setText("");
-		txtName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
-				false, 1, 1));
+		txtName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false,
+				1, 1));
 
-		Label lblComment = formToolkit.createLabel(composite,
-				"Kommentar:", SWT.NONE);
+		Label lblComment = formToolkit.createLabel(composite, "Kommentar:",
+				SWT.NONE);
 		GridData gd_lblComment = new GridData(SWT.LEFT, SWT.CENTER, false,
 				false, 1, 1);
 		gd_lblComment.heightHint = 19;
@@ -92,68 +103,98 @@ public class TaskEditor {
 		txtComment.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
 				false, 1, 1));
 
-		Label lblPriority = formToolkit.createLabel(composite,
-				"Priorit\u00E4t:", SWT.NONE);
-
-		comboPriority = new Combo(composite, SWT.NONE);
-		comboPriority.setItems(new String[] { "0", "1", "2", "3", "4", "5" });
-		comboPriority.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1,
-				1));
-		formToolkit.adapt(comboPriority);
-		formToolkit.paintBordersFor(comboPriority);
-		comboPriority.select(0);
-
-		Label lblResponseable = formToolkit.createLabel(composite,
-				"Verantwortlicher:", SWT.NONE);
-
-		txtResponseable = formToolkit.createText(composite, "New Text", SWT.NONE);
-		txtResponseable.setText("");
-		txtResponseable.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
-				false, 1, 1));
-		
 		Label lblFaelligkeit = new Label(composite, SWT.NONE);
 		formToolkit.adapt(lblFaelligkeit, true, true);
 		lblFaelligkeit.setText("F\u00E4lligkeit:");
-		
-		Label lblDueTo = new Label(composite, SWT.NONE);
-		formToolkit.adapt(lblDueTo, true, true);
-		
+
+		Composite composite_1 = new Composite(composite, SWT.NONE);
+		formToolkit.adapt(composite_1);
+		formToolkit.paintBordersFor(composite_1);
+		composite_1.setLayout(new GridLayout(2, false));
+
+		btnCheckDateDue = new Button(composite_1, SWT.CHECK);
+		btnCheckDateDue.setBounds(0, 0, 111, 20);
+		btnCheckDateDue.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				dateTime.setEnabled(btnCheckDateDue.getSelection());
+				editorPart.setDirty(true);
+			}
+		});
+
+		formToolkit.adapt(btnCheckDateDue, true, true);
+
+		dateTime = new DateTime(composite_1, SWT.BORDER);
+		formToolkit.adapt(dateTime);
+		formToolkit.paintBordersFor(dateTime);
+
 		Label lblLetzteAktualisierung = new Label(composite, SWT.NONE);
 		formToolkit.adapt(lblLetzteAktualisierung, true, true);
 		lblLetzteAktualisierung.setText("Letzte Aktualisierung:");
-		
+
 		Label lblLastSync = new Label(composite, SWT.NONE);
 		formToolkit.adapt(lblLastSync, true, true);
+		new Label(composite, SWT.NONE);
+		new Label(composite, SWT.NONE);
+		new Label(composite, SWT.NONE);
+		new Label(composite, SWT.NONE);
+		new Label(composite, SWT.NONE);
+		new Label(composite, SWT.NONE);
 
+		Button btnSave = formToolkit.createButton(composite, "Speichern",
+				SWT.NONE);
+		btnSave.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				save();
+			}
+		});
 		new Label(composite, SWT.NONE);
-		new Label(composite, SWT.NONE);
-		new Label(composite, SWT.NONE);
-		new Label(composite, SWT.NONE);
-				
-						Button btnCreate = formToolkit.createButton(composite, "Speichern",
-								SWT.NONE);
-						new Label(composite, SWT.NONE);
 
 		initInput();
 
-//		txtName.addModifyListener(new ChangeListener(editorPart));
-//		txtDescription.addModifyListener(new ChangeListener(editorPart));
-//		comboPriority.addModifyListener(new ChangeListener(editorPart));
-//		txtResponseable.addModifyListener(new ChangeListener(editorPart));
+		txtName.addModifyListener(new ChangeListener(editorPart));
+		txtComment.addModifyListener(new ChangeListener(editorPart));
+		dateTime.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				editorPart.setDirty(true);
+			}
+		});
 	}
 
 	private void initInput() {
-//		String todoUri = editorPart.getPersistedState().get(
-//				Constants.RESOURCE_URI_KEY);
-//		String[] split = todoUri.split("/");
-//		Long id = Long.parseLong(split[2]);
-//		todo = todoService.loadTodo(id);
-//		if (todo != null) {
-//			txtNewText.setText(todo.getName());
-//			txtNewText_1.setText(todo.getDescription());
-//			combo.select(todo.getPriority());
-//			txtNewText_3.setText(todo.getResponsablePerson());
-//		}
+		String todoUri = editorPart.getPersistedState().get(
+				Constants.RESOURCE_URI_KEY);
+		String[] split = todoUri.split("/");
+		String providerName = split[1];
+		tasklistId = split[2];
+		if (split.length > 3) {
+			String taskId = split[3];
+			task = taskService
+					.loadTask(taskId, tasklistId, new GoogleSetting());
+			if (task != null) {
+				txtName.setText(task.getTitle());
+				txtComment.setText(task.getComment());
+				btnFertig.setSelection(task.getStatus());
+				lblDateOfCompletion.setText(DateHelper.getDateAsSting(task
+						.getDateOfCompletion()));
+				Date dateOfDue = task.getDateOfDue();
+				if (dateOfDue == null) {
+					btnCheckDateDue.setSelection(false);
+					dateTime.setEnabled(false);
+				} else {
+					btnCheckDateDue.setSelection(true);
+					dateTime.setEnabled(true);
+					dateTime.setDate(TaskHelper.getYear(dateOfDue),
+							TaskHelper.getMonth(dateOfDue),
+							TaskHelper.getDay(dateOfDue));
+				}
+			}
+		} else {
+			txtName.setText("Neue Task");
+			editorPart.setDirty(true);
+		}
 	}
 
 	@Focus
@@ -163,10 +204,41 @@ public class TaskEditor {
 
 	@Persist
 	public void save() {
-//		todoService.saveTodo(todo.getId(), txtNewText.getText(),
-//				txtNewText_1.getText(), combo.getSelectionIndex(),
-//				txtNewText_3.getText());
-//		editorPart.setDirty(false);
-//		eventBroker.post(Topics.TODO_CHANGED, todo);
+		if (task != null) {
+			updateTask();
+		} else {
+			saveNewTask();
+		}
+		editorPart.setDirty(false);
+	}
+
+	private void saveNewTask() {
+		task = new Task();
+		setupTask();
+		taskService.addTask(task, tasklistId, new GoogleSetting());
+		editorPart.setDirty(false);
+		new LoadAllJob(taskService, eventBroker, new GoogleSetting())
+				.schedule();
+		// eventBroker.post(Topics.TASK_UPDATED, task);
+	}
+
+	private void setupTask() {
+		task.setTitle(txtName.getText());
+		task.setComment(txtComment.getText());
+		task.setStatus(btnFertig.getSelection());
+			task.setDateOfCompletion(DateHelper
+					.getDateFromString(lblDateOfCompletion.getText()));
+		if (btnCheckDateDue.getSelection()) {
+			task.setDateOfDue(TaskHelper.getDate(dateTime.getYear(),
+					dateTime.getMonth(), dateTime.getDay()));
+		}
+		else
+			task.setDateOfDue(null);		
+	}
+
+	private void updateTask() {
+		setupTask();
+		taskService.updateTask(task, tasklistId, new GoogleSetting());
+		editorPart.setDirty(false);
 	}
 }

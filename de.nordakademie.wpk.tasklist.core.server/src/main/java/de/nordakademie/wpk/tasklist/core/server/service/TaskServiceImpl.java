@@ -1,6 +1,6 @@
 package de.nordakademie.wpk.tasklist.core.server.service;
 
-import java.util.Set;
+import java.util.List;
 
 import com.google.api.services.tasks.Tasks;
 
@@ -11,44 +11,52 @@ import de.nordakademie.wpk.tasklist.core.api.TaskService;
 
 public class TaskServiceImpl implements TaskService {
 
+	private GoogleConverter googleConverter;
+
 	public TaskServiceImpl() {
+		 googleConverter = new GoogleConverter();
 	}
 
-	public Set<TaskList> loadAll(ProviderSetting setting) {
+	public List<TaskList> loadAll(ProviderSetting setting) {
+		return googleConverter.convertTaskLists(getTaskService(setting));
+	}
+
+	private Tasks getTaskService(ProviderSetting setting) {
 		GoogleConnection googleConnection = new GoogleConnection(setting);
 		Tasks tasksService = googleConnection.getTasksService();
-		GoogleConverter googleConverter = new GoogleConverter();
-		System.out.println("TASKSERVICE");
-		return googleConverter.convertTaskLists(tasksService);
+		return tasksService;
 	}
 
-	public void updateTask(Task task, TaskList tasklist) {
-
+	public void updateTaskList(TaskList tasklist, ProviderSetting setting) {
+		googleConverter.updateTaskList(getTaskService(setting), tasklist);
 	}
 
-	public void updateTaskList(TaskList tasklist) {
-		// TODO Auto-generated method stub
-
+	public void addTaskList(TaskList tasklist, ProviderSetting setting) {
+		googleConverter.addTasklist(getTaskService(setting), tasklist);
 	}
 
-	public void addTaskList(TaskList tasklist) {
-		// TODO Auto-generated method stub
+	public void deleteTask(Task task, TaskList tasklist, ProviderSetting setting) {
+		googleConverter.deleteTask(getTaskService(setting), task, tasklist);
 
 	}
 
-	public void addTask(Task task, TaskList tasklist) {
-		// TODO Auto-generated method stub
+	public void deleteTaskList(TaskList tasklist, ProviderSetting setting) {
+		googleConverter.deleteTasklist(getTaskService(setting), tasklist);
 
 	}
 
-	public void deleteTask(Task task, TaskList tasklist) {
-		// TODO Auto-generated method stub
-
+	public Task loadTask(String taskId, String tasklistId,
+			ProviderSetting setting) {
+		return googleConverter.convertTask(getTaskService(setting), taskId, tasklistId);
 	}
 
-	public void deleteTaskList(TaskList tasklist) {
-		// TODO Auto-generated method stub
+	public void addTask(Task task, String tasklistId, ProviderSetting setting) {
+		googleConverter.addTask(getTaskService(setting), task, tasklistId);
+		
+	}
 
+	public void updateTask(Task task, String tasklistId, ProviderSetting setting) {
+		googleConverter.updateTask(getTaskService(setting), task, tasklistId);
 	}
 
 }

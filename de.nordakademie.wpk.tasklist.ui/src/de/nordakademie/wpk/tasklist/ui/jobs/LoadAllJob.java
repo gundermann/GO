@@ -1,6 +1,6 @@
 package de.nordakademie.wpk.tasklist.ui.jobs;
 
-import java.util.Set;
+import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -8,8 +8,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.e4.core.services.events.IEventBroker;
 
-import de.nordakademie.wpk.tasklist.core.api.NoSettingFoundException;
-import de.nordakademie.wpk.tasklist.core.api.Provider;
+import de.nordakademie.wpk.tasklist.core.api.GoogleSetting;
 import de.nordakademie.wpk.tasklist.core.api.ProviderSetting;
 import de.nordakademie.wpk.tasklist.core.api.TaskList;
 import de.nordakademie.wpk.tasklist.core.api.TaskService;
@@ -37,8 +36,8 @@ public class LoadAllJob extends Job {
 //		try {
 //			ProviderSetting settings = ProviderSettingContainer.getInstance()
 //			.getSettings(Provider.GOOGLE);
-		Set<TaskList> loadAll = null;
-			loadAll = taskService.loadAll(setting);
+		List<TaskList> loadAll = null;
+			loadAll = taskService.loadAll(new GoogleSetting());
 //		} catch (NoSettingFoundException e) {
 //			monitor.done();
 //			e.printStackTrace();

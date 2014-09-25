@@ -3,18 +3,25 @@
   <fragments xsi:type="fragment:StringModelFragment" xmi:id="_uTlhcDqOEeS0rqYIPM1jkw" featurename="children" parentElementId="de.nordakademie.wpk.tasklist.product.perspectivestack">
     <elements xsi:type="advanced:Perspective" xmi:id="_VMYXADqPEeS0rqYIPM1jkw" elementId="de.nordakademie.wpk.tasklist.ui.perspective" label="Tasklist">
       <children xsi:type="basic:PartSashContainer" xmi:id="_aLn4MDqPEeS0rqYIPM1jkw" elementId="de.nordakademie.wpk.tasklist.ui.container" selectedElement="_gJC44DqPEeS0rqYIPM1jkw" horizontal="true">
-        <children xsi:type="basic:Part" xmi:id="_gJC44DqPEeS0rqYIPM1jkw" elementId="de.nordakademie.wpk.tasklist.ui.part.tasklist" contributionURI="bundleclass://de.nordakademie.wpk.tasklist.ui/de.nordakademie.wpk.tasklist.ui.TaskView" label="Tasklist"/>
+        <children xsi:type="basic:Part" xmi:id="_gJC44DqPEeS0rqYIPM1jkw" elementId="de.nordakademie.wpk.tasklist.ui.part.tasklist" contributionURI="bundleclass://de.nordakademie.wpk.tasklist.ui/de.nordakademie.wpk.tasklist.ui.TaskView" label="Tasklist">
+          <menus xsi:type="menu:PopupMenu" xmi:id="_iPh8kENIEeS3JOGtcs5vGw" elementId="popup:taskContextMenu">
+            <children xsi:type="menu:HandledMenuItem" xmi:id="_m4o1sENIEeS3JOGtcs5vGw" elementId="de.nordakademie.wpk.tasklist.ui.handledmenuitem.editTask" label="Bearbeiten" command="_UnnO8DyxEeSo2eU6PC6tHA"/>
+            <children xsi:type="menu:HandledMenuItem" xmi:id="_Kj900EO5EeSMqeCZw0ieLQ" elementId="de.nordakademie.wpk.tasklist.ui.handledmenuitem.addTask" label="Neue Task" command="_QoN2QEO5EeSMqeCZw0ieLQ"/>
+          </menus>
+        </children>
         <children xsi:type="basic:PartStack" xmi:id="_Fe5jYDyxEeSo2eU6PC6tHA" elementId="de.nordakademie.wpk.tasklist.ui.editors"/>
       </children>
     </elements>
   </fragments>
   <fragments xsi:type="fragment:StringModelFragment" xmi:id="_UQGG0DyxEeSo2eU6PC6tHA" featurename="commands" parentElementId="org.eclipse.e4.ide.application">
-    <elements xsi:type="commands:Command" xmi:id="_UnnO8DyxEeSo2eU6PC6tHA" elementId="de.nordakademie.wpk.tasklist.ui.command.editTask" commandName="editCommand"/>
+    <elements xsi:type="commands:Command" xmi:id="_UnnO8DyxEeSo2eU6PC6tHA" elementId="de.nordakademie.wpk.tasklist.ui.command.editTask" commandName="editTaskCommand"/>
     <elements xsi:type="commands:Command" xmi:id="_qnveID45EeSuztW4V1hOtQ" elementId="de.nordakademie.wpk.tasklist.ui.command.refresh" commandName="refreshCommand"/>
+    <elements xsi:type="commands:Command" xmi:id="_QoN2QEO5EeSMqeCZw0ieLQ" elementId="de.nordakademie.wpk.tasklist.ui.command.addTask" commandName="addTaskCommand"/>
   </fragments>
   <fragments xsi:type="fragment:StringModelFragment" xmi:id="_aC39wDyxEeSo2eU6PC6tHA" featurename="handlers" parentElementId="org.eclipse.e4.ide.application">
     <elements xsi:type="commands:Handler" xmi:id="_cg--8DyxEeSo2eU6PC6tHA" elementId="de.nordakademie.wpk.tasklist.ui.handler.editTask" contributionURI="bundleclass://de.nordakademie.wpk.tasklist.ui/de.nordakademie.wpk.tasklist.ui.handler.TaskEditHandler" command="_UnnO8DyxEeSo2eU6PC6tHA"/>
     <elements xsi:type="commands:Handler" xmi:id="_tSS_4D45EeSuztW4V1hOtQ" elementId="de.nordakademie.wpk.tasklist.ui.handler.refresh" contributionURI="bundleclass://de.nordakademie.wpk.tasklist.ui/de.nordakademie.wpk.tasklist.ui.handler.RefreshHandler" command="_qnveID45EeSuztW4V1hOtQ"/>
+    <elements xsi:type="commands:Handler" xmi:id="_U0N8oEO5EeSMqeCZw0ieLQ" elementId="de.nordakademie.wpk.tasklist.ui.handler.addTask" contributionURI="bundleclass://de.nordakademie.wpk.tasklist.ui/de.nordakademie.wpk.tasklist.ui.handler.AddTaskHandler" command="_QoN2QEO5EeSMqeCZw0ieLQ"/>
   </fragments>
   <fragments xsi:type="fragment:StringModelFragment" xmi:id="_N4edUD45EeSuztW4V1hOtQ" featurename="children" parentElementId="menu:org.eclipse.ui.main.menu.file">
     <elements xsi:type="menu:HandledMenuItem" xmi:id="_n2EnwD45EeSuztW4V1hOtQ" elementId="de.nordakademie.wpk.tasklist.ui.handledmenuitem.aktualisieren" label="Aktualisieren" command="_qnveID45EeSuztW4V1hOtQ"/>

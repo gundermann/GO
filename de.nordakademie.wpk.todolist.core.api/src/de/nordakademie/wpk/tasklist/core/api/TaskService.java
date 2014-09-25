@@ -1,6 +1,6 @@
 package de.nordakademie.wpk.tasklist.core.api;
 
-import java.util.Set;
+import java.util.List;
 
 public interface TaskService {
 
@@ -9,17 +9,19 @@ public interface TaskService {
 	 * 
 	 * @return
 	 */
-	Set<TaskList> loadAll(ProviderSetting setting);
+	List<TaskList> loadAll(ProviderSetting setting);
 
-	void updateTask(Task task, TaskList tasklist);
+	void updateTask(Task task, String tasklistId, ProviderSetting setting);
 
-	void updateTaskList(TaskList tasklist);
+	void updateTaskList(TaskList tasklist, ProviderSetting setting);
 
-	void addTaskList(TaskList tasklist);
+	void addTaskList(TaskList tasklist,ProviderSetting setting);
 
-	void addTask(Task task, TaskList tasklist);
+	void addTask(Task task, String tasklistId, ProviderSetting setting);
 
-	void deleteTask(Task task, TaskList tasklist);
+	void deleteTask(Task task, TaskList tasklist, ProviderSetting setting);
 
-	void deleteTaskList(TaskList tasklist);
+	void deleteTaskList(TaskList tasklist, ProviderSetting setting);
+
+	Task loadTask(String taskId, String tasklistId, ProviderSetting setting);
 }

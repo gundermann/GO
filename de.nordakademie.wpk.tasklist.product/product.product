@@ -28,6 +28,7 @@
    <vm>
    </vm>
 
+
    <plugins>
       <plugin id="com.ibm.icu"/>
       <plugin id="de.nordakademie.wpk.tasklist.product"/>
@@ -128,5 +129,12 @@
       <feature id="Tasklist" version="1.0.0.qualifier"/>
    </features>
 
+   <configurations>
+      <plugin id="de.nordakademie.wpk.tasklist.core.client" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.core.runtime" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.equinox.common" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.equinox.ds" autoStart="true" startLevel="1" />
+      <plugin id="org.eclipse.gemini.blueprint.extender" autoStart="true" startLevel="0" />
+   </configurations>
 
 </product>

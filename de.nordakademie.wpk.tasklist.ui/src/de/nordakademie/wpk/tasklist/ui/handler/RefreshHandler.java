@@ -1,4 +1,3 @@
- 
 package de.nordakademie.wpk.tasklist.ui.handler;
 
 import javax.inject.Inject;
@@ -23,12 +22,7 @@ public class RefreshHandler {
 	
 	@Execute
 	public void execute() {
-		try {
-			new LoadAllJob(taskService, eventBroker, new SettingLoader().loadFromFile(Provider.GOOGLE)).schedule();
-		} catch (NoSettingFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			new LoadAllJob(taskService, eventBroker, null).schedule();
 	}
 	
 	@CanExecute

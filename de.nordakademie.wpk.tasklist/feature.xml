@@ -21,70 +21,63 @@
          id="de.nordakademie.wpk.tasklist.product"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="1.0.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.gemini.blueprint.core"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="1.0.2.RELEASE"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.gemini.blueprint.extender"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="1.0.2.RELEASE"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.gemini.blueprint.io"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="1.0.2.RELEASE"
          unpack="false"/>
 
    <plugin
          id="org.springframework"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="3.2.9"
          unpack="false"/>
 
    <plugin
          id="de.nordakademie.wpk.tasklist.core.api"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="1.0.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="de.nordakademie.wpk.tasklist.core.client"
          download-size="0"
          install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="de.nordakademie.wpk.tasklist.jobs"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
+         version="1.0.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="de.nordakademie.wpk.tasklist.settings.ui"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="1.0.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="de.nordakademie.wpk.tasklist.ui"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="1.0.0.qualifier"
          unpack="false"/>
 
 </feature>
