@@ -43,7 +43,7 @@ public class TaskEditor {
 	@Inject
 	private TaskService todoService;
 	private Combo comboPriority;
-	private Task todo;
+	private Task task;
 
 	@PostConstruct
 	public void createPartControl(Composite parent) {
@@ -129,14 +129,10 @@ public class TaskEditor {
 		new Label(composite, SWT.NONE);
 		new Label(composite, SWT.NONE);
 		new Label(composite, SWT.NONE);
-		new Label(composite, SWT.NONE);
-		new Label(composite, SWT.NONE);
-		new Label(composite, SWT.NONE);
-		new Label(composite, SWT.NONE);
-
-		Button btnCreate = formToolkit.createButton(composite, "Create",
-				SWT.NONE);
-		new Label(composite, SWT.NONE);
+				
+						Button btnCreate = formToolkit.createButton(composite, "Speichern",
+								SWT.NONE);
+						new Label(composite, SWT.NONE);
 
 		initInput();
 
