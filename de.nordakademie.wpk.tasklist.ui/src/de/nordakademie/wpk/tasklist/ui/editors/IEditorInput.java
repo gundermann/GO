@@ -1,7 +1,7 @@
 package de.nordakademie.wpk.tasklist.ui.editors;
 
 
-public interface EditorInput<T> {
+public interface IEditorInput<T> {
 
 	String getLabel();
 

@@ -8,6 +8,11 @@ import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 
+/**
+ * Klasse zum Speichern von Einstellungen für alle Provider außer Google.
+ * @author Kathrin Kurtz
+ *
+ */
 public class SettingSaver {
 	
 	/**
