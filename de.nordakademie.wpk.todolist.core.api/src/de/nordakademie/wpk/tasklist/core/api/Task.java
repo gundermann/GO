@@ -9,7 +9,7 @@ public class Task implements Serializable {
 	private String id;
 	private String title;
 	private Date lastSync;
-	private Integer position;
+	private Long position;
 	private String comment;
 	private Boolean status;
 	private Date dateOfDue;
@@ -39,11 +39,11 @@ public class Task implements Serializable {
 		this.lastSync = lastSync;
 	}
 
-	public Integer getPosition() {
+	public Long getPosition() {
 		return position;
 	}
 
-	public void setPosition(Integer position) {
+	public void setPosition(Long position) {
 		this.position = position;
 	}
 

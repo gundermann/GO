@@ -12,14 +12,12 @@ import org.eclipse.e4.ui.di.UIEventTopic;
 import org.eclipse.e4.ui.services.EMenuService;
 import org.eclipse.e4.ui.workbench.modeling.ESelectionService;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITreeSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
-import de.nordakademie.wpk.tasklist.core.api.Task;
 import de.nordakademie.wpk.tasklist.core.api.TaskList;
 import de.nordakademie.wpk.tasklist.ui.provider.TaskListTreeLabelProvider;
 import de.nordakademie.wpk.tasklist.ui.provider.TasklistTreeContentProvider;
@@ -54,6 +52,8 @@ public class TaskView {
 				}
 			}
 		});
+		
+		treeViewer.setSorter(new TaskSorter());
 
 		registerContextMenu();
 	}
@@ -85,7 +85,6 @@ public class TaskView {
 	}
 
 	private void refreshInput(List<TaskList> tasklists) {
-
 		TreeTasklistsItem tasklistsItem = new TreeTasklistsItem();
 		TreeRootItem root = new TreeRootItem(tasklistsItem);
 

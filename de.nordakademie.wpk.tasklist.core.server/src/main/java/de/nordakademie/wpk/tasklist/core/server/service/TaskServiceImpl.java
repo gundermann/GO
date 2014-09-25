@@ -18,7 +18,7 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	public List<TaskList> loadAll(ProviderSetting setting) {
-		return googleConverter.convertTaskLists(getTaskService(setting));
+		return ProviderContainer.getInstance().delegateLoadAll(setting);
 	}
 
 	private Tasks getTaskService(ProviderSetting setting) {

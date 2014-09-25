@@ -30,7 +30,6 @@ import de.nordakademie.wpk.tasklist.ui.ChangeListener;
 import de.nordakademie.wpk.tasklist.ui.Constants;
 import de.nordakademie.wpk.tasklist.ui.jobs.LoadAllJob;
 import de.nordakademie.wpk.tasklist.ui.util.DateHelper;
-import de.nordakademie.wpk.tasklist.ui.util.TaskHelper;
 
 public class TaskEditor {
 
@@ -53,6 +52,7 @@ public class TaskEditor {
 	private DateTime dateTime;
 	private Button btnCheckDateDue;
 	private Label lblDateOfCompletion;
+	private Label lblLastSync;
 
 	@PostConstruct
 	public void createPartControl(Composite parent) {
@@ -135,7 +135,7 @@ public class TaskEditor {
 		formToolkit.adapt(lblLetzteAktualisierung, true, true);
 		lblLetzteAktualisierung.setText("Letzte Aktualisierung:");
 
-		Label lblLastSync = new Label(composite, SWT.NONE);
+		lblLastSync = new Label(composite, SWT.NONE);
 		formToolkit.adapt(lblLastSync, true, true);
 		new Label(composite, SWT.NONE);
 		new Label(composite, SWT.NONE);
@@ -194,6 +194,7 @@ public class TaskEditor {
 							DateHelper.getDay(dateOfDue));
 				}
 			}
+			lblLastSync.setText(DateHelper.getDateAsSting(task.getLastSync()));
 		} else {
 			txtName.setText("Neue Task");
 			editorPart.setDirty(true);
