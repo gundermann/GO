@@ -38,7 +38,7 @@ public class GoogleConnection {
 		Tasks service = null;
 		try {
 
-			Credential credential = authorize(setting.getUserName());
+			Credential credential = authorize(setting.getUsername());
 			service = new Tasks.Builder(HTTP_TRANSPORT, JSON_FACTORY,
 					credential).setApplicationName(APPLICATION_NAME).build();
 		} catch (IOException e) {

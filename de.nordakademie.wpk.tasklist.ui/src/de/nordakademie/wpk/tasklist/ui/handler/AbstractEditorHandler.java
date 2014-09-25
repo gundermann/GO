@@ -12,7 +12,7 @@ import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.e4.ui.workbench.modeling.EPartService.PartState;
 
 import de.nordakademie.wpk.tasklist.ui.Constants;
-import de.nordakademie.wpk.tasklist.ui.editors.EditorInput;
+import de.nordakademie.wpk.tasklist.ui.editors.IEditorInput;
 
 /**
  * Ermöglicht das öffnen mehrerer Editoren
@@ -30,7 +30,7 @@ public abstract class AbstractEditorHandler {
 	@Inject
 	private EPartService partService;
 
-	protected void openEditor(EditorInput<?> input, String bundleSymbolicName) {
+	protected void openEditor(IEditorInput<?> input, String bundleSymbolicName) {
 		MPart part = partService.findPart(input.getPartId());
 		if (part == null) {
 			part = MBasicFactory.INSTANCE.createPart();

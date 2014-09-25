@@ -20,7 +20,6 @@ public class SettingLoader {
 	 * @throws NoSettingFoundException 
 	 */
 	public ProviderSetting loadFromFile(Provider provider) throws NoSettingFoundException {
-		System.out.println(provider.toString());
 		String directoryString = "C:\\tmp\\Provider\\" +provider.toString() +".json";
 		
 		ObjectMapper mapper = new ObjectMapper();
@@ -31,16 +30,19 @@ public class SettingLoader {
 				providersetting = (ProviderSetting) mapper.readValue(file, ProviderSettingImpl.class);
 			}
 			else{
-				System.out.println("ProviderEinstellungen nicht gefunden!");
 				throw new NoSettingFoundException(provider);
 			}
 			
 		} catch (JsonParseException e) {
-			e.printStackTrace();
+			System.out.println("JasonPaseExeprtion");
+			throw new NoSettingFoundException(provider);
 		} catch (JsonMappingException e) {
-			e.printStackTrace();
+			System.out.println("JasonMappingExeprtion");
+			System.out.println(e);
+			throw new NoSettingFoundException(provider);
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.out.println("JIOeExeprtion");
+			throw new NoSettingFoundException(provider);
 		}
 		
 		return providersetting;

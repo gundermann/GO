@@ -4,7 +4,9 @@ public interface ProviderSetting {
 
 	Provider getProvider();
 	
-	String getUserName();
+	String getUsername();
 	
 	String getPassword();
+	
+	boolean isActive();
 }
