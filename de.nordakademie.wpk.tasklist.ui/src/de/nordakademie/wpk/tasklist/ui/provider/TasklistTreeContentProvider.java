@@ -7,6 +7,14 @@ import de.nordakademie.wpk.tasklist.core.api.TaskList;
 import de.nordakademie.wpk.tasklist.ui.TreeRootItem;
 import de.nordakademie.wpk.tasklist.ui.TreeTasklistsItem;
 
+/**
+ * Content-Provider für den Tasklisten-Baum.
+ * Erstes Element: "Tasklisten"
+ * Zweite Ebene: Die Bezeichnung der Tasklisten
+ * Dritte Ebene: Die Bezeichnung der Tasks
+ * @author Niels Gundermann
+ *
+ */
 public class TasklistTreeContentProvider implements ITreeContentProvider {
 
 	@Override

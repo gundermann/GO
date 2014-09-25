@@ -1,4 +1,4 @@
-package de.nordakademie.wpk.tasklist.ui;
+package de.nordakademie.wpk.tasklist.ui.editors;
 
 import java.util.Date;
 
@@ -26,8 +26,11 @@ import org.eclipse.ui.forms.widgets.Section;
 import de.nordakademie.wpk.tasklist.core.api.GoogleSetting;
 import de.nordakademie.wpk.tasklist.core.api.Task;
 import de.nordakademie.wpk.tasklist.core.api.TaskService;
+import de.nordakademie.wpk.tasklist.ui.ChangeListener;
+import de.nordakademie.wpk.tasklist.ui.Constants;
 import de.nordakademie.wpk.tasklist.ui.jobs.LoadAllJob;
-import de.nordakademie.wpk.tasklist.ui.provider.TaskHelper;
+import de.nordakademie.wpk.tasklist.ui.util.DateHelper;
+import de.nordakademie.wpk.tasklist.ui.util.TaskHelper;
 
 public class TaskEditor {
 
@@ -186,9 +189,9 @@ public class TaskEditor {
 				} else {
 					btnCheckDateDue.setSelection(true);
 					dateTime.setEnabled(true);
-					dateTime.setDate(TaskHelper.getYear(dateOfDue),
-							TaskHelper.getMonth(dateOfDue),
-							TaskHelper.getDay(dateOfDue));
+					dateTime.setDate(DateHelper.getYear(dateOfDue),
+							DateHelper.getMonth(dateOfDue),
+							DateHelper.getDay(dateOfDue));
 				}
 			}
 		} else {
@@ -229,7 +232,7 @@ public class TaskEditor {
 			task.setDateOfCompletion(DateHelper
 					.getDateFromString(lblDateOfCompletion.getText()));
 		if (btnCheckDateDue.getSelection()) {
-			task.setDateOfDue(TaskHelper.getDate(dateTime.getYear(),
+			task.setDateOfDue(DateHelper.getDate(dateTime.getYear(),
 					dateTime.getMonth(), dateTime.getDay()));
 		}
 		else

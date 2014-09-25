@@ -1,6 +1,5 @@
 package de.nordakademie.wpk.tasklist.ui.provider;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.eclipse.core.runtime.FileLocator;
@@ -9,39 +8,44 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.widgets.Display;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 
 import de.nordakademie.wpk.tasklist.core.api.Task;
 import de.nordakademie.wpk.tasklist.core.api.TaskList;
+import de.nordakademie.wpk.tasklist.ui.util.TaskHelper;
 
+/**
+ * Label-Provider für den Tasklisten-Baum.
+ * Für Tasklisten wird der Name der Taskliste angezeigt.
+ * Für Tasks wir der Title der Task angezeigt.
+ * Bestimmte Elemente haben Icons.
+ * @author Niels Gundermann
+ *
+ */
 public class TaskListTreeLabelProvider implements ILabelProvider {
 
 	@Override
 	public void addListener(ILabelProviderListener listener) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public boolean isLabelProperty(Object element, String property) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public void removeListener(ILabelProviderListener listener) {
-		// TODO Auto-generated method stub
-		
 	}
 
+	/**
+	 * Eine Taskliste hat ein spezielles Icon, welches ihre Herkunft (Provider) identifiziert.
+	 * Eine Task, die in höchstens drei Tagen fällig wird, erhält ein einsprechendes Icon.
+	 */
 	@Override
 	public Image getImage(Object element) {
 		if(element instanceof TaskList){

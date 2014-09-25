@@ -1,10 +1,15 @@
-package de.nordakademie.wpk.tasklist.ui;
+package de.nordakademie.wpk.tasklist.ui.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+/**
+ * Helper-Klasse für den Umgabe mit Datums innerhalb des Bundles.
+ * @author Niels Gundermann
+ *
+ */
 public class DateHelper {
 
 	public static String getCurrentDateAsString() {
@@ -27,19 +32,39 @@ public class DateHelper {
 	public static Date getDateFromString(String dateString) {
 		if(dateString.equals(""))
 			return null;
-		Calendar cal = Calendar.getInstance();
 		Date parse = null;
 		try {
 			parse = SimpleDateFormat.getDateInstance().parse(dateString);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-//		String[] seperatedDateString = dateString.split(".");
-//
-//		cal.set(Integer.parseInt(seperatedDateString[2]),
-//				Integer.parseInt(seperatedDateString[1]),
-//				Integer.parseInt(seperatedDateString[0]));
 		return parse;
+	}
+	
+	public static int getYear(Date dateOfDue) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(dateOfDue);
+		return cal.get(Calendar.YEAR);
+	}
+
+	public static int getMonth(Date dateOfDue) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(dateOfDue);
+		return cal.get(Calendar.MONTH);
+	}
+
+	public static int getDay(Date dateOfDue) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(dateOfDue);
+		return cal.get(Calendar.DAY_OF_MONTH);
+	}
+
+	public static Date getDate(int year, int month, int day) {
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.YEAR, year);
+		cal.set(Calendar.MONTH, month);
+		cal.set(Calendar.DAY_OF_MONTH, day);
+		return cal.getTime();
 	}
 
 }

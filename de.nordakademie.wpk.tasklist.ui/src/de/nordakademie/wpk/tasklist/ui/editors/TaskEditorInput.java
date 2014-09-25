@@ -1,4 +1,4 @@
-package de.nordakademie.wpk.tasklist.ui;
+package de.nordakademie.wpk.tasklist.ui.editors;
 
 import de.nordakademie.wpk.tasklist.core.api.Task;
 import de.nordakademie.wpk.tasklist.core.api.TaskList;

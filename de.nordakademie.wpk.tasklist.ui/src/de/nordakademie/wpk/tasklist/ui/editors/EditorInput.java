@@ -1,4 +1,4 @@
-package de.nordakademie.wpk.tasklist.ui;
+package de.nordakademie.wpk.tasklist.ui.editors;
 
 
 public interface EditorInput<T> {

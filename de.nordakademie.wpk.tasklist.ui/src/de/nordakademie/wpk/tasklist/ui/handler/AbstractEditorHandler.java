@@ -12,8 +12,14 @@ import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.e4.ui.workbench.modeling.EPartService.PartState;
 
 import de.nordakademie.wpk.tasklist.ui.Constants;
-import de.nordakademie.wpk.tasklist.ui.EditorInput;
+import de.nordakademie.wpk.tasklist.ui.editors.EditorInput;
 
+/**
+ * Ermöglicht das öffnen mehrerer Editoren
+ * Quelle: Vorlesung
+ * @author Niels Gundermann
+ *
+ */
 public abstract class AbstractEditorHandler {
 
 	private static final String EDITOR_STACK_ID = "de.nordakademie.wpk.tasklist.ui.editors";
