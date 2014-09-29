@@ -2,61 +2,50 @@ package de.nordakademie.wpk.tasklist.core.server.service;
 
 import java.util.List;
 
-import com.google.api.services.tasks.Tasks;
-
 import de.nordakademie.wpk.tasklist.core.api.ProviderSetting;
+import de.nordakademie.wpk.tasklist.core.api.ServiceException;
 import de.nordakademie.wpk.tasklist.core.api.Task;
 import de.nordakademie.wpk.tasklist.core.api.TaskList;
 import de.nordakademie.wpk.tasklist.core.api.TaskService;
 
 public class TaskServiceImpl implements TaskService {
 
-	private GoogleConverter googleConverter;
-
 	public TaskServiceImpl() {
-		 googleConverter = new GoogleConverter();
 	}
 
-	public List<TaskList> loadAll(ProviderSetting setting) {
-		return googleConverter.convertTaskLists(getTaskService(setting));
+	public List<TaskList> loadAll(ProviderSetting setting) throws ServiceException {
+		return ProviderContainer.getInstance().getProvider(setting).loadAll();
 	}
 
-	private Tasks getTaskService(ProviderSetting setting) {
-		GoogleConnection googleConnection = new GoogleConnection(setting);
-		Tasks tasksService = googleConnection.getTasksService();
-		return tasksService;
-	}
 
-	public void updateTaskList(TaskList tasklist, ProviderSetting setting) {
-		googleConverter.updateTaskList(getTaskService(setting), tasklist);
-	}
-
-	public void addTaskList(TaskList tasklist, ProviderSetting setting) {
-		googleConverter.addTasklist(getTaskService(setting), tasklist);
-	}
-
-	public void deleteTask(Task task, TaskList tasklist, ProviderSetting setting) {
-		googleConverter.deleteTask(getTaskService(setting), task, tasklist);
+	public void updateTaskList(TaskList tasklist, ProviderSetting setting) throws ServiceException {
+		ProviderContainer.getInstance().getProvider(setting).updateTaskList(tasklist);
 
 	}
 
-	public void deleteTaskList(TaskList tasklist, ProviderSetting setting) {
-		googleConverter.deleteTasklist(getTaskService(setting), tasklist);
+	public void addTaskList(TaskList tasklist, ProviderSetting setting) throws ServiceException {
+		ProviderContainer.getInstance().getProvider(setting).addTaskList(tasklist);
+	}
 
+	public void deleteTask(String task, String tasklist, ProviderSetting setting) throws ServiceException {
+		ProviderContainer.getInstance().getProvider(setting).deleteTask(task, tasklist);
+	}
+
+	public void deleteTaskList(String tasklistId, ProviderSetting setting) throws ServiceException {
+		ProviderContainer.getInstance().getProvider(setting).deleteTaskList(tasklistId);
 	}
 
 	public Task loadTask(String taskId, String tasklistId,
-			ProviderSetting setting) {
-		return googleConverter.convertTask(getTaskService(setting), taskId, tasklistId);
+			ProviderSetting setting) throws ServiceException {
+		return ProviderContainer.getInstance().getProvider(setting).loadTask(taskId, tasklistId);
 	}
 
-	public void addTask(Task task, String tasklistId, ProviderSetting setting) {
-		googleConverter.addTask(getTaskService(setting), task, tasklistId);
-		
+	public void addTask(Task task, String tasklistId, ProviderSetting setting) throws ServiceException {
+		ProviderContainer.getInstance().getProvider(setting).addTask(task, tasklistId);
 	}
 
-	public void updateTask(Task task, String tasklistId, ProviderSetting setting) {
-		googleConverter.updateTask(getTaskService(setting), task, tasklistId);
+	public void updateTask(Task task, String tasklistId, ProviderSetting setting) throws ServiceException {
+		ProviderContainer.getInstance().getProvider(setting).updateTask(task, tasklistId);
 	}
 
 }

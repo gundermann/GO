@@ -10,8 +10,10 @@ import org.eclipse.e4.core.services.events.IEventBroker;
 
 import de.nordakademie.wpk.tasklist.core.api.GoogleSetting;
 import de.nordakademie.wpk.tasklist.core.api.ProviderSetting;
+import de.nordakademie.wpk.tasklist.core.api.ServiceException;
 import de.nordakademie.wpk.tasklist.core.api.TaskList;
 import de.nordakademie.wpk.tasklist.core.api.TaskService;
+import de.nordakademie.wpk.tasklist.core.client.ProviderSettingContainer;
 import de.nordakademie.wpk.tasklist.ui.Topics;
 
 public class LoadAllJob extends Job {
@@ -19,10 +21,9 @@ public class LoadAllJob extends Job {
 	TaskService taskService;
 	private IEventBroker eventBroker;
 	private ProviderSetting setting;
-	
 
-
-	public LoadAllJob(TaskService taskService, IEventBroker eventBroker, ProviderSetting setting) {
+	public LoadAllJob(TaskService taskService, IEventBroker eventBroker,
+			ProviderSetting setting) {
 		super("Lade Tasklisten");
 		this.taskService = taskService;
 		this.eventBroker = eventBroker;
@@ -34,15 +35,18 @@ public class LoadAllJob extends Job {
 	@Override
 	protected IStatus run(IProgressMonitor monitor) {
 		monitor.beginTask("Lade Tasklisten", 1);
-//		try {
-//			ProviderSetting settings = ProviderSettingContainer.getInstance()
-//			.getSettings(Provider.GOOGLE);
 		List<TaskList> loadAll = null;
-			loadAll = taskService.loadAll(new GoogleSetting());
-//		} catch (NoSettingFoundException e) {
-//			monitor.done();
-//			e.printStackTrace();
-//		}
+		List<ProviderSetting> activeProviderSettings = ProviderSettingContainer
+				.getInstance().getAllActiveProviderSettings();
+		for(ProviderSetting providerSetting : activeProviderSettings) {
+			try {
+				loadAll = taskService.loadAll(providerSetting);
+			} catch (ServiceException e) {
+				eventBroker
+						.post(Topics.SERVER_EXCEPTION_THROWN, e.getMessage());
+				continue;
+			}
+		}
 		monitor.worked(1);
 		eventBroker.post(Topics.ALL_TASKS_UPDATED, loadAll);
 		return Status.OK_STATUS;

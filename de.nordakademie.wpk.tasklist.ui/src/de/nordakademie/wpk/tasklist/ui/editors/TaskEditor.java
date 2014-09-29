@@ -24,13 +24,15 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
 import de.nordakademie.wpk.tasklist.core.api.GoogleSetting;
+import de.nordakademie.wpk.tasklist.core.api.ServiceException;
 import de.nordakademie.wpk.tasklist.core.api.Task;
 import de.nordakademie.wpk.tasklist.core.api.TaskService;
 import de.nordakademie.wpk.tasklist.ui.ChangeListener;
 import de.nordakademie.wpk.tasklist.ui.Constants;
+import de.nordakademie.wpk.tasklist.ui.jobs.AddTaskService;
 import de.nordakademie.wpk.tasklist.ui.jobs.LoadAllJob;
+import de.nordakademie.wpk.tasklist.ui.jobs.UpdateTaskJob;
 import de.nordakademie.wpk.tasklist.ui.util.DateHelper;
-import de.nordakademie.wpk.tasklist.ui.util.TaskHelper;
 
 public class TaskEditor {
 
@@ -53,6 +55,7 @@ public class TaskEditor {
 	private DateTime dateTime;
 	private Button btnCheckDateDue;
 	private Label lblDateOfCompletion;
+	private Label lblLastSync;
 
 	@PostConstruct
 	public void createPartControl(Composite parent) {
@@ -135,7 +138,7 @@ public class TaskEditor {
 		formToolkit.adapt(lblLetzteAktualisierung, true, true);
 		lblLetzteAktualisierung.setText("Letzte Aktualisierung:");
 
-		Label lblLastSync = new Label(composite, SWT.NONE);
+		lblLastSync = new Label(composite, SWT.NONE);
 		formToolkit.adapt(lblLastSync, true, true);
 		new Label(composite, SWT.NONE);
 		new Label(composite, SWT.NONE);
@@ -174,8 +177,12 @@ public class TaskEditor {
 		tasklistId = split[2];
 		if (split.length > 3) {
 			String taskId = split[3];
-			task = taskService
-					.loadTask(taskId, tasklistId, new GoogleSetting());
+			try {
+				task = taskService
+						.loadTask(taskId, tasklistId, new GoogleSetting());
+			} catch (ServiceException e) {
+				// TODO Auto-generated catch block
+			}
 			if (task != null) {
 				txtName.setText(task.getTitle());
 				txtComment.setText(task.getComment());
@@ -194,6 +201,7 @@ public class TaskEditor {
 							DateHelper.getDay(dateOfDue));
 				}
 			}
+			lblLastSync.setText(DateHelper.getDateAsSting(task.getLastSync()));
 		} else {
 			txtName.setText("Neue Task");
 			editorPart.setDirty(true);
@@ -218,10 +226,8 @@ public class TaskEditor {
 	private void saveNewTask() {
 		task = new Task();
 		setupTask();
-		taskService.addTask(task, tasklistId, new GoogleSetting());
+		new AddTaskService(task, tasklistId, taskService, eventBroker).schedule();
 		editorPart.setDirty(false);
-		new LoadAllJob(taskService, eventBroker, new GoogleSetting())
-				.schedule();
 		// eventBroker.post(Topics.TASK_UPDATED, task);
 	}
 
@@ -241,7 +247,7 @@ public class TaskEditor {
 
 	private void updateTask() {
 		setupTask();
-		taskService.updateTask(task, tasklistId, new GoogleSetting());
+		new UpdateTaskJob(task, tasklistId, taskService, eventBroker).schedule();
 		editorPart.setDirty(false);
 	}
 }

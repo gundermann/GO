@@ -1,4 +1,4 @@
-package de.nordakademie.wpk.tasklist.core.server.service;
+package de.nordakademie.wpk.tasklist.core.server.service.google;
 
 import java.io.File;
 import java.io.IOException;

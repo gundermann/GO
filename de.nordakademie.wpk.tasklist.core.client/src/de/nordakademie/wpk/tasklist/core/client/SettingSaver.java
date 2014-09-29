@@ -22,7 +22,7 @@ public class SettingSaver {
 	public void saveSetting(ProviderSettingImpl providerSetting){
 		
 		ObjectMapper mapper = new ObjectMapper();
-		String directoryString = "C:\\tmp\\Provider\\" +providerSetting.getProvider().toString() +".json";
+		String directoryString = System.getProperty("User.home") +providerSetting.getProvider().toString() +".json";
 		File jsonFile = new File(directoryString);
 		try {
 			jsonFile.createNewFile();

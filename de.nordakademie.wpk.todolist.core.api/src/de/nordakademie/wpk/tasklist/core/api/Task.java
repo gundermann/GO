@@ -5,6 +5,7 @@ import java.util.Date;
 
 /**
  * Klasse für Taskobjekte. Diese sind Elemente einer Taskliste.
+ * 
  * @author Kathrin Kurtz
  *
  */
@@ -14,7 +15,7 @@ public class Task implements Serializable {
 	private String id;
 	private String title;
 	private Date lastSync;
-	private Integer position;
+	private Long position;
 	private String comment;
 	private Boolean status;
 	private Date dateOfDue;
@@ -22,6 +23,7 @@ public class Task implements Serializable {
 
 	/**
 	 * Gibt die ID der Task zurück.
+	 * 
 	 * @return
 	 */
 	public String getId() {
@@ -30,6 +32,7 @@ public class Task implements Serializable {
 
 	/**
 	 * Setzt die ID der Task.
+	 * 
 	 * @param id
 	 */
 	public void setId(String id) {
@@ -38,6 +41,7 @@ public class Task implements Serializable {
 
 	/**
 	 * Gibt den Titel der Task zurück.
+	 * 
 	 * @return
 	 */
 	public String getTitle() {
@@ -46,6 +50,7 @@ public class Task implements Serializable {
 
 	/**
 	 * Setzt den Titel der Task.
+	 * 
 	 * @param title
 	 */
 	public void setTitle(String title) {
@@ -54,6 +59,7 @@ public class Task implements Serializable {
 
 	/**
 	 * Gibt das letzte Synchronisierungsdatum mit dem Server zurück.
+	 * 
 	 * @return
 	 */
 	public Date getLastSync() {
@@ -62,6 +68,7 @@ public class Task implements Serializable {
 
 	/**
 	 * Setzt das letzte Synchronisierungsdatum mit dem Server.
+	 * 
 	 * @param lastSync
 	 */
 	public void setLastSync(Date lastSync) {
@@ -70,22 +77,25 @@ public class Task implements Serializable {
 
 	/**
 	 * Gibt die Position der Task in der Taskliste zurück.
+	 * 
 	 * @return
 	 */
-	public Integer getPosition() {
+	public Long getPosition() {
 		return position;
 	}
 
 	/**
 	 * Setzt die Position der Task innerhalb der Taskliste.
+	 * 
 	 * @param position
 	 */
-	public void setPosition(Integer position) {
+	public void setPosition(Long position) {
 		this.position = position;
 	}
 
 	/**
 	 * Gibt die Beschreibung der Task zurück.
+	 * 
 	 * @return
 	 */
 	public String getComment() {
@@ -94,6 +104,7 @@ public class Task implements Serializable {
 
 	/**
 	 * Setzt die Beschreibung der Task.
+	 * 
 	 * @param comment
 	 */
 	public void setComment(String comment) {
@@ -102,6 +113,7 @@ public class Task implements Serializable {
 
 	/**
 	 * Gibt true zurück wenn die Task als erledigt markiert wurde.
+	 * 
 	 * @return
 	 */
 	public Boolean getStatus() {
@@ -110,6 +122,7 @@ public class Task implements Serializable {
 
 	/**
 	 * Setzt den Status. True bedeutet das die Task erledigt ist.
+	 * 
 	 * @param status
 	 */
 	public void setStatus(Boolean status) {
@@ -117,8 +130,9 @@ public class Task implements Serializable {
 	}
 
 	/**
-	 * Gibt das Fälligkeitsdatum der Task zurück.
-	 * Gibt null zurück wenn kein Fälligkeitsdatum gesetzt ist.
+	 * Gibt das Fälligkeitsdatum der Task zurück. Gibt null zurück wenn kein
+	 * Fälligkeitsdatum gesetzt ist.
+	 * 
 	 * @return
 	 */
 	public Date getDateOfDue() {
@@ -126,8 +140,9 @@ public class Task implements Serializable {
 	}
 
 	/**
-	 * Setzt das Fälligkeitsdatum der Task.
-	 * Null bedeutet es gibt kein Fälligkeitsdatum.
+	 * Setzt das Fälligkeitsdatum der Task. Null bedeutet es gibt kein
+	 * Fälligkeitsdatum.
+	 * 
 	 * @param dateOfDue
 	 */
 	public void setDateOfDue(Date dateOfDue) {
@@ -135,17 +150,19 @@ public class Task implements Serializable {
 	}
 
 	/**
-	 * Gibt das Datum der Fertigstellung der Task zurück.
-	 * Null wenn die Task noch nicht abgeschlossen ist.
+	 * Gibt das Datum der Fertigstellung der Task zurück. Null wenn die Task
+	 * noch nicht abgeschlossen ist.
+	 * 
 	 * @return
 	 */
 	public Date getDateOfCompletion() {
 		return dateOfCompletion;
 	}
-	
+
 	/**
-	 * Setzt das Fertigstellungsdatum der Task.
-	 * Null bedeutet, dass die Task noch nicht fertiggestellt ist.
+	 * Setzt das Fertigstellungsdatum der Task. Null bedeutet, dass die Task
+	 * noch nicht fertiggestellt ist.
+	 * 
 	 * @param dateOfCompletion
 	 */
 	public void setDateOfCompletion(Date dateOfCompletion) {

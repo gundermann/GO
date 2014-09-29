@@ -1,4 +1,4 @@
-package de.nordakademie.wpk.tasklist.core.server.service;
+package de.nordakademie.wpk.tasklist.core.server.service.google;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -30,7 +30,6 @@ public class GoogleConverter {
 			TaskList taskList = new TaskList();
 			taskList.setId(googleTaskList.getId());
 			taskList.setName(googleTaskList.getTitle());
-			System.out.println(taskList.getName());
 			taskList.setProvider(Provider.GOOGLE);
 			List<Task> convertGoogleTasks = convertGoogleTasks(tasksService,
 					taskList.getId());
@@ -58,8 +57,9 @@ public class GoogleConverter {
 				task.setId(googleTask.getId());
 				task.setTitle(googleTask.getTitle());
 				task.setComment(googleTask.getNotes());
+				task.setPosition(Long.parseLong(googleTask.getPosition()));
 				task.setStatus(convertStatusFromGoogle(googleTask.getStatus()));
-				task.setLastSync(convertToJavaDate(googleTask.getUpdated()));
+				task.setLastSync(Calendar.getInstance().getTime());
 				task.setDateOfDue(convertToJavaDate(googleTask.getDue()));
 				task.setDateOfCompletion(convertToJavaDate(googleTask
 						.getCompleted()));
@@ -162,17 +162,17 @@ public class GoogleConverter {
 		return dateTime;
 	}
 
-	public void deleteTasklist(Tasks taskService, TaskList tasklist) {
+	public void deleteTasklist(Tasks taskService, String tasklistId) {
 		try {
-			taskService.tasklists().delete(tasklist.getId()).execute();
+			taskService.tasklists().delete(tasklistId).execute();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void deleteTask(Tasks taskService, Task task, TaskList tasklist) {
+	public void deleteTask(Tasks taskService, String task, String tasklist) {
 		try {
-			taskService.tasks().delete(tasklist.getId(), task.getId()).execute();
+			taskService.tasks().delete(tasklist, task).execute();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
