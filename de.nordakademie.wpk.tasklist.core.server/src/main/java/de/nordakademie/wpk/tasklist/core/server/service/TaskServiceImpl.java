@@ -31,8 +31,8 @@ public class TaskServiceImpl implements TaskService {
 		ProviderContainer.getInstance().delegateDeleteTask(task, tasklist, setting);
 	}
 
-	public void deleteTaskList(TaskList tasklist, ProviderSetting setting) throws ServiceException {
-		ProviderContainer.getInstance().delegateDeleteTaskList(tasklist, setting);
+	public void deleteTaskList(String tasklistId, ProviderSetting setting) throws ServiceException {
+		ProviderContainer.getInstance().delegateDeleteTaskList(tasklistId, setting);
 	}
 
 	public Task loadTask(String taskId, String tasklistId,

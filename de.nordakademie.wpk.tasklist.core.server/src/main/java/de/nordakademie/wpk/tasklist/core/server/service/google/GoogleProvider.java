@@ -47,8 +47,8 @@ public class GoogleProvider {
 		return googleConverter.convertTask(getTaskService(setting), taskId, tasklistId);
 	}
 
-	public void deleteTaskList(TaskList tasklist, ProviderSetting setting) {
-		googleConverter.deleteTasklist(getTaskService(setting), tasklist);
+	public void deleteTaskList(String tasklistId, ProviderSetting setting) {
+		googleConverter.deleteTasklist(getTaskService(setting), tasklistId);
 	}
 
 	public void deleteTask(String task, String tasklist, ProviderSetting setting) {

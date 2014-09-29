@@ -162,9 +162,9 @@ public class GoogleConverter {
 		return dateTime;
 	}
 
-	public void deleteTasklist(Tasks taskService, TaskList tasklist) {
+	public void deleteTasklist(Tasks taskService, String tasklistId) {
 		try {
-			taskService.tasklists().delete(tasklist.getId()).execute();
+			taskService.tasklists().delete(tasklistId).execute();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -54,11 +54,11 @@ public class ProviderContainer {
 		}		
 	}
 
-	public void delegateDeleteTaskList(TaskList tasklist,
+	public void delegateDeleteTaskList(String tasklistId,
 			ProviderSetting setting) {
 		switch (setting.getProvider()) {
 		default:
-			googleProvider.deleteTaskList(tasklist, setting);
+			googleProvider.deleteTaskList(tasklistId, setting);
 		}		
 	}
 
