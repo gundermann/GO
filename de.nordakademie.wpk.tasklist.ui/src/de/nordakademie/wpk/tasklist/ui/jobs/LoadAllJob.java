@@ -39,7 +39,7 @@ public class LoadAllJob extends Job {
 			try {
 				loadAll = taskService.loadAll(new GoogleSetting());
 			} catch (ServiceException e) {
-				// TODO Auto-generated catch block
+				eventBroker.post(Topics.SERVER_EXCEPTION_THROWN, e.getMessage());
 			}
 		monitor.worked(1);
 		eventBroker.post(Topics.ALL_TASKS_UPDATED, loadAll);

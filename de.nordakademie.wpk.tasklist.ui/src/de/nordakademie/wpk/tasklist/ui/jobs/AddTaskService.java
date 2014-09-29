@@ -6,11 +6,13 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.e4.core.services.events.IEventBroker;
+import org.eclipse.jface.dialogs.MessageDialog;
 
 import de.nordakademie.wpk.tasklist.core.api.GoogleSetting;
 import de.nordakademie.wpk.tasklist.core.api.ServiceException;
 import de.nordakademie.wpk.tasklist.core.api.Task;
 import de.nordakademie.wpk.tasklist.core.api.TaskService;
+import de.nordakademie.wpk.tasklist.ui.Topics;
 
 public class AddTaskService extends Job {
 
@@ -34,11 +36,10 @@ public class AddTaskService extends Job {
 		try {
 			taskService.addTask(task, tasklistId, new GoogleSetting());
 		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
+			eventBroker.post(Topics.SERVER_EXCEPTION_THROWN, e.getMessage());
 		}
 		new LoadAllJob(taskService, eventBroker, new GoogleSetting())
 		.schedule();
-		// TODO Auto-generated method stub
 		return Status.OK_STATUS;
 	}
 

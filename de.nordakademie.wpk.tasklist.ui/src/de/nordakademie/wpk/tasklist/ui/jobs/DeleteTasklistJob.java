@@ -9,6 +9,7 @@ import org.eclipse.e4.core.services.events.IEventBroker;
 import de.nordakademie.wpk.tasklist.core.api.GoogleSetting;
 import de.nordakademie.wpk.tasklist.core.api.ServiceException;
 import de.nordakademie.wpk.tasklist.core.api.TaskService;
+import de.nordakademie.wpk.tasklist.ui.Topics;
 
 public class DeleteTasklistJob extends Job {
 
@@ -29,9 +30,10 @@ public class DeleteTasklistJob extends Job {
 		try {
 			taskService.deleteTaskList(tasklistId, new GoogleSetting());
 		} catch (ServiceException e) {
-			return Status.CANCEL_STATUS;
+			eventBroker.post(Topics.SERVER_EXCEPTION_THROWN, e.getMessage());
 		}
-		new LoadAllJob(taskService, eventBroker, new GoogleSetting()).schedule();
+		new LoadAllJob(taskService, eventBroker, new GoogleSetting())
+				.schedule();
 		return Status.OK_STATUS;
 	}
 

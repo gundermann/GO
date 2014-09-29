@@ -10,6 +10,7 @@ import de.nordakademie.wpk.tasklist.core.api.GoogleSetting;
 import de.nordakademie.wpk.tasklist.core.api.ServiceException;
 import de.nordakademie.wpk.tasklist.core.api.Task;
 import de.nordakademie.wpk.tasklist.core.api.TaskService;
+import de.nordakademie.wpk.tasklist.ui.Topics;
 
 public class UpdateTaskJob extends Job {
 
@@ -21,21 +22,22 @@ public class UpdateTaskJob extends Job {
 	public UpdateTaskJob(Task task, String tasklistId, TaskService taskService,
 			IEventBroker eventBroker) {
 		super("Aktualisiere Task");
-				this.task = task;
-				this.tasklistId = tasklistId;
-				this.taskService = taskService;
-				this.eventBroker = eventBroker;
+		this.task = task;
+		this.tasklistId = tasklistId;
+		this.taskService = taskService;
+		this.eventBroker = eventBroker;
 	}
 
 	@Override
 	protected IStatus run(IProgressMonitor monitor) {
-		
+
 		try {
 			taskService.updateTask(task, tasklistId, new GoogleSetting());
 		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
+			eventBroker.post(Topics.SERVER_EXCEPTION_THROWN, e.getMessage());
 		}
-		new LoadAllJob(taskService, eventBroker, new GoogleSetting()).schedule();
+		new LoadAllJob(taskService, eventBroker, new GoogleSetting())
+				.schedule();
 		return Status.OK_STATUS;
 	}
 
