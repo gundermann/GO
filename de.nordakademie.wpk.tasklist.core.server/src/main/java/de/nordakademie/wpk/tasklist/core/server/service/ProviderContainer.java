@@ -10,11 +10,6 @@ import de.nordakademie.wpk.tasklist.core.server.service.google.GoogleProvider;
 public class ProviderContainer {
 
 	private static ProviderContainer _instance;
-	GoogleProvider googleProvider;
-	
-	private ProviderContainer() {
-		googleProvider = new GoogleProvider();
-	}
 	
 	public static ProviderContainer getInstance(){
 		if(_instance == null){
@@ -23,67 +18,71 @@ public class ProviderContainer {
 		return _instance;
 	}
 
-	public List<TaskList> delegateLoadAll(ProviderSetting setting) {
-		switch (setting.getProvider()) {
-		default:
-			return googleProvider.loadAll(setting);
-		}
-	}
+//	public List<TaskList> delegateLoadAll(ProviderSetting setting) {
+//		switch (setting.getProvider()) {
+//		default:
+//			return googleProvider.loadAll(setting);
+//		}
+//	}
+//
+//	public void delegateUpdateTaskList(TaskList tasklist,
+//			ProviderSetting setting) {
+//		switch (setting.getProvider()) {
+//		default:
+//			googleProvider.updateTaskList(tasklist, setting);
+//		}
+//		
+//	}
+//
+//	public void delegateAddTaskList(TaskList tasklist, ProviderSetting setting) {
+//		switch (setting.getProvider()) {
+//		default:
+//			googleProvider.addTaskList(tasklist, setting);
+//		}
+//	}
+//
+//	public void delegateDeleteTask(String task, String tasklist,
+//			ProviderSetting setting) {
+//		switch (setting.getProvider()) {
+//		default:
+//			googleProvider.deleteTask(task, tasklist, setting);
+//		}		
+//	}
+//
+//	public void delegateDeleteTaskList(String tasklistId,
+//			ProviderSetting setting) {
+//		switch (setting.getProvider()) {
+//		default:
+//			googleProvider.deleteTaskList(tasklistId, setting);
+//		}		
+//	}
+//
+//	public Task delegateLoadTask(String taskId, String tasklistId,
+//			ProviderSetting setting) {
+//		switch (setting.getProvider()) {
+//		default:
+//			return googleProvider.loadTask(taskId, tasklistId, setting);
+//		}
+//	}
+//
+//	public void delegateAddTask(Task task, String tasklistId,
+//			ProviderSetting setting) {
+//		switch (setting.getProvider()) {
+//		default:
+//			googleProvider.addTask(task, tasklistId, setting);
+//		}		
+//	}
+//
+//	public void delegateUpdateTask(Task task, String tasklistId,
+//			ProviderSetting setting) {
+//		switch (setting.getProvider()) {
+//		default:
+//			googleProvider.updateTask(task, tasklistId, setting);
+//		}		
+//	}
 
-	public void delegateUpdateTaskList(TaskList tasklist,
-			ProviderSetting setting) {
-		switch (setting.getProvider()) {
-		default:
-			googleProvider.updateTaskList(tasklist, setting);
-		}
-		
-	}
-
-	public void delegateAddTaskList(TaskList tasklist, ProviderSetting setting) {
-		switch (setting.getProvider()) {
-		default:
-			googleProvider.addTaskList(tasklist, setting);
-		}
-	}
-
-	public void delegateDeleteTask(String task, String tasklist,
-			ProviderSetting setting) {
-		switch (setting.getProvider()) {
-		default:
-			googleProvider.deleteTask(task, tasklist, setting);
-		}		
-	}
-
-	public void delegateDeleteTaskList(String tasklistId,
-			ProviderSetting setting) {
-		switch (setting.getProvider()) {
-		default:
-			googleProvider.deleteTaskList(tasklistId, setting);
-		}		
-	}
-
-	public Task delegateLoadTask(String taskId, String tasklistId,
-			ProviderSetting setting) {
-		switch (setting.getProvider()) {
-		default:
-			return googleProvider.loadTask(taskId, tasklistId, setting);
-		}
-	}
-
-	public void delegateAddTask(Task task, String tasklistId,
-			ProviderSetting setting) {
-		switch (setting.getProvider()) {
-		default:
-			googleProvider.addTask(task, tasklistId, setting);
-		}		
-	}
-
-	public void delegateUpdateTask(Task task, String tasklistId,
-			ProviderSetting setting) {
-		switch (setting.getProvider()) {
-		default:
-			googleProvider.updateTask(task, tasklistId, setting);
-		}		
+	public ProviderService getProvider(ProviderSetting setting) {
+		return new GoogleProvider(setting);
 	}
 
 }

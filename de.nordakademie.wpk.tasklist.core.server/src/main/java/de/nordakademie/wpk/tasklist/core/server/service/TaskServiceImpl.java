@@ -14,38 +14,38 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	public List<TaskList> loadAll(ProviderSetting setting) throws ServiceException {
-		return ProviderContainer.getInstance().delegateLoadAll(setting);
+		return ProviderContainer.getInstance().getProvider(setting).loadAll();
 	}
 
 
 	public void updateTaskList(TaskList tasklist, ProviderSetting setting) throws ServiceException {
-		ProviderContainer.getInstance().delegateUpdateTaskList(tasklist, setting);
+		ProviderContainer.getInstance().getProvider(setting).updateTaskList(tasklist);
 
 	}
 
 	public void addTaskList(TaskList tasklist, ProviderSetting setting) throws ServiceException {
-		ProviderContainer.getInstance().delegateAddTaskList(tasklist, setting);
+		ProviderContainer.getInstance().getProvider(setting).addTaskList(tasklist);
 	}
 
 	public void deleteTask(String task, String tasklist, ProviderSetting setting) throws ServiceException {
-		ProviderContainer.getInstance().delegateDeleteTask(task, tasklist, setting);
+		ProviderContainer.getInstance().getProvider(setting).deleteTask(task, tasklist);
 	}
 
 	public void deleteTaskList(String tasklistId, ProviderSetting setting) throws ServiceException {
-		ProviderContainer.getInstance().delegateDeleteTaskList(tasklistId, setting);
+		ProviderContainer.getInstance().getProvider(setting).deleteTaskList(tasklistId);
 	}
 
 	public Task loadTask(String taskId, String tasklistId,
 			ProviderSetting setting) throws ServiceException {
-		return ProviderContainer.getInstance().delegateLoadTask(taskId, tasklistId, setting);
+		return ProviderContainer.getInstance().getProvider(setting).loadTask(taskId, tasklistId);
 	}
 
 	public void addTask(Task task, String tasklistId, ProviderSetting setting) throws ServiceException {
-		ProviderContainer.getInstance().delegateAddTask(task, tasklistId, setting);
+		ProviderContainer.getInstance().getProvider(setting).addTask(task, tasklistId);
 	}
 
 	public void updateTask(Task task, String tasklistId, ProviderSetting setting) throws ServiceException {
-		ProviderContainer.getInstance().delegateUpdateTask(task, tasklistId, setting);
+		ProviderContainer.getInstance().getProvider(setting).updateTask(task, tasklistId);
 	}
 
 }

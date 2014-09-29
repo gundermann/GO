@@ -1,4 +1,3 @@
- 
 package de.nordakademie.wpk.tasklist.ui.handler;
 
 import java.util.concurrent.ExecutionException;
@@ -18,31 +17,33 @@ import de.nordakademie.wpk.tasklist.core.api.TaskService;
 import de.nordakademie.wpk.tasklist.ui.jobs.DeleteTasklistJob;
 
 public class DeleteTasklistHandler {
-	
+
 	@Inject
 	private ESelectionService selectionService;
-	
+
 	@Inject
 	private IEventBroker eventBroker;
-	
+
 	@Inject
 	private TaskService taskService;
 
 	private String message = "Wollen Sie die Taskliste wirklich löschen? Alle Tasks in der Taskliste werden mit gelöscht!";
-	
+
 	@Execute
-	public void execute(Shell shell ) throws ExecutionException{
+	public void execute(Shell shell) throws ExecutionException {
 		if (canExecute()) {
-			boolean confirmed = MessageDialog.openQuestion(shell, "Wirklich?", message );
+			boolean confirmed = MessageDialog.openQuestion(shell, "Wirklich?",
+					message);
 			if (confirmed) {
-			ITreeSelection selection = (ITreeSelection) selectionService.getSelection();
-			TaskList tasklist = (TaskList) selection.getFirstElement();
-			new DeleteTasklistJob(tasklist.getId(), taskService, eventBroker).schedule();
+				ITreeSelection selection = (ITreeSelection) selectionService
+						.getSelection();
+				TaskList tasklist = (TaskList) selection.getFirstElement();
+				new DeleteTasklistJob(tasklist.getId(), taskService,
+						eventBroker).schedule();
 			}
 		}
 	}
-	
-	
+
 	@CanExecute
 	public boolean canExecute() {
 		if (selectionService.getSelection() instanceof ITreeSelection) {
@@ -51,5 +52,5 @@ public class DeleteTasklistHandler {
 		}
 		return false;
 	}
-		
+
 }
