@@ -21,6 +21,12 @@ import de.nordakademie.wpk.tasklist.core.client.SettingSaver;
 
 import org.eclipse.swt.widgets.Button;
 
+/**
+ * Zeigt den Dialog zum Eingeben von Verbindungseinstellungen an.
+ * Für alle Provider außer Google.
+ * @author Kathrin Kurtz
+ *
+ */
 public class EditSettingsDialog extends TitleAreaDialog {
 	private Text txtWunderlistEmail;
 	private Text txtWunderlistPasswort;
@@ -89,7 +95,7 @@ public class EditSettingsDialog extends TitleAreaDialog {
 				true, false, 1, 1));
 		txtWunderlistPasswort.setEnabled(false);
 
-		if (WunderlistActive()) {
+		if (WunderlistIsActive()) {
 			checkBoxWunderlist.setSelection(true);
 			txtWunderlistEmail.setEnabled(true);
 			txtWunderlistPasswort.setEnabled(true);
@@ -100,7 +106,11 @@ public class EditSettingsDialog extends TitleAreaDialog {
 
 	}
 
-	private boolean WunderlistActive() {
+	/**
+	 * Gibt true zurück wenn die Wunderlist-Verbindung beim letzten Speichern aktiv(angehakt) war.
+	 * @return
+	 */
+	private boolean WunderlistIsActive() {
 		boolean active = false;
 		ProviderSetting wlSetting = getProviderInformation(Provider.WUNDERLIST);
 		if (wlSetting != null) {
@@ -109,6 +119,9 @@ public class EditSettingsDialog extends TitleAreaDialog {
 		return active;
 	}
 
+	/**
+	 * Füllt die Checkbox, Mailadresse und Passwort-Box für Wunderlist
+	 */
 	private void fillWunderlistInformation() {
 		ProviderSetting setting = getProviderInformation(Provider.WUNDERLIST);
 		txtWunderlistEmail.setText(setting.getUsername());
