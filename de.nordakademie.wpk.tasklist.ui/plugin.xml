@@ -11,7 +11,7 @@
    <extension
          point="org.eclipse.ui.editors">
       <editor
-            class="de.nordakademie.wpk.tasklist.ui.TaskEditor"
+            class="de.nordakademie.wpk.tasklist.ui.editors.TaskEditor"
             id="de.nordakademie.wpk.tasklist.ui.TaskEditor"
             name="Task Editor">
       </editor>
