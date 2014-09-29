@@ -30,7 +30,6 @@ public class DeleteTaskJob extends Job {
 		try {
 			taskService.deleteTask(taskId, tasklistId, new GoogleSetting());
 		} catch (ServiceException e) {
-			
 			//TODO geht das?
 			return Status.CANCEL_STATUS;
 		}finally{

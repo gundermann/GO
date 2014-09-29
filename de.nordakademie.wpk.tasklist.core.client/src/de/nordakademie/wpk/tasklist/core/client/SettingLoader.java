@@ -20,7 +20,7 @@ public class SettingLoader {
 	 * @throws NoSettingFoundException 
 	 */
 	public ProviderSetting loadFromFile(Provider provider) throws NoSettingFoundException {
-		String directoryString = "C:\\tmp\\Provider\\" +provider.toString() +".json";
+		String directoryString = System.getProperty("User.home") +provider.toString() +".json";
 		
 		ObjectMapper mapper = new ObjectMapper();
 		ProviderSetting providersetting = null;

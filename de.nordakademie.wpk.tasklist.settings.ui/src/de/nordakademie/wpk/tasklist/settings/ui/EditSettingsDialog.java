@@ -6,6 +6,7 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
@@ -15,11 +16,9 @@ import org.eclipse.swt.widgets.Text;
 import de.nordakademie.wpk.tasklist.core.api.NoSettingFoundException;
 import de.nordakademie.wpk.tasklist.core.api.Provider;
 import de.nordakademie.wpk.tasklist.core.api.ProviderSetting;
+import de.nordakademie.wpk.tasklist.core.client.ProviderSettingContainer;
 import de.nordakademie.wpk.tasklist.core.client.ProviderSettingImpl;
-import de.nordakademie.wpk.tasklist.core.client.SettingLoader;
 import de.nordakademie.wpk.tasklist.core.client.SettingSaver;
-
-import org.eclipse.swt.widgets.Button;
 
 public class EditSettingsDialog extends TitleAreaDialog {
 	private Text txtWunderlistEmail;
@@ -102,27 +101,24 @@ public class EditSettingsDialog extends TitleAreaDialog {
 
 	private boolean WunderlistActive() {
 		boolean active = false;
-		ProviderSetting wlSetting = getProviderInformation(Provider.WUNDERLIST);
-		if (wlSetting != null) {
+		try {
+			ProviderSetting wlSetting = ProviderSettingContainer.getInstance()
+					.getProviderSetting(Provider.WUNDERLIST);
 			active = wlSetting.isActive();
+		} catch (NoSettingFoundException e) {
+			return false;
 		}
 		return active;
 	}
 
 	private void fillWunderlistInformation() {
-		ProviderSetting setting = getProviderInformation(Provider.WUNDERLIST);
-		txtWunderlistEmail.setText(setting.getUsername());
-		txtWunderlistPasswort.setText(setting.getPassword());
-	}
-
-	private ProviderSetting getProviderInformation(Provider provider) {
-		SettingLoader loader = new SettingLoader();
-		ProviderSetting setting = null;
 		try {
-			setting = loader.loadFromFile(provider);
+			ProviderSetting setting = ProviderSettingContainer.getInstance()
+					.getProviderSetting(Provider.WUNDERLIST);
+			txtWunderlistEmail.setText(setting.getUsername());
+			txtWunderlistPasswort.setText(setting.getPassword());
 		} catch (NoSettingFoundException e) {
 		}
-		return setting;
 	}
 
 	@Override
