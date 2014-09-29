@@ -24,6 +24,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
 import de.nordakademie.wpk.tasklist.core.api.GoogleSetting;
+import de.nordakademie.wpk.tasklist.core.api.ServiceException;
 import de.nordakademie.wpk.tasklist.core.api.Task;
 import de.nordakademie.wpk.tasklist.core.api.TaskService;
 import de.nordakademie.wpk.tasklist.ui.ChangeListener;
@@ -174,8 +175,12 @@ public class TaskEditor {
 		tasklistId = split[2];
 		if (split.length > 3) {
 			String taskId = split[3];
-			task = taskService
-					.loadTask(taskId, tasklistId, new GoogleSetting());
+			try {
+				task = taskService
+						.loadTask(taskId, tasklistId, new GoogleSetting());
+			} catch (ServiceException e) {
+				// TODO Auto-generated catch block
+			}
 			if (task != null) {
 				txtName.setText(task.getTitle());
 				txtComment.setText(task.getComment());
@@ -219,7 +224,11 @@ public class TaskEditor {
 	private void saveNewTask() {
 		task = new Task();
 		setupTask();
-		taskService.addTask(task, tasklistId, new GoogleSetting());
+		try {
+			taskService.addTask(task, tasklistId, new GoogleSetting());
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+		}
 		editorPart.setDirty(false);
 		new LoadAllJob(taskService, eventBroker, new GoogleSetting())
 				.schedule();
@@ -242,7 +251,11 @@ public class TaskEditor {
 
 	private void updateTask() {
 		setupTask();
-		taskService.updateTask(task, tasklistId, new GoogleSetting());
+		try {
+			taskService.updateTask(task, tasklistId, new GoogleSetting());
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+		}
 		editorPart.setDirty(false);
 	}
 }

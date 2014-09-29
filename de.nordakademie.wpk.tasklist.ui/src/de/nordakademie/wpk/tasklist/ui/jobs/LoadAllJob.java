@@ -10,6 +10,7 @@ import org.eclipse.e4.core.services.events.IEventBroker;
 
 import de.nordakademie.wpk.tasklist.core.api.GoogleSetting;
 import de.nordakademie.wpk.tasklist.core.api.ProviderSetting;
+import de.nordakademie.wpk.tasklist.core.api.ServiceException;
 import de.nordakademie.wpk.tasklist.core.api.TaskList;
 import de.nordakademie.wpk.tasklist.core.api.TaskService;
 import de.nordakademie.wpk.tasklist.ui.Topics;
@@ -38,7 +39,11 @@ public class LoadAllJob extends Job {
 //			ProviderSetting settings = ProviderSettingContainer.getInstance()
 //			.getSettings(Provider.GOOGLE);
 		List<TaskList> loadAll = null;
-			loadAll = taskService.loadAll(new GoogleSetting());
+			try {
+				loadAll = taskService.loadAll(new GoogleSetting());
+			} catch (ServiceException e) {
+				// TODO Auto-generated catch block
+			}
 //		} catch (NoSettingFoundException e) {
 //			monitor.done();
 //			e.printStackTrace();
