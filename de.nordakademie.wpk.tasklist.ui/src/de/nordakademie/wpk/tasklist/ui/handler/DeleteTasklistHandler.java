@@ -5,18 +5,16 @@ import java.util.concurrent.ExecutionException;
 
 import javax.inject.Inject;
 
-import org.eclipse.e4.core.di.annotations.Execute;
 import org.eclipse.e4.core.di.annotations.CanExecute;
+import org.eclipse.e4.core.di.annotations.Execute;
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.e4.ui.workbench.modeling.ESelectionService;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ITreeSelection;
 import org.eclipse.swt.widgets.Shell;
 
-import de.nordakademie.wpk.tasklist.core.api.Task;
 import de.nordakademie.wpk.tasklist.core.api.TaskList;
 import de.nordakademie.wpk.tasklist.core.api.TaskService;
-import de.nordakademie.wpk.tasklist.ui.editors.TaskEditorInput;
 import de.nordakademie.wpk.tasklist.ui.jobs.DeleteTasklistJob;
 
 public class DeleteTasklistHandler {
