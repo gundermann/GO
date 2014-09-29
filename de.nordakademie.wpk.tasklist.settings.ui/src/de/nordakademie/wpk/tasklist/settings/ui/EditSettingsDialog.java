@@ -2,6 +2,8 @@ package de.nordakademie.wpk.tasklist.settings.ui;
 
 import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -10,22 +12,31 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-public class EditSettingsDialog extends TitleAreaDialog{
-	private Text txtGoogleEmail;
+import de.nordakademie.wpk.tasklist.core.api.NoSettingFoundException;
+import de.nordakademie.wpk.tasklist.core.api.Provider;
+import de.nordakademie.wpk.tasklist.core.api.ProviderSetting;
+import de.nordakademie.wpk.tasklist.core.client.ProviderSettingImpl;
+import de.nordakademie.wpk.tasklist.core.client.SettingLoader;
+import de.nordakademie.wpk.tasklist.core.client.SettingSaver;
+
+import org.eclipse.swt.widgets.Button;
+
+public class EditSettingsDialog extends TitleAreaDialog {
 	private Text txtWunderlistEmail;
 	private Text txtWunderlistPasswort;
-	
-	
+	private Button checkBoxWunderlist;
+
 	/**
 	 * Create the dialog.
+	 * 
 	 * @param parent
 	 * @param style
 	 */
-	public EditSettingsDialog(Shell parent, int style ){
+	public EditSettingsDialog(Shell parent, int style) {
 		super(parent);
 		setTitle("SWTDialog");
 	}
-	
+
 	@Override
 	protected void setShellStyle(int newShellStyle) {
 		super.setShellStyle(newShellStyle | SWT.RESIZE);
@@ -36,44 +47,102 @@ public class EditSettingsDialog extends TitleAreaDialog{
 		super.configureShell(newShell);
 		newShell.setText("Einstellungen");
 		setHelpAvailable(false);
-	}	
-	
-	
+	}
+
 	/**
 	 * Create contents of the dialog.
 	 */
 	public Control createDialogArea(Composite parent) {
 		Composite area = (Composite) super.createDialogArea(parent);
 		Composite container = new Composite(area, SWT.NONE);
-		container.setLayout(new GridLayout(3, false));
-		GridData gd_container = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
+		container.setLayout(new GridLayout(4, false));
+		GridData gd_container = new GridData(SWT.FILL, SWT.FILL, true, true, 1,
+				1);
 		gd_container.heightHint = 83;
 		gd_container.widthHint = 63;
 		container.setLayoutData(gd_container);
-		
-		Label lblGoogletaskanbindung = new Label(container, SWT.NONE);
-		lblGoogletaskanbindung.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
-		lblGoogletaskanbindung.setText("GoogleTask Anbindung");
-		
-		txtGoogleEmail = new Text(container, SWT.BORDER);
-		txtGoogleEmail.setText("E-Mail");
-		txtGoogleEmail.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		new Label(container, SWT.NONE);
-		
+
+		checkBoxWunderlist = new Button(container, SWT.CHECK);
+		checkBoxWunderlist.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				txtWunderlistEmail.setEnabled(checkBoxWunderlist.getSelection());
+				txtWunderlistPasswort.setEnabled(checkBoxWunderlist
+						.getSelection());
+			}
+		});
+
 		Label lblWunderlistAnbindung = new Label(container, SWT.NONE);
-		lblWunderlistAnbindung.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+		lblWunderlistAnbindung.setLayoutData(new GridData(SWT.FILL, SWT.CENTER,
+				false, false, 1, 1));
 		lblWunderlistAnbindung.setText("Wunderlist Anbindung");
-		
+
 		txtWunderlistEmail = new Text(container, SWT.BORDER);
 		txtWunderlistEmail.setText("E-Mail");
-		txtWunderlistEmail.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		
+		txtWunderlistEmail.setLayoutData(new GridData(SWT.FILL, SWT.CENTER,
+				true, false, 1, 1));
+		txtWunderlistEmail.setEnabled(false);
+
 		txtWunderlistPasswort = new Text(container, SWT.PASSWORD | SWT.BORDER);
 		txtWunderlistPasswort.setText("Passwort");
-		txtWunderlistPasswort.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		
+		txtWunderlistPasswort.setLayoutData(new GridData(SWT.FILL, SWT.CENTER,
+				true, false, 1, 1));
+		txtWunderlistPasswort.setEnabled(false);
+
+		if (WunderlistActive()) {
+			checkBoxWunderlist.setSelection(true);
+			txtWunderlistEmail.setEnabled(true);
+			txtWunderlistPasswort.setEnabled(true);
+		}
+		fillWunderlistInformation();
+
 		return container;
-		
+
+	}
+
+	private boolean WunderlistActive() {
+		boolean active = false;
+		ProviderSetting wlSetting = getProviderInformation(Provider.WUNDERLIST);
+		if (wlSetting != null) {
+			active = wlSetting.isActive();
+		}
+		return active;
+	}
+
+	private void fillWunderlistInformation() {
+		ProviderSetting setting = getProviderInformation(Provider.WUNDERLIST);
+		txtWunderlistEmail.setText(setting.getUsername());
+		txtWunderlistPasswort.setText(setting.getPassword());
+	}
+
+	private ProviderSetting getProviderInformation(Provider provider) {
+		SettingLoader loader = new SettingLoader();
+		ProviderSetting setting = null;
+		try {
+			setting = loader.loadFromFile(provider);
+		} catch (NoSettingFoundException e) {
+		}
+		return setting;
+	}
+
+	@Override
+	protected void okPressed() {
+		SettingSaver saver = new SettingSaver();
+		if (checkBoxWunderlist.getSelection()) {
+			saveWunderlistSettings(saver, true);
+		} else {
+			saveWunderlistSettings(saver, false);
+		}
+		super.okPressed();
+	}
+
+	private void saveWunderlistSettings(SettingSaver saver, Boolean isActive) {
+		ProviderSettingImpl wlSetting = new ProviderSettingImpl();
+		wlSetting.setActive(isActive);
+		wlSetting.setPassword(txtWunderlistPasswort.getText());
+		wlSetting.setUsername(txtWunderlistEmail.getText());
+		wlSetting.setProvider(Provider.WUNDERLIST);
+		saver.saveSetting(wlSetting);
 	}
 
 }

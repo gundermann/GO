@@ -19,14 +19,11 @@ public class SettingHandler {
 		
 		if(result == IStatus.OK){
 			
-			// Einstellungen werden gespeichert
-			MessageDialog.openInformation(shell, "Nicht implementiert", "Speichern der Einstellungen noch nicht implementiert!");
-			
+			MessageDialog.openInformation(shell, "Speichern", "Einstellungen gespeichert!");
 		}
 		else{
 			MessageDialog.openError(shell, "Abgebrochen", "Einstellungen wurden nicht gespeichert");
 		}
-		
 	}
 		
 	

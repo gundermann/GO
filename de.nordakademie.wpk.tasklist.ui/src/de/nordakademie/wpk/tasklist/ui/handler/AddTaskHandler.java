@@ -1,4 +1,3 @@
- 
 package de.nordakademie.wpk.tasklist.ui.handler;
 
 import javax.inject.Inject;

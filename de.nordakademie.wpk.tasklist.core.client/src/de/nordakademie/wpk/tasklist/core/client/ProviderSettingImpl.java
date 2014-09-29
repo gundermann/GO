@@ -8,6 +8,7 @@ public class ProviderSettingImpl implements ProviderSetting{
 	private String username;
 	private String password;
 	private Provider provider;
+	private boolean active;
 	
 	public ProviderSettingImpl(){
 	}
@@ -25,7 +26,7 @@ public class ProviderSettingImpl implements ProviderSetting{
 	}
 
 	@Override
-	public String getUserName() {
+	public String getUsername() {
 		return username;
 	}
 
@@ -36,6 +37,14 @@ public class ProviderSettingImpl implements ProviderSetting{
 	@Override
 	public Provider getProvider() {
 		return provider;
+	}
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 
 }

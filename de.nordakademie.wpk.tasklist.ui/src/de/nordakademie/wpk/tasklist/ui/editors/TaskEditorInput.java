@@ -3,7 +3,7 @@ package de.nordakademie.wpk.tasklist.ui.editors;
 import de.nordakademie.wpk.tasklist.core.api.Task;
 import de.nordakademie.wpk.tasklist.core.api.TaskList;
 
-public class TaskEditorInput implements EditorInput<Task> {
+public class TaskEditorInput implements IEditorInput<Task> {
 
 	private Task task;
 	private TaskList tasklist;

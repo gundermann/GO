@@ -12,14 +12,18 @@ public class GoogleSetting implements ProviderSetting, Serializable{
 	}
 
 	@Override
-	public String getUserName() {
+	public String getUsername() {
 		return "gundermann.niels.ng@googlemail.com";
 	}
 
 	@Override
 	public String getPassword() {
-		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public boolean isActive() {
+		return true;
 	}
 
 }
