@@ -3,6 +3,11 @@ package de.nordakademie.wpk.tasklist.ui.editors;
 import de.nordakademie.wpk.tasklist.core.api.Task;
 import de.nordakademie.wpk.tasklist.core.api.TaskList;
 
+/**
+ * Übergibt die Eingaben für den TaskEditor.
+ * @author Kathrin Kurtz
+ *
+ */
 public class TaskEditorInput implements IEditorInput<Task> {
 
 	private Task task;

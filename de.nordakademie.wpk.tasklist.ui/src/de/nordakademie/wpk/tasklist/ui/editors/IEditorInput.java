@@ -1,6 +1,11 @@
 package de.nordakademie.wpk.tasklist.ui.editors;
 
-
+/**
+ * Schnittstelle für den TaskEditorInput.
+ * @author Kathrin Kurtz
+ *
+ * @param <T>
+ */
 public interface IEditorInput<T> {
 
 	String getLabel();

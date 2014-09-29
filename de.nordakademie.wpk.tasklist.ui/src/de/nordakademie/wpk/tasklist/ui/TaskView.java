@@ -22,6 +22,11 @@ import de.nordakademie.wpk.tasklist.core.api.TaskList;
 import de.nordakademie.wpk.tasklist.ui.provider.TaskListTreeLabelProvider;
 import de.nordakademie.wpk.tasklist.ui.provider.TasklistTreeContentProvider;
 
+/**
+ * Zeigt die Task View an.
+ * @author Kathrin Kurtz
+ *
+ */
 public class TaskView {
 
 	private TreeViewer treeViewer;

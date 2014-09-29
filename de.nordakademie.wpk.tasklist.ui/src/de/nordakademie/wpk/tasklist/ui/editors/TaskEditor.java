@@ -34,6 +34,11 @@ import de.nordakademie.wpk.tasklist.ui.jobs.LoadAllJob;
 import de.nordakademie.wpk.tasklist.ui.jobs.UpdateTaskJob;
 import de.nordakademie.wpk.tasklist.ui.util.DateHelper;
 
+/**
+ * Editor zum Bearbeiten und Speichern von Tasks.
+ * @author Kathrin Kurtz
+ *
+ */
 public class TaskEditor {
 
 	private final FormToolkit formToolkit = new FormToolkit(
@@ -169,6 +174,9 @@ public class TaskEditor {
 		});
 	}
 
+	/**
+	 * Lädt die Task und schreibt die Daten in die Felder des UI.
+	 */
 	private void initInput() {
 		String todoUri = editorPart.getPersistedState().get(
 				Constants.RESOURCE_URI_KEY);
@@ -228,9 +236,11 @@ public class TaskEditor {
 		setupTask();
 		new AddTaskService(task, tasklistId, taskService, eventBroker).schedule();
 		editorPart.setDirty(false);
-		// eventBroker.post(Topics.TASK_UPDATED, task);
 	}
 
+	/**
+	 * Übernahme der eingegebenen Daten aus dem UI in das Taskobjekt.
+	 */
 	private void setupTask() {
 		task.setTitle(txtName.getText());
 		task.setComment(txtComment.getText());
