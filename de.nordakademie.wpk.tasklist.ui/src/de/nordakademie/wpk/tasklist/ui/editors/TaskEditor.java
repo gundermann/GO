@@ -29,7 +29,9 @@ import de.nordakademie.wpk.tasklist.core.api.Task;
 import de.nordakademie.wpk.tasklist.core.api.TaskService;
 import de.nordakademie.wpk.tasklist.ui.ChangeListener;
 import de.nordakademie.wpk.tasklist.ui.Constants;
+import de.nordakademie.wpk.tasklist.ui.jobs.AddTaskService;
 import de.nordakademie.wpk.tasklist.ui.jobs.LoadAllJob;
+import de.nordakademie.wpk.tasklist.ui.jobs.UpdateTaskJob;
 import de.nordakademie.wpk.tasklist.ui.util.DateHelper;
 
 public class TaskEditor {
@@ -224,14 +226,8 @@ public class TaskEditor {
 	private void saveNewTask() {
 		task = new Task();
 		setupTask();
-		try {
-			taskService.addTask(task, tasklistId, new GoogleSetting());
-		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
-		}
+		new AddTaskService(task, tasklistId, taskService, eventBroker).schedule();
 		editorPart.setDirty(false);
-		new LoadAllJob(taskService, eventBroker, new GoogleSetting())
-				.schedule();
 		// eventBroker.post(Topics.TASK_UPDATED, task);
 	}
 
@@ -251,11 +247,7 @@ public class TaskEditor {
 
 	private void updateTask() {
 		setupTask();
-		try {
-			taskService.updateTask(task, tasklistId, new GoogleSetting());
-		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
-		}
+		new UpdateTaskJob(task, tasklistId, taskService, eventBroker).schedule();
 		editorPart.setDirty(false);
 	}
 }

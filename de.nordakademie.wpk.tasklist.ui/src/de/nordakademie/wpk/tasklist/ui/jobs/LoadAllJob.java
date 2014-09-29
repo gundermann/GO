@@ -35,19 +35,12 @@ public class LoadAllJob extends Job {
 	@Override
 	protected IStatus run(IProgressMonitor monitor) {
 		monitor.beginTask("Lade Tasklisten", 1);
-//		try {
-//			ProviderSetting settings = ProviderSettingContainer.getInstance()
-//			.getSettings(Provider.GOOGLE);
 		List<TaskList> loadAll = null;
 			try {
 				loadAll = taskService.loadAll(new GoogleSetting());
 			} catch (ServiceException e) {
 				// TODO Auto-generated catch block
 			}
-//		} catch (NoSettingFoundException e) {
-//			monitor.done();
-//			e.printStackTrace();
-//		}
 		monitor.worked(1);
 		eventBroker.post(Topics.ALL_TASKS_UPDATED, loadAll);
 		return Status.OK_STATUS;
