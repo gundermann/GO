@@ -14,7 +14,6 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	public List<TaskList> loadAll(ProviderSetting setting) throws ServiceException {
-		System.out.println("kommt an");
 		return ProviderContainer.getInstance().delegateLoadAll(setting);
 	}
 
@@ -28,7 +27,7 @@ public class TaskServiceImpl implements TaskService {
 		ProviderContainer.getInstance().delegateAddTaskList(tasklist, setting);
 	}
 
-	public void deleteTask(Task task, TaskList tasklist, ProviderSetting setting) throws ServiceException {
+	public void deleteTask(String task, String tasklist, ProviderSetting setting) throws ServiceException {
 		ProviderContainer.getInstance().delegateDeleteTask(task, tasklist, setting);
 	}
 

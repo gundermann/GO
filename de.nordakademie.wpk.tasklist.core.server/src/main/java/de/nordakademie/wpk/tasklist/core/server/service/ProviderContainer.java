@@ -46,7 +46,7 @@ public class ProviderContainer {
 		}
 	}
 
-	public void delegateDeleteTask(Task task, TaskList tasklist,
+	public void delegateDeleteTask(String task, String tasklist,
 			ProviderSetting setting) {
 		switch (setting.getProvider()) {
 		default:

@@ -170,9 +170,9 @@ public class GoogleConverter {
 		}
 	}
 
-	public void deleteTask(Tasks taskService, Task task, TaskList tasklist) {
+	public void deleteTask(Tasks taskService, String task, String tasklist) {
 		try {
-			taskService.tasks().delete(tasklist.getId(), task.getId()).execute();
+			taskService.tasks().delete(tasklist, task).execute();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
