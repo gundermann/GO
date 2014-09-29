@@ -76,5 +76,10 @@
 			<artifactId>google-oauth-client-jetty</artifactId>
 			<version>1.11.0-beta</version>
 		</dependency>
+		<dependency>
+			<groupId>Wunderjava</groupId>
+			<artifactId>Wunderjava</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 </project>
