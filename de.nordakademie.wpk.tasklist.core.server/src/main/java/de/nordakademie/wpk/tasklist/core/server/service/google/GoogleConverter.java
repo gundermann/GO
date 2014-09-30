@@ -24,7 +24,6 @@ public class GoogleConverter {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		System.out.println(taskLists.getItems().size() + " lists found");
 		for (com.google.api.services.tasks.model.TaskList googleTaskList : taskLists
 				.getItems()) {
 			TaskList taskList = new TaskList();
@@ -53,22 +52,27 @@ public class GoogleConverter {
 		try {
 			for (com.google.api.services.tasks.model.Task googleTask : list
 					.execute().getItems()) {
-				Task task = new Task();
-				task.setId(googleTask.getId());
-				task.setTitle(googleTask.getTitle());
-				task.setComment(googleTask.getNotes());
-				task.setPosition(Long.parseLong(googleTask.getPosition()));
-				task.setStatus(convertStatusFromGoogle(googleTask.getStatus()));
-				task.setLastSync(Calendar.getInstance().getTime());
-				task.setDateOfDue(convertToJavaDate(googleTask.getDue()));
-				task.setDateOfCompletion(convertToJavaDate(googleTask
-						.getCompleted()));
+				Task task = convertTask(googleTask);
 				convertedTasks.add(task);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return convertedTasks;
+	}
+
+	private Task convertTask(com.google.api.services.tasks.model.Task googleTask) {
+		Task task = new Task();
+		task.setId(googleTask.getId());
+		task.setTitle(googleTask.getTitle());
+		task.setComment(googleTask.getNotes());
+		task.setPosition(Long.parseLong(googleTask.getPosition()));
+		task.setStatus(convertStatusFromGoogle(googleTask.getStatus()));
+		task.setLastSync(Calendar.getInstance().getTime());
+		task.setDateOfDue(convertToJavaDate(googleTask.getDue()));
+		task.setDateOfCompletion(convertToJavaDate(googleTask
+				.getCompleted()));
+		return task ;
 	}
 
 	private Boolean convertStatusFromGoogle(String status) {
@@ -146,7 +150,7 @@ public class GoogleConverter {
 		googleTask.setCompleted(convertJavaToGooleDate(task
 				.getDateOfCompletion()));
 		googleTask.setDue(convertJavaToGooleDate(task.getDateOfDue()));
-		// TODO andere Eigenschaften
+		googleTask.setPosition(String.valueOf(task.getPosition()));
 	}
 
 	private String convertToGoogleStatus(Boolean status) {

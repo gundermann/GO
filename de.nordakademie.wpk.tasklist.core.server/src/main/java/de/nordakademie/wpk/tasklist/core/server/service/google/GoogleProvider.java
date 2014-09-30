@@ -19,9 +19,6 @@ public class GoogleProvider implements ProviderService {
 		googleConverter = new GoogleConverter();
 	}
 
-	/* (non-Javadoc)
-	 * @see de.nordakademie.wpk.tasklist.core.server.service.google.ProviderService#loadAll(de.nordakademie.wpk.tasklist.core.api.ProviderSetting)
-	 */
 	public List<TaskList> loadAll() {
 		return googleConverter.convertTaskLists(getTaskService(setting));
 	}
@@ -52,16 +49,10 @@ public class GoogleProvider implements ProviderService {
 		return googleConverter.convertTask(getTaskService(setting), taskId, tasklistId);
 	}
 
-	/* (non-Javadoc)
-	 * @see de.nordakademie.wpk.tasklist.core.server.service.google.ProviderService#deleteTaskList(java.lang.String, de.nordakademie.wpk.tasklist.core.api.ProviderSetting)
-	 */
 	public void deleteTaskList(String tasklistId) {
 		googleConverter.deleteTasklist(getTaskService(setting), tasklistId);
 	}
 
-	/* (non-Javadoc)
-	 * @see de.nordakademie.wpk.tasklist.core.server.service.google.ProviderService#deleteTask(java.lang.String, java.lang.String, de.nordakademie.wpk.tasklist.core.api.ProviderSetting)
-	 */
 	public void deleteTask(String task, String tasklist) {
 		googleConverter.deleteTask(getTaskService(setting), task, tasklist);
 	}

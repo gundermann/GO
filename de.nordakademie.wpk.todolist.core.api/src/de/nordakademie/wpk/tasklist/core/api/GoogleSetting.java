@@ -1,8 +1,7 @@
 package de.nordakademie.wpk.tasklist.core.api;
 
-import java.io.Serializable;
 
-public class GoogleSetting implements ProviderSetting, Serializable{
+public class GoogleSetting extends ProviderSetting{
 
 	private static final long serialVersionUID = 1L;
 

@@ -8,6 +8,8 @@ import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 
+import de.nordakademie.wpk.tasklist.core.api.ProviderSetting;
+
 /**
  * Klasse zum Speichern von Einstellungen für alle Provider außer Google.
  * @author Kathrin Kurtz
@@ -19,7 +21,7 @@ public class SettingSaver {
 	 * Speichert die Einstellungen für einen Provider in einer Datei die nach dem Provider benannt wird
 	 * @param providerSetting
 	 */
-	public void saveSetting(ProviderSettingImpl providerSetting){
+	public void saveSetting(ProviderSetting providerSetting){
 		
 		ObjectMapper mapper = new ObjectMapper();
 		String directoryString = System.getProperty("User.home") +providerSetting.getProvider().toString() +".json";

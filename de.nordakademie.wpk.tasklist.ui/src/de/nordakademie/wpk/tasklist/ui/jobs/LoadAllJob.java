@@ -1,5 +1,6 @@
 package de.nordakademie.wpk.tasklist.ui.jobs;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -8,7 +9,6 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.e4.core.services.events.IEventBroker;
 
-import de.nordakademie.wpk.tasklist.core.api.GoogleSetting;
 import de.nordakademie.wpk.tasklist.core.api.ProviderSetting;
 import de.nordakademie.wpk.tasklist.core.api.ServiceException;
 import de.nordakademie.wpk.tasklist.core.api.TaskList;
@@ -35,12 +35,12 @@ public class LoadAllJob extends Job {
 	@Override
 	protected IStatus run(IProgressMonitor monitor) {
 		monitor.beginTask("Lade Tasklisten", 1);
-		List<TaskList> loadAll = null;
+		List<TaskList> loadAll = new ArrayList<TaskList>();
 		List<ProviderSetting> activeProviderSettings = ProviderSettingContainer
 				.getInstance().getAllActiveProviderSettings();
 		for(ProviderSetting providerSetting : activeProviderSettings) {
 			try {
-				loadAll = taskService.loadAll(providerSetting);
+				loadAll.addAll(taskService.loadAll(providerSetting));
 			} catch (ServiceException e) {
 				eventBroker
 						.post(Topics.SERVER_EXCEPTION_THROWN, e.getMessage());

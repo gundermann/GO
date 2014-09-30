@@ -16,8 +16,8 @@ import org.eclipse.swt.widgets.Text;
 import de.nordakademie.wpk.tasklist.core.api.NoSettingFoundException;
 import de.nordakademie.wpk.tasklist.core.api.Provider;
 import de.nordakademie.wpk.tasklist.core.api.ProviderSetting;
+import de.nordakademie.wpk.tasklist.core.api.ProviderSetting;
 import de.nordakademie.wpk.tasklist.core.client.ProviderSettingContainer;
-import de.nordakademie.wpk.tasklist.core.client.ProviderSettingImpl;
 import de.nordakademie.wpk.tasklist.core.client.SettingSaver;
 
 /**
@@ -146,7 +146,7 @@ public class EditSettingsDialog extends TitleAreaDialog {
 	}
 
 	private void saveWunderlistSettings(SettingSaver saver, Boolean isActive) {
-		ProviderSettingImpl wlSetting = new ProviderSettingImpl();
+		ProviderSetting wlSetting = new ProviderSetting();
 		wlSetting.setActive(isActive);
 		wlSetting.setPassword(txtWunderlistPasswort.getText());
 		wlSetting.setUsername(txtWunderlistEmail.getText());

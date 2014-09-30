@@ -10,6 +10,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import de.nordakademie.wpk.tasklist.core.api.NoSettingFoundException;
 import de.nordakademie.wpk.tasklist.core.api.Provider;
 import de.nordakademie.wpk.tasklist.core.api.ProviderSetting;
+import de.nordakademie.wpk.tasklist.core.api.ProviderSetting;
 
 public class SettingLoader {
 
@@ -27,7 +28,7 @@ public class SettingLoader {
 		try {
 			File file = new File(directoryString);
 			if(file.exists() && !file.isDirectory()){
-				providersetting = (ProviderSetting) mapper.readValue(file, ProviderSettingImpl.class);
+				providersetting = (ProviderSetting) mapper.readValue(file, ProviderSetting.class);
 			}
 			else{
 				throw new NoSettingFoundException(provider);
