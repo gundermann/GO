@@ -11,9 +11,12 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ITreeSelection;
 import org.eclipse.swt.widgets.Shell;
 
+import de.nordakademie.wpk.tasklist.core.api.NoSettingFoundException;
 import de.nordakademie.wpk.tasklist.core.api.Task;
 import de.nordakademie.wpk.tasklist.core.api.TaskList;
 import de.nordakademie.wpk.tasklist.core.api.TaskService;
+import de.nordakademie.wpk.tasklist.core.client.ProviderSettingContainer;
+import de.nordakademie.wpk.tasklist.core.client.ProviderSettingNotActiveException;
 import de.nordakademie.wpk.tasklist.ui.jobs.DeleteTaskJob;
 
 public class DeleteTaskHandler {
@@ -39,8 +42,14 @@ public class DeleteTaskHandler {
 				Task task = (Task) selection.getFirstElement();
 				TaskList tasklist = (TaskList) selection.getPaths()[0]
 						.getSegment(1);
-				new DeleteTaskJob(tasklist.getId(), task.getId(), taskService,
-						eventBorker).schedule();
+				try {
+					new DeleteTaskJob(tasklist.getId(), task.getId(), taskService,
+							eventBorker, ProviderSettingContainer.getInstance().getActiveProviderSetting(tasklist.getProvider())).schedule();
+				} catch (NoSettingFoundException e) {
+					MessageDialog.openError(shell, "Task nicht gelöscht", e.getMessage());
+				} catch (ProviderSettingNotActiveException e) {
+					MessageDialog.openError(shell, "Task nicht gelöscht", e.getMessage());
+				}
 			}
 		}
 	}

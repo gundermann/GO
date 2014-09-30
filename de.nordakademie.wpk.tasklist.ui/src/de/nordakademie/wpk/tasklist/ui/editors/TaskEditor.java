@@ -249,11 +249,11 @@ public class TaskEditor {
 							.getActiveProviderSetting(
 									Provider.valueOf(providerName))).schedule();
 		} catch (NoSettingFoundException e) {
-			MessageDialog
-					.openError(parent.getShell(), "Task nicht gespeichert", e.getMessage());
+			MessageDialog.openError(parent.getShell(),
+					"Task nicht gespeichert", e.getMessage());
 		} catch (ProviderSettingNotActiveException e) {
-			MessageDialog
-					.openError(parent.getShell(), "Task nicht gespeichert", e.getMessage());
+			MessageDialog.openError(parent.getShell(),
+					"Task nicht gespeichert", e.getMessage());
 		}
 		editorPart.setDirty(false);
 	}
@@ -276,8 +276,18 @@ public class TaskEditor {
 
 	private void updateTask() {
 		setupTask();
-		new UpdateTaskJob(task, tasklistId, taskService, eventBroker)
-				.schedule();
+		try {
+			new UpdateTaskJob(task, tasklistId, taskService, eventBroker,
+					ProviderSettingContainer.getInstance()
+							.getActiveProviderSetting(
+									Provider.valueOf(providerName))).schedule();
+		} catch (NoSettingFoundException e) {
+			MessageDialog.openError(parent.getShell(),
+					"Task nicht aktualisiert", e.getMessage());
+		} catch (ProviderSettingNotActiveException e) {
+			MessageDialog.openError(parent.getShell(),
+					"Task nicht aktualisiert", e.getMessage());
+		}
 		editorPart.setDirty(false);
 	}
 }

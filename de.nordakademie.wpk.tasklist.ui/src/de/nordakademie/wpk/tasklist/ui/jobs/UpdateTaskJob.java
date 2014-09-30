@@ -7,6 +7,7 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.e4.core.services.events.IEventBroker;
 
 import de.nordakademie.wpk.tasklist.core.api.GoogleSetting;
+import de.nordakademie.wpk.tasklist.core.api.ProviderSetting;
 import de.nordakademie.wpk.tasklist.core.api.ServiceException;
 import de.nordakademie.wpk.tasklist.core.api.Task;
 import de.nordakademie.wpk.tasklist.core.api.TaskService;
@@ -18,21 +19,23 @@ public class UpdateTaskJob extends Job {
 	private String tasklistId;
 	private TaskService taskService;
 	private IEventBroker eventBroker;
+	private ProviderSetting setting;
 
 	public UpdateTaskJob(Task task, String tasklistId, TaskService taskService,
-			IEventBroker eventBroker) {
+			IEventBroker eventBroker, ProviderSetting setting) {
 		super("Aktualisiere Task");
 		this.task = task;
 		this.tasklistId = tasklistId;
 		this.taskService = taskService;
 		this.eventBroker = eventBroker;
+		this.setting = setting;
 	}
 
 	@Override
 	protected IStatus run(IProgressMonitor monitor) {
 
 		try {
-			taskService.updateTask(task, tasklistId, new GoogleSetting());
+			taskService.updateTask(task, tasklistId, setting);
 		} catch (ServiceException e) {
 			eventBroker.post(Topics.SERVER_EXCEPTION_THROWN, e.getMessage());
 		}

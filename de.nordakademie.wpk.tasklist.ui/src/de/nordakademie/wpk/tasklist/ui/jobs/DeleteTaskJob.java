@@ -7,6 +7,7 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.e4.core.services.events.IEventBroker;
 
 import de.nordakademie.wpk.tasklist.core.api.GoogleSetting;
+import de.nordakademie.wpk.tasklist.core.api.ProviderSetting;
 import de.nordakademie.wpk.tasklist.core.api.ServiceException;
 import de.nordakademie.wpk.tasklist.core.api.TaskService;
 import de.nordakademie.wpk.tasklist.ui.Topics;
@@ -17,19 +18,21 @@ public class DeleteTaskJob extends Job {
 	private TaskService taskService;
 	private String tasklistId;
 	private IEventBroker eventBroker;
+	private ProviderSetting setting;
 
-	public DeleteTaskJob(String tasklistId, String taskId, TaskService taskService, IEventBroker eventBroker) {
+	public DeleteTaskJob(String tasklistId, String taskId, TaskService taskService, IEventBroker eventBroker, ProviderSetting setting) {
 		super("Lösche Task");
 		this.tasklistId = tasklistId;
 		this.taskService = taskService;
 		this.taskId = taskId;
 		this.eventBroker = eventBroker;
+		this.setting = setting;
 	}
 
 	@Override
 	protected IStatus run(IProgressMonitor monitor) {
 		try {
-			taskService.deleteTask(taskId, tasklistId, new GoogleSetting());
+			taskService.deleteTask(taskId, tasklistId, setting);
 		} catch (ServiceException e) {
 			eventBroker.post(Topics.SERVER_EXCEPTION_THROWN, e.getMessage());
 		}
