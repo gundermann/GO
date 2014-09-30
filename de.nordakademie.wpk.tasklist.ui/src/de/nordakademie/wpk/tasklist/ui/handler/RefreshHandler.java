@@ -24,7 +24,7 @@ public class RefreshHandler {
 	
 	@Execute
 	public void execute() {
-			new LoadAllJob(taskService, eventBroker, null).schedule();
+			new LoadAllJob(taskService, eventBroker).schedule();
 	}
 	
 	@CanExecute

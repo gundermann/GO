@@ -27,19 +27,28 @@ public class ProviderSettingContainer {
 		return loader.loadFromFile(provider);
 	}
 
+	public ProviderSetting getActiveProviderSetting(Provider provider)
+			throws NoSettingFoundException, ProviderSettingNotActiveException {
+		ProviderSetting providerSetting = getProviderSetting(provider);
+		if (providerSetting.isActive())
+			return providerSetting;
+		else
+			throw new ProviderSettingNotActiveException(provider);
+	}
+
 	public List<ProviderSetting> getAllActiveProviderSettings() {
 		List<ProviderSetting> providerSettings = new ArrayList<ProviderSetting>();
 		Provider[] provider = Provider.values();
-		for(int i = 0; i < provider.length;i++){
-			try{
-			ProviderSetting providerSetting = getProviderSetting(provider[i]);
-			if(providerSetting.isActive()){
-				providerSettings.add(providerSetting);
-			}
-			}catch(NoSettingFoundException e){
+		for (int i = 0; i < provider.length; i++) {
+			try {
+				ProviderSetting providerSetting = getProviderSetting(provider[i]);
+				if (providerSetting.isActive()) {
+					providerSettings.add(providerSetting);
+				}
+			} catch (NoSettingFoundException e) {
 				continue;
 			}
-			
+
 		}
 		return providerSettings;
 	}

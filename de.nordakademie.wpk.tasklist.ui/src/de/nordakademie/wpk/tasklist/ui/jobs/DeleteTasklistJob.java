@@ -32,7 +32,7 @@ public class DeleteTasklistJob extends Job {
 		} catch (ServiceException e) {
 			eventBroker.post(Topics.SERVER_EXCEPTION_THROWN, e.getMessage());
 		}
-		new LoadAllJob(taskService, eventBroker, new GoogleSetting())
+		new LoadAllJob(taskService, eventBroker)
 				.schedule();
 		return Status.OK_STATUS;
 	}

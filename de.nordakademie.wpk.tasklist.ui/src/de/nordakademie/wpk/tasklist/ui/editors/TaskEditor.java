@@ -9,6 +9,7 @@ import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.e4.ui.di.Focus;
 import org.eclipse.e4.ui.di.Persist;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -24,18 +25,22 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
 import de.nordakademie.wpk.tasklist.core.api.GoogleSetting;
+import de.nordakademie.wpk.tasklist.core.api.NoSettingFoundException;
+import de.nordakademie.wpk.tasklist.core.api.Provider;
 import de.nordakademie.wpk.tasklist.core.api.ServiceException;
 import de.nordakademie.wpk.tasklist.core.api.Task;
 import de.nordakademie.wpk.tasklist.core.api.TaskService;
+import de.nordakademie.wpk.tasklist.core.client.ProviderSettingContainer;
+import de.nordakademie.wpk.tasklist.core.client.ProviderSettingNotActiveException;
 import de.nordakademie.wpk.tasklist.ui.ChangeListener;
 import de.nordakademie.wpk.tasklist.ui.Constants;
 import de.nordakademie.wpk.tasklist.ui.jobs.AddTaskService;
-import de.nordakademie.wpk.tasklist.ui.jobs.LoadAllJob;
 import de.nordakademie.wpk.tasklist.ui.jobs.UpdateTaskJob;
 import de.nordakademie.wpk.tasklist.ui.util.DateHelper;
 
 /**
  * Editor zum Bearbeiten und Speichern von Tasks.
+ * 
  * @author Kathrin Kurtz
  *
  */
@@ -61,9 +66,12 @@ public class TaskEditor {
 	private Button btnCheckDateDue;
 	private Label lblDateOfCompletion;
 	private Label lblLastSync;
+	private String providerName;
+	private Composite parent;
 
 	@PostConstruct
 	public void createPartControl(Composite parent) {
+		this.parent = parent;
 		Section sctnNewSection = formToolkit.createSection(parent,
 				Section.TWISTIE | Section.TITLE_BAR);
 		sctnNewSection.setBounds(0, 0, 448, 350);
@@ -136,6 +144,7 @@ public class TaskEditor {
 		formToolkit.adapt(btnCheckDateDue, true, true);
 
 		dateTime = new DateTime(composite_1, SWT.BORDER);
+		dateTime.setEnabled(false);
 		formToolkit.adapt(dateTime);
 		formToolkit.paintBordersFor(dateTime);
 
@@ -181,13 +190,13 @@ public class TaskEditor {
 		String todoUri = editorPart.getPersistedState().get(
 				Constants.RESOURCE_URI_KEY);
 		String[] split = todoUri.split("/");
-		String providerName = split[1];
+		providerName = split[1];
 		tasklistId = split[2];
 		if (split.length > 3) {
 			String taskId = split[3];
 			try {
-				task = taskService
-						.loadTask(taskId, tasklistId, new GoogleSetting());
+				task = taskService.loadTask(taskId, tasklistId,
+						new GoogleSetting());
 			} catch (ServiceException e) {
 				// TODO Auto-generated catch block
 			}
@@ -234,7 +243,18 @@ public class TaskEditor {
 	private void saveNewTask() {
 		task = new Task();
 		setupTask();
-		new AddTaskService(task, tasklistId, taskService, eventBroker).schedule();
+		try {
+			new AddTaskService(task, tasklistId, taskService, eventBroker,
+					ProviderSettingContainer.getInstance()
+							.getActiveProviderSetting(
+									Provider.valueOf(providerName))).schedule();
+		} catch (NoSettingFoundException e) {
+			MessageDialog
+					.openError(parent.getShell(), "Task nicht gespeichert", e.getMessage());
+		} catch (ProviderSettingNotActiveException e) {
+			MessageDialog
+					.openError(parent.getShell(), "Task nicht gespeichert", e.getMessage());
+		}
 		editorPart.setDirty(false);
 	}
 
@@ -245,19 +265,19 @@ public class TaskEditor {
 		task.setTitle(txtName.getText());
 		task.setComment(txtComment.getText());
 		task.setStatus(btnFertig.getSelection());
-			task.setDateOfCompletion(DateHelper
-					.getDateFromString(lblDateOfCompletion.getText()));
+		task.setDateOfCompletion(DateHelper
+				.getDateFromString(lblDateOfCompletion.getText()));
 		if (btnCheckDateDue.getSelection()) {
 			task.setDateOfDue(DateHelper.getDate(dateTime.getYear(),
 					dateTime.getMonth(), dateTime.getDay()));
-		}
-		else
-			task.setDateOfDue(null);		
+		} else
+			task.setDateOfDue(null);
 	}
 
 	private void updateTask() {
 		setupTask();
-		new UpdateTaskJob(task, tasklistId, taskService, eventBroker).schedule();
+		new UpdateTaskJob(task, tasklistId, taskService, eventBroker)
+				.schedule();
 		editorPart.setDirty(false);
 	}
 }

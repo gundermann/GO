@@ -20,24 +20,22 @@ public class LoadAllJob extends Job {
 
 	TaskService taskService;
 	private IEventBroker eventBroker;
-	private ProviderSetting setting;
 
-	public LoadAllJob(TaskService taskService, IEventBroker eventBroker,
-			ProviderSetting setting) {
+	public LoadAllJob(TaskService taskService, IEventBroker eventBroker) {
 		super("Lade Tasklisten");
 		this.taskService = taskService;
 		this.eventBroker = eventBroker;
-		this.setting = setting;
 		setUser(true);
 		setRule(new LoadAllSchedulingRule());
 	}
 
 	@Override
 	protected IStatus run(IProgressMonitor monitor) {
-		monitor.beginTask("Lade Tasklisten", 1);
 		List<TaskList> loadAll = new ArrayList<TaskList>();
 		List<ProviderSetting> activeProviderSettings = ProviderSettingContainer
 				.getInstance().getAllActiveProviderSettings();
+		monitor.beginTask("Lade Tasklisten", activeProviderSettings.size());
+		int w = 0;
 		for(ProviderSetting providerSetting : activeProviderSettings) {
 			try {
 				loadAll.addAll(taskService.loadAll(providerSetting));
@@ -46,8 +44,8 @@ public class LoadAllJob extends Job {
 						.post(Topics.SERVER_EXCEPTION_THROWN, e.getMessage());
 				continue;
 			}
+			monitor.worked(++w);
 		}
-		monitor.worked(1);
 		eventBroker.post(Topics.ALL_TASKS_UPDATED, loadAll);
 		return Status.OK_STATUS;
 	}
