@@ -8,6 +8,8 @@ import de.nordakademie.wpk.tasklist.core.api.TaskList;
 
 public class TaskListLoadJob extends Job{
 
+	
+	//TODO kann sonst weg
 	private TaskList tasklist;
 
 	public TaskListLoadJob(TaskList tasklist) {

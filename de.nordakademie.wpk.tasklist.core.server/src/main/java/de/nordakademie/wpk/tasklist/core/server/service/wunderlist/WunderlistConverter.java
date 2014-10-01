@@ -3,8 +3,12 @@ package de.nordakademie.wpk.tasklist.core.server.service.wunderlist;
 import in.co.madhur.wunderjava.api.model.WList;
 import in.co.madhur.wunderjava.api.model.WTask;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import de.nordakademie.wpk.tasklist.core.api.Provider;
@@ -38,14 +42,33 @@ public class WunderlistConverter {
 		return tasklist;
 	}
 
-	private Task convertTask(WTask wTask) {
+	public Task convertTask(WTask wTask) {
 		Task task = new Task();
 		task.setId(wTask.getId());
 		task.setTitle(wTask.getTitle());
 		task.setComment(wTask.getNote());
 		task.setLastSync(Calendar.getInstance().getTime());
-		// HIER FEHLEN EIGENSCHAFTEN
+		task.setDateOfCompletion(convertDateToJava(wTask.getCompleted_at()));
+		task.setStatus(wTask.getCompleted_at() != null);
+		task.setDateOfDue(convertDateToJava(wTask.getDue_date()));
+		task.setPosition(wTask.getPosition() != null ? wTask.getPosition()
+				.longValue() : null);
 		return task;
+	}
+
+	private Date convertDateToJava(Object completed_at) {
+		if (completed_at instanceof String) {
+			try {
+				return DateFormat.getInstance().parse((String) completed_at);
+			} catch (ParseException e) {
+				return null;
+			}
+		} else
+			return null;
+	}
+
+	public String convertJavaDate(Date dateOfDue) {
+		return SimpleDateFormat.getInstance().format(dateOfDue);
 	}
 
 }

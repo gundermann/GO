@@ -3,12 +3,11 @@ package de.nordakademie.wpk.tasklist.ui.jobs;
 import org.eclipse.core.runtime.jobs.ISchedulingRule;
 
 /**
- * Scheduling-rule für den Job, der alle Tasklisten vom Server holt.
- * Zwei Instanzen dieses Jobs sollten nicht parallel laufen.
+ * Scheduling-rule für den Job, der eine konkrete Task vom Server holt.
  * @author Niels Gundermann
  *
  */
-public class LoadAllSchedulingRule implements ISchedulingRule {
+public class LoadTaskSchedulingRule implements ISchedulingRule {
 
 
 	@Override
@@ -18,7 +17,7 @@ public class LoadAllSchedulingRule implements ISchedulingRule {
 
 	@Override
 	public boolean isConflicting(ISchedulingRule rule) {
-		if (rule instanceof LoadAllSchedulingRule) {
+		if (rule instanceof LoadTaskSchedulingRule) {
 			return true;
 		}
 		return false;

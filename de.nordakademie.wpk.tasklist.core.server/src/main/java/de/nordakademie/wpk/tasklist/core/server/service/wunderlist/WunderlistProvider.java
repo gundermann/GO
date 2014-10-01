@@ -3,6 +3,7 @@ package de.nordakademie.wpk.tasklist.core.server.service.wunderlist;
 import in.co.madhur.wunderjava.api.AuthException;
 import in.co.madhur.wunderjava.api.NetworkException;
 import in.co.madhur.wunderjava.api.WunderList;
+import in.co.madhur.wunderjava.api.model.WTask;
 
 import java.util.List;
 
@@ -11,7 +12,12 @@ import de.nordakademie.wpk.tasklist.core.api.ServiceException;
 import de.nordakademie.wpk.tasklist.core.api.Task;
 import de.nordakademie.wpk.tasklist.core.api.TaskList;
 import de.nordakademie.wpk.tasklist.core.server.service.ProviderService;
-
+/**
+ * Implemetierung für den Service des WunderlistProviders.
+ * 
+ * @author Niels Gundermann
+ *
+ */
 public class WunderlistProvider implements ProviderService {
 
 	private ProviderSetting setting;
@@ -25,7 +31,8 @@ public class WunderlistProvider implements ProviderService {
 
 	public List<TaskList> loadAll() throws ServiceException {
 		try {
-		return wunderlistConverter.convertLists(getWunderlistService().GetLists(), getWunderlistService().GetTasks());
+			return wunderlistConverter.convertLists(getWunderlistService()
+					.GetLists(), getWunderlistService().GetTasks());
 		} catch (AuthException e) {
 			throw new ServiceException(e.getMessage());
 		} catch (NetworkException e) {
@@ -33,43 +40,72 @@ public class WunderlistProvider implements ProviderService {
 		}
 	}
 
-	private WunderList getWunderlistService() throws AuthException, NetworkException  {
-			return WunderList.getInstance(setting.getUsername(), setting.getPassword());
+	private WunderList getWunderlistService() throws AuthException,
+			NetworkException {
+		return WunderList.getInstance(setting.getUsername(),
+				setting.getPassword());
 	}
 
-	public void updateTaskList(TaskList tasklist) {
-		// TODO Auto-generated method stub
+	public void updateTaskList(TaskList tasklist) throws ServiceException {
+		throw new ServiceException("Update kann auf Wunderlist noch nicht ausgeführt werden.");
+	}
+
+	public void addTaskList(TaskList tasklist) throws ServiceException {
+		try {
+			getWunderlistService().CreateList(tasklist.getName());
+		} catch (NetworkException e) {
+			throw new ServiceException(e.getMessage());
+		} catch (AuthException e) {
+			throw new ServiceException(e.getMessage());
+		}
+	}
+
+	public void updateTask(Task task, String tasklistId) throws ServiceException {
+		throw new ServiceException("Update kann auf Wunderlist noch nicht ausgeführt werden.");
+	}
+
+	public void addTask(Task task, String tasklistId) throws ServiceException {
+		try {
+			getWunderlistService().CreateTask(tasklistId, task.getTitle(), "",
+					wunderlistConverter.convertJavaDate(task.getDateOfDue()));
+		} catch (NetworkException e) {
+			throw new ServiceException(e.getMessage());
+		} catch (AuthException e) {
+			throw new ServiceException(e.getMessage());
+		}
 
 	}
 
-	public void addTaskList(TaskList tasklist) {
-		// TODO Auto-generated method stub
+	public Task loadTask(String taskId, String tasklistId)
+			throws ServiceException {
+		try {
+			List<WTask> tasks = getWunderlistService().GetTasks();
+			for (WTask wTask : tasks) {
+				if (wTask.getId().equals(taskId))
+					return wunderlistConverter.convertTask(wTask);
+			}
+		} catch (AuthException e) {
+			throw new ServiceException(e.getMessage());
+		} catch (NetworkException e) {
+			throw new ServiceException(e.getMessage());
+		}
+		throw new ServiceException("Task wurde nicht auf dem Server gefunden");
+	}
+
+	public void deleteTaskList(String tasklistId) throws ServiceException {
+		try {
+			getWunderlistService().DeleteList(tasklistId);
+		} catch (NetworkException e) {
+			throw new ServiceException(e.getMessage());
+		} catch (AuthException e) {
+			throw new ServiceException(e.getMessage());
+		}
 
 	}
 
-	public void updateTask(Task task, String tasklistId) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void addTask(Task task, String tasklistId) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public Task loadTask(String taskId, String tasklistId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public void deleteTaskList(String tasklistId) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void deleteTask(String task, String tasklist) {
-		// TODO Auto-generated method stub
-
+	public void deleteTask(String task, String tasklist)
+			throws ServiceException {
+		throw new ServiceException("löschen einer Task kann auf Wunderlist noch nicht ausgeführt werden.");
 	}
 
 }

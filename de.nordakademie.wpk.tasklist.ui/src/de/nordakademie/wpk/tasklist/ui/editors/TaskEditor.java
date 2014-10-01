@@ -5,9 +5,11 @@ import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
+import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.e4.ui.di.Focus;
 import org.eclipse.e4.ui.di.Persist;
+import org.eclipse.e4.ui.di.UIEventTopic;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
@@ -24,17 +26,18 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
-import de.nordakademie.wpk.tasklist.core.api.GoogleSetting;
 import de.nordakademie.wpk.tasklist.core.api.NoSettingFoundException;
 import de.nordakademie.wpk.tasklist.core.api.Provider;
-import de.nordakademie.wpk.tasklist.core.api.ServiceException;
+import de.nordakademie.wpk.tasklist.core.api.ProviderSetting;
 import de.nordakademie.wpk.tasklist.core.api.Task;
 import de.nordakademie.wpk.tasklist.core.api.TaskService;
 import de.nordakademie.wpk.tasklist.core.client.ProviderSettingContainer;
 import de.nordakademie.wpk.tasklist.core.client.ProviderSettingNotActiveException;
 import de.nordakademie.wpk.tasklist.ui.ChangeListener;
 import de.nordakademie.wpk.tasklist.ui.Constants;
+import de.nordakademie.wpk.tasklist.ui.Topics;
 import de.nordakademie.wpk.tasklist.ui.jobs.AddTaskService;
+import de.nordakademie.wpk.tasklist.ui.jobs.LoadTaskJob;
 import de.nordakademie.wpk.tasklist.ui.jobs.UpdateTaskJob;
 import de.nordakademie.wpk.tasklist.ui.util.DateHelper;
 
@@ -65,9 +68,9 @@ public class TaskEditor {
 	private DateTime dateTime;
 	private Button btnCheckDateDue;
 	private Label lblDateOfCompletion;
-	private Label lblLastSync;
 	private String providerName;
 	private Composite parent;
+	private Text txtLastSync;
 
 	@PostConstruct
 	public void createPartControl(Composite parent) {
@@ -149,11 +152,14 @@ public class TaskEditor {
 		formToolkit.paintBordersFor(dateTime);
 
 		Label lblLetzteAktualisierung = new Label(composite, SWT.NONE);
+		lblLetzteAktualisierung.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		formToolkit.adapt(lblLetzteAktualisierung, true, true);
 		lblLetzteAktualisierung.setText("Letzte Aktualisierung:");
-
-		lblLastSync = new Label(composite, SWT.NONE);
-		formToolkit.adapt(lblLastSync, true, true);
+		
+		txtLastSync = new Text(composite, SWT.BORDER);
+		txtLastSync.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		formToolkit.adapt(txtLastSync, true, true);
+		txtLastSync.setEnabled(false);
 		new Label(composite, SWT.NONE);
 		new Label(composite, SWT.NONE);
 		new Label(composite, SWT.NONE);
@@ -194,35 +200,65 @@ public class TaskEditor {
 		tasklistId = split[2];
 		if (split.length > 3) {
 			String taskId = split[3];
-			try {
-				task = taskService.loadTask(taskId, tasklistId,
-						new GoogleSetting());
-			} catch (ServiceException e) {
-				// TODO Auto-generated catch block
-			}
-			if (task != null) {
-				txtName.setText(task.getTitle());
-				txtComment.setText(task.getComment());
-				btnFertig.setSelection(task.getStatus());
-				lblDateOfCompletion.setText(DateHelper.getDateAsSting(task
-						.getDateOfCompletion()));
-				Date dateOfDue = task.getDateOfDue();
-				if (dateOfDue == null) {
-					btnCheckDateDue.setSelection(false);
-					dateTime.setEnabled(false);
-				} else {
-					btnCheckDateDue.setSelection(true);
-					dateTime.setEnabled(true);
-					dateTime.setDate(DateHelper.getYear(dateOfDue),
-							DateHelper.getMonth(dateOfDue),
-							DateHelper.getDay(dateOfDue));
-				}
-			}
-			lblLastSync.setText(DateHelper.getDateAsSting(task.getLastSync()));
+			new LoadTaskJob(taskService, eventBroker, taskId, tasklistId, getSetting()).schedule();
 		} else {
 			txtName.setText("Neue Task");
 			editorPart.setDirty(true);
 		}
+	}
+	
+	@Inject
+	@Optional
+	private void handleTaskLoaded(
+			@UIEventTopic(Topics.TASK_LOADED) Task task) {
+		refreshInput(task);
+	}
+	
+	@Inject
+	@Optional
+	private void handleTaskSaved(
+			@UIEventTopic(Topics.TASK_SAVED) Task task) {
+		if(task == this.task)
+			editorPart.setDirty(false);
+	}
+
+	private void refreshInput(Task task) {
+		this.task = task;
+		if (task != null) {
+			txtName.setText(task.getTitle());
+			txtComment.setText(task.getComment());
+			btnFertig.setSelection(task.getStatus());
+			lblDateOfCompletion.setText(DateHelper.getDateAsSting(task
+					.getDateOfCompletion()));
+			Date dateOfDue = task.getDateOfDue();
+			if (dateOfDue == null) {
+				btnCheckDateDue.setSelection(false);
+				dateTime.setEnabled(false);
+			} else {
+				btnCheckDateDue.setSelection(true);
+				dateTime.setEnabled(true);
+				dateTime.setDate(DateHelper.getYear(dateOfDue),
+						DateHelper.getMonth(dateOfDue),
+						DateHelper.getDay(dateOfDue));
+			}
+			txtLastSync.setText(DateHelper.getDateAsSting(task.getLastSync()));
+		}
+		editorPart.setDirty(false);
+	}
+
+	private ProviderSetting getSetting() {
+		ProviderSetting setting = null;
+		try {
+			setting = ProviderSettingContainer.getInstance()
+					.getActiveProviderSetting(Provider.valueOf(providerName));
+		} catch (NoSettingFoundException e) {
+			MessageDialog.openError(parent.getShell(),
+					"Task nicht gespeichert", e.getMessage());
+		} catch (ProviderSettingNotActiveException e) {
+			MessageDialog.openError(parent.getShell(),
+					"Task nicht gespeichert", e.getMessage());
+		}
+		return setting;
 	}
 
 	@Focus
@@ -237,25 +273,15 @@ public class TaskEditor {
 		} else {
 			saveNewTask();
 		}
-		editorPart.setDirty(false);
+//		editorPart.setDirty(false);
 	}
 
 	private void saveNewTask() {
 		task = new Task();
 		setupTask();
-		try {
-			new AddTaskService(task, tasklistId, taskService, eventBroker,
-					ProviderSettingContainer.getInstance()
-							.getActiveProviderSetting(
-									Provider.valueOf(providerName))).schedule();
-		} catch (NoSettingFoundException e) {
-			MessageDialog.openError(parent.getShell(),
-					"Task nicht gespeichert", e.getMessage());
-		} catch (ProviderSettingNotActiveException e) {
-			MessageDialog.openError(parent.getShell(),
-					"Task nicht gespeichert", e.getMessage());
-		}
-		editorPart.setDirty(false);
+		new AddTaskService(task, tasklistId, taskService, eventBroker,
+				getSetting()).schedule();
+//		editorPart.setDirty(false);
 	}
 
 	/**
@@ -276,18 +302,8 @@ public class TaskEditor {
 
 	private void updateTask() {
 		setupTask();
-		try {
-			new UpdateTaskJob(task, tasklistId, taskService, eventBroker,
-					ProviderSettingContainer.getInstance()
-							.getActiveProviderSetting(
-									Provider.valueOf(providerName))).schedule();
-		} catch (NoSettingFoundException e) {
-			MessageDialog.openError(parent.getShell(),
-					"Task nicht aktualisiert", e.getMessage());
-		} catch (ProviderSettingNotActiveException e) {
-			MessageDialog.openError(parent.getShell(),
-					"Task nicht aktualisiert", e.getMessage());
-		}
-		editorPart.setDirty(false);
+		new UpdateTaskJob(task, tasklistId, taskService, eventBroker,
+				getSetting()).schedule();
+//		editorPart.setDirty(false);
 	}
 }

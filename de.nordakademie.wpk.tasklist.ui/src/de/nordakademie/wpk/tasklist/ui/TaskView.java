@@ -11,6 +11,7 @@ import org.eclipse.e4.ui.di.Focus;
 import org.eclipse.e4.ui.di.UIEventTopic;
 import org.eclipse.e4.ui.services.EMenuService;
 import org.eclipse.e4.ui.workbench.modeling.ESelectionService;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ITreeSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
@@ -37,11 +38,14 @@ public class TaskView {
 	@Inject
 	private ESelectionService selectionService;
 
+	private Composite parent;
+
 	public TaskView() {
 	}
 
 	@PostConstruct
 	public void createControls(Composite parent) {
+		this.parent = parent;
 		treeViewer = new TreeViewer(parent, SWT.BORDER);
 		treeViewer.setContentProvider(new TasklistTreeContentProvider());
 		treeViewer.setLabelProvider(new TaskListTreeLabelProvider());
@@ -89,6 +93,13 @@ public class TaskView {
 		refreshInput(tasklists);
 	}
 
+	@Inject
+	@Optional
+	private void handleChangeEvent(
+			@UIEventTopic(Topics.SERVER_EXCEPTION_THROWN) String message) {
+		MessageDialog.openInformation(parent.getShell(), "Fehler auf dem Server", message);
+	}
+	
 	private void refreshInput(List<TaskList> tasklists) {
 		TreeTasklistsItem tasklistsItem = new TreeTasklistsItem();
 		TreeRootItem root = new TreeRootItem(tasklistsItem);

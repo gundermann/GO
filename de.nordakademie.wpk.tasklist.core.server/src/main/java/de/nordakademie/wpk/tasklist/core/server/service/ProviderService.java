@@ -6,6 +6,13 @@ import de.nordakademie.wpk.tasklist.core.api.ServiceException;
 import de.nordakademie.wpk.tasklist.core.api.Task;
 import de.nordakademie.wpk.tasklist.core.api.TaskList;
 
+/**
+ * Einheitliches API für die unterschliedlichen Quellen aus denen Tasks
+ * bearbeitet werden können
+ * 
+ * @author Niels Gundermann
+ *
+ */
 public interface ProviderService {
 
 	List<TaskList> loadAll() throws ServiceException;

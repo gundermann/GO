@@ -6,7 +6,6 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.e4.core.services.events.IEventBroker;
 
-import de.nordakademie.wpk.tasklist.core.api.GoogleSetting;
 import de.nordakademie.wpk.tasklist.core.api.ProviderSetting;
 import de.nordakademie.wpk.tasklist.core.api.ServiceException;
 import de.nordakademie.wpk.tasklist.core.api.TaskService;
@@ -27,6 +26,8 @@ public class DeleteTaskJob extends Job {
 		this.taskId = taskId;
 		this.eventBroker = eventBroker;
 		this.setting = setting;
+		setUser(true);
+		setRule(new DeleteTaskSchedulingRule());
 	}
 
 	@Override

@@ -6,7 +6,6 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.e4.core.services.events.IEventBroker;
 
-import de.nordakademie.wpk.tasklist.core.api.GoogleSetting;
 import de.nordakademie.wpk.tasklist.core.api.ProviderSetting;
 import de.nordakademie.wpk.tasklist.core.api.ServiceException;
 import de.nordakademie.wpk.tasklist.core.api.Task;
@@ -29,18 +28,19 @@ public class UpdateTaskJob extends Job {
 		this.taskService = taskService;
 		this.eventBroker = eventBroker;
 		this.setting = setting;
+		setUser(true);
+		setRule(new UpdateTaskSchedulingJob());
 	}
 
 	@Override
 	protected IStatus run(IProgressMonitor monitor) {
-
 		try {
 			taskService.updateTask(task, tasklistId, setting);
+			eventBroker.post(Topics.TASK_SAVED, task);
 		} catch (ServiceException e) {
 			eventBroker.post(Topics.SERVER_EXCEPTION_THROWN, e.getMessage());
 		}
-		new LoadAllJob(taskService, eventBroker)
-				.schedule();
+		new LoadAllJob(taskService, eventBroker).schedule();
 		return Status.OK_STATUS;
 	}
 
