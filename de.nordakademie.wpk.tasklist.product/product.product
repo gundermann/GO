@@ -3,6 +3,9 @@
 
 <product name="de.nordakademie.wpk.tasklist.product" id="de.nordakademie.wpk.tasklist.product.product" application="org.eclipse.e4.ui.workbench.swt.E4Application" version="1.0.0.qualifier" useFeatures="true" includeLaunchers="true">
 
+   <aboutInfo>
+      <image path="/de.nordakademie.wpk.tasklist.product/icons/icon48.png"/>
+   </aboutInfo>
 
    <configIni use="default">
    </configIni>
@@ -14,13 +17,21 @@
       </vmArgsMac>
    </launcherArgs>
 
-   <windowImages/>
+   <windowImages i16="/de.nordakademie.wpk.tasklist.product/icons/icon16.png" i32="/de.nordakademie.wpk.tasklist.product/icons/icon32.png" i48="/de.nordakademie.wpk.tasklist.product/icons/icon48.png"/>
 
-
-   <launcher>
+   <splash
+      location="de.nordakademie.wpk.tasklist.product" />
+   <launcher name="Tasklisten">
       <solaris/>
       <win useIco="false">
-         <bmp/>
+         <bmp
+            winSmallHigh="/de.nordakademie.wpk.tasklist.product/icons/icon16.32bit.bmp"
+            winSmallLow="/de.nordakademie.wpk.tasklist.product/icons/icon16.8bit.bmp"
+            winMediumHigh="/de.nordakademie.wpk.tasklist.product/icons/Icon32.32bit.bmp"
+            winMediumLow="/de.nordakademie.wpk.tasklist.product/icons/Icon32.16bit.bmp"
+            winLargeHigh="/de.nordakademie.wpk.tasklist.product/icons/Icon48.32bit.bmp"
+            winLargeLow="/de.nordakademie.wpk.tasklist.product/icons/Icon48.16bit.bmp"
+            winExtraLargeHigh="/de.nordakademie.wpk.tasklist.product/icons/Icon256.32bit.bmp"/>
       </win>
    </launcher>
 
