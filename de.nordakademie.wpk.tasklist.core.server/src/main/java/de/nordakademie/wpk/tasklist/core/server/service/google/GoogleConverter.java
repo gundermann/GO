@@ -8,7 +8,6 @@ import java.util.List;
 
 import com.google.api.client.util.DateTime;
 import com.google.api.services.tasks.Tasks;
-import com.google.api.services.tasks.model.TaskLists;
 
 import de.nordakademie.wpk.tasklist.core.api.Provider;
 import de.nordakademie.wpk.tasklist.core.api.Task;
@@ -16,29 +15,20 @@ import de.nordakademie.wpk.tasklist.core.api.TaskList;
 
 public class GoogleConverter {
 
-	public List<TaskList> convertTaskLists(Tasks tasksService) {
-		List<TaskList> convertedTasklists = new ArrayList<TaskList>();
-		TaskLists taskLists = null;
-		try {
-			taskLists = tasksService.tasklists().list().execute();
-		} catch (IOException e1) {
-			e1.printStackTrace();
+	public TaskList convertTaskList(
+			com.google.api.services.tasks.model.TaskList gList,
+			com.google.api.services.tasks.model.Tasks gTasks) {
+		TaskList taskList = new TaskList();
+		taskList.setId(gList.getId());
+		taskList.setName(gList.getTitle());
+		taskList.setProvider(Provider.GOOGLE);
+		List<Task> tasks  =new ArrayList<Task>();
+		for (com.google.api.services.tasks.model.Task gTask : gTasks.getItems()) {
+			Task task = convertTask(gTask);
+			tasks.add(task);
 		}
-		for (com.google.api.services.tasks.model.TaskList googleTaskList : taskLists
-				.getItems()) {
-			TaskList taskList = new TaskList();
-			taskList.setId(googleTaskList.getId());
-			taskList.setName(googleTaskList.getTitle());
-			taskList.setProvider(Provider.GOOGLE);
-			List<Task> convertGoogleTasks = convertGoogleTasks(tasksService,
-					taskList.getId());
-			taskList.setTasks(convertGoogleTasks);
-			convertedTasklists.add(taskList);
-		}
-		for (TaskList taskList : convertedTasklists) {
-			System.out.println(taskList.getName());
-		}
-		return convertedTasklists;
+		taskList.setTasks(tasks);;
+		return taskList;
 	}
 
 	private List<Task> convertGoogleTasks(Tasks tasksService, String tasklistId) {
@@ -61,7 +51,7 @@ public class GoogleConverter {
 		return convertedTasks;
 	}
 
-	private Task convertTask(com.google.api.services.tasks.model.Task googleTask) {
+	public Task convertTask(com.google.api.services.tasks.model.Task googleTask) {
 		Task task = new Task();
 		task.setId(googleTask.getId());
 		task.setTitle(googleTask.getTitle());
@@ -70,9 +60,8 @@ public class GoogleConverter {
 		task.setStatus(convertStatusFromGoogle(googleTask.getStatus()));
 		task.setLastSync(Calendar.getInstance().getTime());
 		task.setDateOfDue(convertToJavaDate(googleTask.getDue()));
-		task.setDateOfCompletion(convertToJavaDate(googleTask
-				.getCompleted()));
-		return task ;
+		task.setDateOfCompletion(convertToJavaDate(googleTask.getCompleted()));
+		return task;
 	}
 
 	private Boolean convertStatusFromGoogle(String status) {
@@ -158,7 +147,7 @@ public class GoogleConverter {
 	}
 
 	private DateTime convertJavaToGooleDate(Date date) {
-		if(date == null)
+		if (date == null)
 			return null;
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(date);
@@ -182,16 +171,17 @@ public class GoogleConverter {
 		}
 	}
 
-	public void updateTaskList(Tasks taskService, TaskList tasklist) {
-		com.google.api.services.tasks.model.TaskList googleTasklist;
-		try {
-			googleTasklist = taskService.tasklists().get(tasklist.getId()).execute();
-			googleTasklist.setTitle(tasklist.getName());
-			taskService.tasklists().update(tasklist.getId(), googleTasklist).execute();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+	// public void updateTaskList(Tasks taskService, TaskList tasklist) {
+	// com.google.api.services.tasks.model.TaskList googleTasklist;
+	// try {
+	// googleTasklist = taskService.tasklists().get(tasklist.getId()).execute();
+	// googleTasklist.setTitle(tasklist.getName());
+	// taskService.tasklists().update(tasklist.getId(),
+	// googleTasklist).execute();
+	// } catch (IOException e) {
+	// e.printStackTrace();
+	// }
+	// }
 
 	public void addTasklist(Tasks taskService, TaskList tasklist) {
 		com.google.api.services.tasks.model.TaskList googleTasklist = new com.google.api.services.tasks.model.TaskList();
@@ -201,7 +191,27 @@ public class GoogleConverter {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
+	}
+
+	public com.google.api.services.tasks.model.TaskList convertTaskList(
+			TaskList tasklist,
+			com.google.api.services.tasks.model.TaskList gTasklist) {
+		gTasklist.setTitle(tasklist.getName());
+		return gTasklist;
+	}
+
+	public com.google.api.services.tasks.model.TaskList createNewGoogleTaskList(
+			TaskList tasklist) {
+		com.google.api.services.tasks.model.TaskList gTasklist = new com.google.api.services.tasks.model.TaskList();
+		gTasklist.setTitle(tasklist.getName());
+		return gTasklist;
+	}
+
+	public com.google.api.services.tasks.model.Task convertTask(Task task,
+			com.google.api.services.tasks.model.Task gTask) {
+		setupGoogleTaskFromTask(gTask, task);
+		return gTask;
 	}
 
 }

@@ -40,7 +40,6 @@ public class LoadTaskJob extends Job {
 			eventBroker.post(Topics.TASK_LOADED, task);
 		} catch (ServiceException e) {
 			eventBroker.post(Topics.SERVER_EXCEPTION_THROWN, e.getMessage());
-			return Status.CANCEL_STATUS;
 		}
 		return Status.OK_STATUS;
 	}

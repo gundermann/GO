@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.nordakademie.wpk.tasklist.core.api.GoogleSetting;
-import de.nordakademie.wpk.tasklist.core.api.NoSettingFoundException;
 import de.nordakademie.wpk.tasklist.core.api.Provider;
 import de.nordakademie.wpk.tasklist.core.api.ProviderSetting;
 

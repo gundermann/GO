@@ -12,7 +12,7 @@ public class GoogleSetting extends ProviderSetting{
 
 	@Override
 	public String getUsername() {
-		return "gundermann.niels.ng@googlemail.com";
+		return System.getProperty("user.name");
 	}
 
 	@Override

@@ -108,7 +108,7 @@ public class TaskView {
 			tasklistsItem.addTasklist(taskList);
 		}
 		treeViewer.setInput(root);
-
+		treeViewer.expandToLevel(1);
 	}
 
 }
