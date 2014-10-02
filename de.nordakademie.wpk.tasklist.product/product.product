@@ -20,7 +20,8 @@
    <windowImages i16="/de.nordakademie.wpk.tasklist.product/icons/icon16.png" i32="/de.nordakademie.wpk.tasklist.product/icons/icon32.png" i48="/de.nordakademie.wpk.tasklist.product/icons/icon48.png"/>
 
    <splash
-      location="de.nordakademie.wpk.tasklist.product" />
+      location="de.nordakademie.wpk.tasklist.product"
+      startupProgressRect="5,275,445,15" />
    <launcher name="Tasklisten">
       <solaris/>
       <win useIco="false">
@@ -38,7 +39,6 @@
 
    <vm>
    </vm>
-
 
    <plugins>
       <plugin id="com.ibm.icu"/>
