@@ -19,6 +19,14 @@
          	name="applicationXMI"
          	value="de.nordakademie.wpk.tasklist.product/Application.e4xmi">
          </property>
+         <property
+               name="aboutImage"
+               value="icons/icon48.png">
+         </property>
+         <property
+               name="windowImages"
+               value="icons/icon16.png,icons/icon32.png,icons/icon48.png">
+         </property>
       </product>
    </extension>
 
