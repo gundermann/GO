@@ -9,7 +9,6 @@ import org.codehaus.jackson.map.ObjectMapper;
 
 import de.nordakademie.wpk.tasklist.core.api.Provider;
 import de.nordakademie.wpk.tasklist.core.api.ProviderSetting;
-import de.nordakademie.wpk.tasklist.core.api.ProviderSetting;
 
 public class SettingLoader {
 

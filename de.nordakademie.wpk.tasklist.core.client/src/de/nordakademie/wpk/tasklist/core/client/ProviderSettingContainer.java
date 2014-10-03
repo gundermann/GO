@@ -10,7 +10,7 @@ import de.nordakademie.wpk.tasklist.core.api.ProviderSetting;
 public class ProviderSettingContainer {
 
 	private static ProviderSettingContainer _instance;
-
+	
 	public static ProviderSettingContainer getInstance() {
 		if (_instance == null)
 			_instance = new ProviderSettingContainer();
