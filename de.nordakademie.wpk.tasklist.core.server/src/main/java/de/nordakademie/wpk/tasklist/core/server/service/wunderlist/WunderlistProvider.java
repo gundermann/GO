@@ -66,7 +66,7 @@ public class WunderlistProvider implements ProviderService {
 
 	public String addTask(Task task, String tasklistId) throws ServiceException {
 		try {
-			WTask wTask = getWunderlistService().CreateTask(tasklistId, task.getTitle(), null,
+			WTask wTask = getWunderlistService().CreateTask(tasklistId, task.getTitle(), "",
 					wunderlistConverter.convertJavaDate(task.getDateOfDue()));
 			return wTask.getId();
 		} catch (NetworkException e) {
