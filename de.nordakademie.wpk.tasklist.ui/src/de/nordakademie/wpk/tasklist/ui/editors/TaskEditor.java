@@ -220,7 +220,8 @@ public class TaskEditor {
 	@Inject
 	@Optional
 	private void handleTaskLoaded(@UIEventTopic(Topics.TASK_LOADED) Task task) {
-		refreshInput(task);
+		if (this.task == null || task.getId().equals(this.task.getId()))
+			refreshInput(task);
 	}
 
 	@Inject
@@ -231,10 +232,11 @@ public class TaskEditor {
 			loadTask(task.getId());
 		}
 	}
-	
+
 	@Inject
 	@Optional
-	private void handleTaskDeleted(@UIEventTopic(Topics.TASK_DELETED) String taskId) {
+	private void handleTaskDeleted(
+			@UIEventTopic(Topics.TASK_DELETED) String taskId) {
 		if (taskId.equals(task.getId())) {
 			partService.hidePart(editorPart);
 		}
