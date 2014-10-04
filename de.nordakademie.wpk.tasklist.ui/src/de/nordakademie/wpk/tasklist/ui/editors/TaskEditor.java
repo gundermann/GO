@@ -74,6 +74,7 @@ public class TaskEditor {
 	private String providerName;
 	private Composite parent;
 	private Text txtLastSync;
+	private String taskId;
 
 	@PostConstruct
 	public void createPartControl(Composite parent) {
@@ -204,9 +205,10 @@ public class TaskEditor {
 		providerName = split[1];
 		tasklistId = split[2];
 		if (split.length > 3) {
-			String taskId = split[3];
+			taskId = split[3];
 			loadTask(taskId);
 		} else {
+			this.task = new Task();
 			editorPart.setLabel("Neue Task");
 			txtName.setText("Neue Task");
 			editorPart.setDirty(true);
@@ -221,31 +223,29 @@ public class TaskEditor {
 	@Inject
 	@Optional
 	private void handleTaskLoaded(@UIEventTopic(Topics.TASK_LOADED) Task task) {
-		if (this.task == null || task.getId().equals(this.task.getId()))
+		if (this.task == null || task.getId().equals(this.task.getId())) {
 			refreshInput(task);
+		}
 	}
 
 	@Inject
 	@Optional
 	private void handleTaskSaved(@UIEventTopic(Topics.TASK_SAVED) Task task) {
 		if (task == this.task) {
+			String elementId = editorPart.getElementId();
+			if (elementId.lastIndexOf('#') == elementId.length() - 1) {
+				this.task.setId(task.getId());
+				editorPart.setElementId(elementId + task.getId());
+			}
 			editorPart.setDirty(false);
 			loadTask(task.getId());
-		}
-	}
-
-	@Inject
-	@Optional
-	private void handleTaskDeleted(
-			@UIEventTopic(Topics.TASK_DELETED) String taskId) {
-		if (taskId.equals(task.getId())) {
-			partService.hidePart(editorPart);
 		}
 	}
 
 	private void refreshInput(Task task) {
 		this.task = task;
 		if (task != null) {
+			editorPart.setLabel(task.getTitle());
 			txtName.setText(task.getTitle());
 			txtComment.setText(task.getComment());
 			btnFertig.setSelection(task.getStatus());
@@ -290,7 +290,7 @@ public class TaskEditor {
 
 	@Persist
 	public void save() {
-		if (task != null) {
+		if (!task.getId().equals("")) {
 			updateTask();
 		} else {
 			saveNewTask();
@@ -298,7 +298,6 @@ public class TaskEditor {
 	}
 
 	private void saveNewTask() {
-		task = new Task();
 		setupTask();
 		new AddTaskService(task, tasklistId, taskService, eventBroker,
 				getSetting()).schedule();
@@ -308,6 +307,7 @@ public class TaskEditor {
 	 * Übernahme der eingegebenen Daten aus dem UI in das Taskobjekt.
 	 */
 	private void setupTask() {
+		editorPart.setLabel(task.getTitle());
 		task.setTitle(txtName.getText());
 		task.setComment(txtComment.getText());
 		task.setStatus(btnFertig.getSelection());

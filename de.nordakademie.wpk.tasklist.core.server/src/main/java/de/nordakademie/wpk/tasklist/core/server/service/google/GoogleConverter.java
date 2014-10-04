@@ -22,12 +22,15 @@ public class GoogleConverter {
 		taskList.setId(gList.getId());
 		taskList.setName(gList.getTitle());
 		taskList.setProvider(Provider.GOOGLE);
-		List<Task> tasks  =new ArrayList<Task>();
-		for (com.google.api.services.tasks.model.Task gTask : gTasks.getItems()) {
-			Task task = convertTask(gTask);
-			tasks.add(task);
+		List<Task> tasks = new ArrayList<Task>();
+		if (gTasks != null) {
+			for (com.google.api.services.tasks.model.Task gTask : gTasks
+					.getItems()) {
+				Task task = convertTask(gTask);
+				tasks.add(task);
+			}
 		}
-		taskList.setTasks(tasks);;
+		taskList.setTasks(tasks);
 		return taskList;
 	}
 

@@ -7,5 +7,6 @@ public class Topics {
 	public static final String TASK_LOADED = "TASK_LOADED";
 	public static final String TASK_SAVED = "TASK_SAVED";
 	public static final String TASK_DELETED = "TASK_DELETED";
+	public static final String TASK_HANDLING_IMPOSSIBILE = "TASK_HANLDING_IMPOSSIBLE";
 
 }

@@ -6,6 +6,7 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.e4.core.di.annotations.CanExecute;
 import org.eclipse.e4.core.di.annotations.Execute;
 import org.eclipse.e4.core.services.events.IEventBroker;
+import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.e4.ui.workbench.modeling.ESelectionService;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ITreeSelection;
@@ -17,6 +18,8 @@ import de.nordakademie.wpk.tasklist.core.api.TaskService;
 import de.nordakademie.wpk.tasklist.core.client.NoSettingFoundException;
 import de.nordakademie.wpk.tasklist.core.client.ProviderSettingContainer;
 import de.nordakademie.wpk.tasklist.core.client.ProviderSettingNotActiveException;
+import de.nordakademie.wpk.tasklist.ui.Topics;
+import de.nordakademie.wpk.tasklist.ui.editors.TaskEditorInput;
 import de.nordakademie.wpk.tasklist.ui.jobs.DeleteTaskJob;
 
 public class DeleteTaskHandler {
@@ -28,6 +31,8 @@ public class DeleteTaskHandler {
 
 	@Inject
 	private TaskService taskService;
+	@Inject
+	private EPartService partService;
 
 	@Inject
 	private IEventBroker eventBorker;
@@ -35,20 +40,34 @@ public class DeleteTaskHandler {
 	@Execute
 	public void execute(Shell shell) throws ExecutionException {
 		if (canExecute()) {
-			boolean confirmed = MessageDialog.openQuestion(shell, "Wirklich?", message);
+			boolean confirmed = MessageDialog.openQuestion(shell, "Wirklich?",
+					message);
 			if (confirmed) {
 				ITreeSelection selection = (ITreeSelection) selectionService
 						.getSelection();
 				Task task = (Task) selection.getFirstElement();
 				TaskList tasklist = (TaskList) selection.getPaths()[0]
 						.getSegment(1);
-				try {
-					new DeleteTaskJob(tasklist.getId(), task.getId(), taskService,
-							eventBorker, ProviderSettingContainer.getInstance().getActiveProviderSetting(tasklist.getProvider())).schedule();
-				} catch (NoSettingFoundException e) {
-					MessageDialog.openError(shell, "Task nicht gelöscht", e.getMessage());
-				} catch (ProviderSettingNotActiveException e) {
-					MessageDialog.openError(shell, "Task nicht gelöscht", e.getMessage());
+				TaskEditorInput taskEditorInput = new TaskEditorInput(task,
+						tasklist);
+				if (partService.findPart(taskEditorInput.getPartId()) != null) {
+					eventBorker.post(Topics.TASK_HANDLING_IMPOSSIBILE,
+							"Task wird noch bearbeitet.");
+				} else {
+					try {
+						new DeleteTaskJob(tasklist.getId(), task.getId(),
+								taskService, eventBorker,
+								ProviderSettingContainer.getInstance()
+										.getActiveProviderSetting(
+												tasklist.getProvider()))
+								.schedule();
+					} catch (NoSettingFoundException e) {
+						MessageDialog.openError(shell, "Task nicht gelöscht",
+								e.getMessage());
+					} catch (ProviderSettingNotActiveException e) {
+						MessageDialog.openError(shell, "Task nicht gelöscht",
+								e.getMessage());
+					}
 				}
 			}
 		}
