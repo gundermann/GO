@@ -74,7 +74,7 @@ public class GoogleConnection {
 
 		FileDataStoreFactory credentialStore = new FileDataStoreFactory(
 				new File(System.getProperty("user.home"),
-						".credentials/tasksengine.json"));
+						".tasklisten/tasksengineGoogle.json"));
 
 		GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
 				HTTP_TRANSPORT, JSON_FACTORY, clientSecrets,
