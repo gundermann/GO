@@ -1,6 +1,10 @@
 package de.nordakademie.wpk.tasklist.core.api;
 
-
+/**
+ * Standardeinstellung für Google
+ * @author Niels Gundermann
+ *
+ */
 public class GoogleSetting extends ProviderSetting{
 
 	private static final long serialVersionUID = 1L;

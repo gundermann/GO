@@ -2,20 +2,23 @@ package de.nordakademie.wpk.tasklist.core.api;
 
 import java.io.Serializable;
 
-public class ProviderSetting implements Serializable{
+/**
+ * Bildet Einstellungen ab, die vom Nutzer je Provider vorgenommen werden können
+ * 
+ * @author Niels Gundermann
+ *
+ */
+public class ProviderSetting implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private String username;
 	private String password;
 	private Provider provider;
 	private boolean active;
-	
-	public ProviderSetting(){
+
+	public ProviderSetting() {
 	}
-	
+
 	public void setUsername(String username) {
 		this.username = username;
 	}
@@ -35,6 +38,7 @@ public class ProviderSetting implements Serializable{
 	public String getPassword() {
 		return password;
 	}
+
 	public Provider getProvider() {
 		return provider;
 	}

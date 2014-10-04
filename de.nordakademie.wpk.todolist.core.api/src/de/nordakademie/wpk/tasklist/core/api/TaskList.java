@@ -3,6 +3,12 @@ package de.nordakademie.wpk.tasklist.core.api;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * Bildet die Tasklisten ab
+ * 
+ * @author Niels Gundermann
+ *
+ */
 public class TaskList implements Serializable{
 
 	private static final long serialVersionUID = 3L;
