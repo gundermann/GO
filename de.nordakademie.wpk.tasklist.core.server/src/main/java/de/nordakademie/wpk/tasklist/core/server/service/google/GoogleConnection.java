@@ -1,6 +1,8 @@
 package de.nordakademie.wpk.tasklist.core.server.service.google;
 
 import java.io.File;
+
+
 import java.io.IOException;
 import java.util.Collections;
 
@@ -18,6 +20,14 @@ import com.google.api.services.tasks.Tasks;
 
 import de.nordakademie.wpk.tasklist.core.api.ProviderSetting;
 
+
+/**
+ * Verbindungsklasse für den Googleprovider
+ * 
+ * Quelle: https://code.google.com/p/google-api-java-client/wiki/OAuth2
+ * @author Niels Gundermann
+ *
+ */
 public class GoogleConnection {
 
 	private static String CLIENT_ID = "74768510313-9k4hpid661bkectrpsi9k0q7uu1l0em7.apps.googleusercontent.com";

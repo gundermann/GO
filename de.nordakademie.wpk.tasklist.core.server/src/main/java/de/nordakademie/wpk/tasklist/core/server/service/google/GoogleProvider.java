@@ -1,6 +1,8 @@
 package de.nordakademie.wpk.tasklist.core.server.service.google;
 
 import java.io.IOException;
+
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +15,13 @@ import de.nordakademie.wpk.tasklist.core.api.Task;
 import de.nordakademie.wpk.tasklist.core.api.TaskList;
 import de.nordakademie.wpk.tasklist.core.server.service.ProviderService;
 
+
+/**
+ * Implementierung des Services für Google
+ * 
+ * @author Niels Gundermann
+ *
+ */
 public class GoogleProvider implements ProviderService {
 
 	private GoogleConverter googleConverter;

@@ -8,6 +8,12 @@ import de.nordakademie.wpk.tasklist.core.api.Task;
 import de.nordakademie.wpk.tasklist.core.api.TaskList;
 import de.nordakademie.wpk.tasklist.core.api.TaskService;
 
+/**
+ * Implementation des TaskService, der an den Client übermittelt wird
+ * 
+ * @author Niels Gundermann
+ *
+ */
 public class TaskServiceImpl implements TaskService {
 
 	public TaskServiceImpl() {

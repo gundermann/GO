@@ -13,6 +13,12 @@ import de.nordakademie.wpk.tasklist.core.api.Provider;
 import de.nordakademie.wpk.tasklist.core.api.Task;
 import de.nordakademie.wpk.tasklist.core.api.TaskList;
 
+/**
+ * Konverterklasse für den Googleprovider
+ * 
+ * @author Niels Gundermann
+ *
+ */
 public class GoogleConverter {
 
 	public TaskList convertTaskList(
