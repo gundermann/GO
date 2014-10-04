@@ -8,6 +8,12 @@ import org.eclipse.e4.core.di.annotations.Execute;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Shell;
 
+/**
+ * Handler für das Öffnen des Einstellungsmenu in der Menuzeile
+ * 
+ * @author Kathrin Kurtz
+ *
+ */
 public class SettingHandler {
 	
 	@Execute
