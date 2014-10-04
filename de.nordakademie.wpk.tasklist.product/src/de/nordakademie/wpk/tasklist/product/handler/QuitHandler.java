@@ -7,6 +7,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Shell;
 
 /**
+ * Handler für das Schließen der Anwendung über die Menuzeile
  * 
  * @author Kathrin Kurtz
  *
