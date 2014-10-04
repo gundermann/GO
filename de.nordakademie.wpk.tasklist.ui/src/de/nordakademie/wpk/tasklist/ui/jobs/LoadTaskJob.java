@@ -13,6 +13,11 @@ import de.nordakademie.wpk.tasklist.core.api.Task;
 import de.nordakademie.wpk.tasklist.core.api.TaskService;
 import de.nordakademie.wpk.tasklist.ui.Topics;
 
+/**
+ * Job der genau eine Taskl lädt
+ * @author Niels Gundermann
+ *
+ */
 public class LoadTaskJob extends Job {
 
 	TaskService taskService;

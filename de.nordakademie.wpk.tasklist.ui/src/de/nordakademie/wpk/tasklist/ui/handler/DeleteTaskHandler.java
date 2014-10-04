@@ -22,6 +22,11 @@ import de.nordakademie.wpk.tasklist.ui.Topics;
 import de.nordakademie.wpk.tasklist.ui.editors.TaskEditorInput;
 import de.nordakademie.wpk.tasklist.ui.jobs.DeleteTaskJob;
 
+/**
+ * Handler zum Löschen einer Task
+ * @author Niels Gundermann
+ *
+ */
 public class DeleteTaskHandler {
 
 	private String message = "Wollen Sie die Task wirklich löschen?";

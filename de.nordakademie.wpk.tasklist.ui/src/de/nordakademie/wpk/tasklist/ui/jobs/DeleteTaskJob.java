@@ -12,6 +12,11 @@ import de.nordakademie.wpk.tasklist.core.api.ServiceException;
 import de.nordakademie.wpk.tasklist.core.api.TaskService;
 import de.nordakademie.wpk.tasklist.ui.Topics;
 
+/**
+ * Job, der eine Task löscht
+ * @author Niels Gundermann
+ *
+ */
 public class DeleteTaskJob extends Job {
 
 	private String taskId;

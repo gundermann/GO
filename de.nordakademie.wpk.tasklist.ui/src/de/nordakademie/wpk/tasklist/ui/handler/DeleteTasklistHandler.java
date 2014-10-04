@@ -19,6 +19,12 @@ import de.nordakademie.wpk.tasklist.core.client.ProviderSettingContainer;
 import de.nordakademie.wpk.tasklist.core.client.ProviderSettingNotActiveException;
 import de.nordakademie.wpk.tasklist.ui.jobs.DeleteTasklistJob;
 
+/**
+ * Handler zum Löschen einer Taskliste
+ * 
+ * @author Niels Gundermann
+ *
+ */
 public class DeleteTasklistHandler {
 
 	@Inject

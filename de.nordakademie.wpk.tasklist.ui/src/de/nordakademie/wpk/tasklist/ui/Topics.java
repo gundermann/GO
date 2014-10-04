@@ -1,5 +1,11 @@
 package de.nordakademie.wpk.tasklist.ui;
 
+/**
+ * Enthält die Konstanten, die bei Eventbrokern benutzt werden
+ * 
+ * @author Niels Gundermann
+ *
+ */
 public class Topics {
 
 	public static final String ALL_TASKS_UPDATED = "ALL_UPDATED";

@@ -37,7 +37,7 @@ import de.nordakademie.wpk.tasklist.core.client.ProviderSettingNotActiveExceptio
 import de.nordakademie.wpk.tasklist.ui.ChangeListener;
 import de.nordakademie.wpk.tasklist.ui.Constants;
 import de.nordakademie.wpk.tasklist.ui.Topics;
-import de.nordakademie.wpk.tasklist.ui.jobs.AddTaskService;
+import de.nordakademie.wpk.tasklist.ui.jobs.AddTaskJob;
 import de.nordakademie.wpk.tasklist.ui.jobs.LoadTaskJob;
 import de.nordakademie.wpk.tasklist.ui.jobs.UpdateTaskJob;
 import de.nordakademie.wpk.tasklist.ui.util.DateHelper;
@@ -299,7 +299,7 @@ public class TaskEditor {
 
 	private void saveNewTask() {
 		setupTask();
-		new AddTaskService(task, tasklistId, taskService, eventBroker,
+		new AddTaskJob(task, tasklistId, taskService, eventBroker,
 				getSetting()).schedule();
 	}
 

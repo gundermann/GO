@@ -13,6 +13,11 @@ import de.nordakademie.wpk.tasklist.core.api.TaskList;
 import de.nordakademie.wpk.tasklist.ui.Topics;
 import de.nordakademie.wpk.tasklist.ui.editors.TaskEditorInput;
 
+/**
+ * Handler zum Hinzufügen einer Task
+ * @author Niels Gundermann
+ *
+ */
 public class AddTaskHandler extends AbstractEditorHandler {
 
 	@Inject

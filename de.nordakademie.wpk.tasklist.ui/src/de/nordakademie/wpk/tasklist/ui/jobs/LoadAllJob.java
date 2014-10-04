@@ -17,6 +17,11 @@ import de.nordakademie.wpk.tasklist.core.api.TaskService;
 import de.nordakademie.wpk.tasklist.core.client.ProviderSettingContainer;
 import de.nordakademie.wpk.tasklist.ui.Topics;
 
+/**
+ * Job, der alle Tasklisten vom Server holt
+ * @author Niels Gundermann
+ *
+ */
 public class LoadAllJob extends Job {
 
 	TaskService taskService;

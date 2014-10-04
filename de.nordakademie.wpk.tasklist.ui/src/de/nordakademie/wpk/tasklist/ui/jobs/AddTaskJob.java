@@ -13,7 +13,12 @@ import de.nordakademie.wpk.tasklist.core.api.Task;
 import de.nordakademie.wpk.tasklist.core.api.TaskService;
 import de.nordakademie.wpk.tasklist.ui.Topics;
 
-public class AddTaskService extends Job {
+/**
+ * Job, der eine Task hinzufügt
+ * @author Niels Gundermann
+ *
+ */
+public class AddTaskJob extends Job {
 
 	private Task task;
 	private TaskService taskService;
@@ -21,7 +26,7 @@ public class AddTaskService extends Job {
 	private IEventBroker eventBroker;
 	private ProviderSetting setting;
 
-	public AddTaskService(Task task, String tasklistId,
+	public AddTaskJob(Task task, String tasklistId,
 			TaskService taskService, IEventBroker eventBroker,
 			ProviderSetting setting) {
 		super("Füge Task hinzu");
