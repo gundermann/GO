@@ -64,10 +64,11 @@ public class WunderlistProvider implements ProviderService {
 		throw new ServiceException("Update kann auf Wunderlist noch nicht ausgeführt werden.");
 	}
 
-	public void addTask(Task task, String tasklistId) throws ServiceException {
+	public String addTask(Task task, String tasklistId) throws ServiceException {
 		try {
-			getWunderlistService().CreateTask(tasklistId, task.getTitle(), "",
+			WTask wTask = getWunderlistService().CreateTask(tasklistId, task.getTitle(), null,
 					wunderlistConverter.convertJavaDate(task.getDateOfDue()));
+			return wTask.getId();
 		} catch (NetworkException e) {
 			throw new ServiceException(e.getMessage());
 		} catch (AuthException e) {

@@ -6,5 +6,6 @@ public class Topics {
 	public static final String SERVER_EXCEPTION_THROWN = "EXCEPTION_ON_SERVER";
 	public static final String TASK_LOADED = "TASK_LOADED";
 	public static final String TASK_SAVED = "TASK_SAVED";
+	public static final String TASK_DELETED = "TASK_DELETED";
 
 }

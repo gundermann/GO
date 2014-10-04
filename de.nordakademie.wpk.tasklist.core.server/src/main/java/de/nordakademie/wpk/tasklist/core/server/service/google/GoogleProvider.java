@@ -84,13 +84,14 @@ public class GoogleProvider implements ProviderService {
 		}
 	}
 
-	public void addTask(Task task, String tasklistId) throws ServiceException {
+	public String addTask(Task task, String tasklistId) throws ServiceException {
 		try {
 			com.google.api.services.tasks.model.Task gTask = new com.google.api.services.tasks.model.Task();
-			getTaskService(setting)
+			gTask = getTaskService(setting)
 					.tasks()
 					.insert(tasklistId,
 							googleConverter.convertTask(task, gTask)).execute();
+			return gTask.getId();
 		} catch (IOException e) {
 			throw new ServiceException(e.getMessage());
 		}

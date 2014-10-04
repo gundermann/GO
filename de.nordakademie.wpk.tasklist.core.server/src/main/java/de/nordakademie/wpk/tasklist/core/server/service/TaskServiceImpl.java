@@ -74,10 +74,10 @@ public class TaskServiceImpl implements TaskService {
 		}
 	}
 
-	public void addTask(Task task, String tasklistId, ProviderSetting setting)
+	public String addTask(Task task, String tasklistId, ProviderSetting setting)
 			throws ServiceException {
 		try {
-			ProviderContainer.getInstance().getProvider(setting)
+			return ProviderContainer.getInstance().getProvider(setting)
 					.addTask(task, tasklistId);
 		} catch (ProviderNotImplementedException e) {
 			throw new ServiceException(e.getMessage());

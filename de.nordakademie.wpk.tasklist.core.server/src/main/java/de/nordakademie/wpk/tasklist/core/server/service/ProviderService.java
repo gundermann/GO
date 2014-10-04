@@ -23,7 +23,7 @@ public interface ProviderService {
 
 	void updateTask(Task task, String tasklistId) throws ServiceException;
 
-	void addTask(Task task, String tasklistId) throws ServiceException;
+	String addTask(Task task, String tasklistId) throws ServiceException;
 
 	Task loadTask(String taskId, String tasklistId) throws ServiceException;
 

@@ -17,7 +17,7 @@ public interface TaskService {
 
 	void addTaskList(TaskList tasklist,ProviderSetting setting) throws ServiceException;
 
-	void addTask(Task task, String tasklistId, ProviderSetting setting) throws ServiceException;
+	String addTask(Task task, String tasklistId, ProviderSetting setting) throws ServiceException;
 
 	void deleteTask(String taskId, String tasklistId, ProviderSetting setting) throws ServiceException;
 

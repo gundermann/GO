@@ -11,6 +11,7 @@ import org.eclipse.e4.ui.di.Focus;
 import org.eclipse.e4.ui.di.Persist;
 import org.eclipse.e4.ui.di.UIEventTopic;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
+import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -56,6 +57,8 @@ public class TaskEditor {
 
 	@Inject
 	private MPart editorPart;
+	@Inject
+	private EPartService partService;
 
 	@Inject
 	private IEventBroker eventBroker;
@@ -152,12 +155,14 @@ public class TaskEditor {
 		formToolkit.paintBordersFor(dateTime);
 
 		Label lblLetzteAktualisierung = new Label(composite, SWT.NONE);
-		lblLetzteAktualisierung.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		lblLetzteAktualisierung.setLayoutData(new GridData(SWT.RIGHT,
+				SWT.CENTER, false, false, 1, 1));
 		formToolkit.adapt(lblLetzteAktualisierung, true, true);
 		lblLetzteAktualisierung.setText("Letzte Aktualisierung:");
-		
+
 		txtLastSync = new Text(composite, SWT.BORDER);
-		txtLastSync.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		txtLastSync.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
+				false, 1, 1));
 		formToolkit.adapt(txtLastSync, true, true);
 		txtLastSync.setEnabled(false);
 		new Label(composite, SWT.NONE);
@@ -200,26 +205,39 @@ public class TaskEditor {
 		tasklistId = split[2];
 		if (split.length > 3) {
 			String taskId = split[3];
-			new LoadTaskJob(taskService, eventBroker, taskId, tasklistId, getSetting()).schedule();
+			loadTask(taskId);
 		} else {
 			txtName.setText("Neue Task");
 			editorPart.setDirty(true);
 		}
 	}
-	
+
+	private void loadTask(String taskId) {
+		new LoadTaskJob(taskService, eventBroker, taskId, tasklistId,
+				getSetting()).schedule();
+	}
+
 	@Inject
 	@Optional
-	private void handleTaskLoaded(
-			@UIEventTopic(Topics.TASK_LOADED) Task task) {
+	private void handleTaskLoaded(@UIEventTopic(Topics.TASK_LOADED) Task task) {
 		refreshInput(task);
+	}
+
+	@Inject
+	@Optional
+	private void handleTaskSaved(@UIEventTopic(Topics.TASK_SAVED) Task task) {
+		if (task == this.task) {
+			editorPart.setDirty(false);
+			loadTask(task.getId());
+		}
 	}
 	
 	@Inject
 	@Optional
-	private void handleTaskSaved(
-			@UIEventTopic(Topics.TASK_SAVED) Task task) {
-		if(task == this.task)
-			editorPart.setDirty(false);
+	private void handleTaskDeleted(@UIEventTopic(Topics.TASK_DELETED) String taskId) {
+		if (taskId.equals(task.getId())) {
+			partService.hidePart(editorPart);
+		}
 	}
 
 	private void refreshInput(Task task) {
@@ -241,7 +259,8 @@ public class TaskEditor {
 						DateHelper.getMonth(dateOfDue),
 						DateHelper.getDay(dateOfDue));
 			}
-			txtLastSync.setText(DateHelper.getDateAsSting(task.getLastSync()));
+			txtLastSync.setText(DateHelper.getDateTimeAsSting(task
+					.getLastSync()));
 		}
 		editorPart.setDirty(false);
 	}
@@ -273,7 +292,6 @@ public class TaskEditor {
 		} else {
 			saveNewTask();
 		}
-//		editorPart.setDirty(false);
 	}
 
 	private void saveNewTask() {
@@ -281,7 +299,6 @@ public class TaskEditor {
 		setupTask();
 		new AddTaskService(task, tasklistId, taskService, eventBroker,
 				getSetting()).schedule();
-//		editorPart.setDirty(false);
 	}
 
 	/**
@@ -304,6 +321,5 @@ public class TaskEditor {
 		setupTask();
 		new UpdateTaskJob(task, tasklistId, taskService, eventBroker,
 				getSetting()).schedule();
-//		editorPart.setDirty(false);
 	}
 }

@@ -5,6 +5,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.e4.core.services.events.IEventBroker;
+import org.springframework.remoting.RemoteConnectFailureException;
 
 import de.nordakademie.wpk.tasklist.core.api.ProviderSetting;
 import de.nordakademie.wpk.tasklist.core.api.ServiceException;
@@ -25,6 +26,8 @@ public class DeleteTasklistJob extends Job {
 		this.taskService = taskService;
 		this.eventBroker = eventBroker;
 		this.setting = setting;
+		setUser(true);
+		setRule(new DeleteTasklistSchedulingRule());
 	}
 
 	@Override
@@ -33,9 +36,11 @@ public class DeleteTasklistJob extends Job {
 			taskService.deleteTaskList(tasklistId, setting);
 		} catch (ServiceException e) {
 			eventBroker.post(Topics.SERVER_EXCEPTION_THROWN, e.getMessage());
+		} catch (RemoteConnectFailureException e) {
+			eventBroker.post(Topics.SERVER_EXCEPTION_THROWN,
+					"Keine Verbindung zum Server");
 		}
-		new LoadAllJob(taskService, eventBroker)
-				.schedule();
+		new LoadAllJob(taskService, eventBroker).schedule();
 		return Status.OK_STATUS;
 	}
 
