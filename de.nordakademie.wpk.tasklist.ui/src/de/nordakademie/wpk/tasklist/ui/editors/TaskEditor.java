@@ -207,6 +207,7 @@ public class TaskEditor {
 			String taskId = split[3];
 			loadTask(taskId);
 		} else {
+			editorPart.setLabel("Neue Task");
 			txtName.setText("Neue Task");
 			editorPart.setDirty(true);
 		}
