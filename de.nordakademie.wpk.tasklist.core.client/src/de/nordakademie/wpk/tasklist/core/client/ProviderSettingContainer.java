@@ -7,6 +7,12 @@ import de.nordakademie.wpk.tasklist.core.api.GoogleSetting;
 import de.nordakademie.wpk.tasklist.core.api.Provider;
 import de.nordakademie.wpk.tasklist.core.api.ProviderSetting;
 
+/**
+ * Enthält alle Einstellungen, die für den Nutzer bestehen.
+ * 
+ * @author Niels Gundermann
+ *
+ */
 public class ProviderSettingContainer {
 
 	private static ProviderSettingContainer _instance;

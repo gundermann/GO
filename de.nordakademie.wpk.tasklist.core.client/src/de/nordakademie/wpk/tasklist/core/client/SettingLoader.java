@@ -10,14 +10,13 @@ import org.codehaus.jackson.map.ObjectMapper;
 import de.nordakademie.wpk.tasklist.core.api.Provider;
 import de.nordakademie.wpk.tasklist.core.api.ProviderSetting;
 
+
+/**
+ * Lädt die Einstellungen für einen Provider aus einer Datei, welche nach dem Provider benannt ist.
+ * @author Kathirn Kurtz
+ */
 public class SettingLoader {
 
-	/**
-	 * Lädt die Einstellungen für einen Provider aus einer Datei, welche nach dem Provider benannt ist.
-	 * @param provider
-	 * @return
-	 * @throws NoSettingFoundException 
-	 */
 	public ProviderSetting loadFromFile(Provider provider) throws NoSettingFoundException {
 		String directoryString = System.getProperty("User.home") +provider.toString() +".json";
 		
