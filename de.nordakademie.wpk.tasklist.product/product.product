@@ -25,18 +25,19 @@
       <solaris/>
       <win useIco="false">
          <bmp
-            winSmallHigh="/de.nordakademie.wpk.tasklist.product/icons/icon16.32bit.bmp"
-            winSmallLow="/de.nordakademie.wpk.tasklist.product/icons/icon16.8bit.bmp"
-            winMediumHigh="/de.nordakademie.wpk.tasklist.product/icons/Icon32.32bit.bmp"
-            winMediumLow="/de.nordakademie.wpk.tasklist.product/icons/Icon32.16bit.bmp"
-            winLargeHigh="/de.nordakademie.wpk.tasklist.product/icons/Icon48.32bit.bmp"
-            winLargeLow="/de.nordakademie.wpk.tasklist.product/icons/Icon48.16bit.bmp"
-            winExtraLargeHigh="/de.nordakademie.wpk.tasklist.product/icons/Icon256.32bit.bmp"/>
+            winSmallHigh="/de.nordakademie.wpk.tasklist.product/icons/icon16_32bit.bmp"
+            winSmallLow="/de.nordakademie.wpk.tasklist.product/icons/icon16_8bit.bmp"
+            winMediumHigh="/de.nordakademie.wpk.tasklist.product/icons/Icon32_32bit.bmp"
+            winMediumLow="/de.nordakademie.wpk.tasklist.product/icons/Icon32_16bit.bmp"
+            winLargeHigh="/de.nordakademie.wpk.tasklist.product/icons/Icon48_32bit.bmp"
+            winLargeLow="/de.nordakademie.wpk.tasklist.product/icons/Icon48_16bit.bmp"
+            winExtraLargeHigh="/de.nordakademie.wpk.tasklist.product/icons/Icon256_32bit.bmp"/>
       </win>
    </launcher>
 
 
    <vm>
+      <windows include="false">org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7</windows>
    </vm>
 
 
