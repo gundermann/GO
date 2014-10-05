@@ -14,42 +14,44 @@ import de.nordakademie.wpk.tasklist.core.api.TaskService;
 import de.nordakademie.wpk.tasklist.ui.Topics;
 
 /**
- * Job der genau eine Taskl lädt
+ * Job, der eine Task hinzufügt
  * @author Niels Gundermann
  *
  */
-public class LoadTaskJob extends Job {
+public class AddTaskJob extends Job {
 
-	TaskService taskService;
-	private IEventBroker eventBroker;
-	private String taskId;
-	private ProviderSetting setting;
+	private Task task;
+	private TaskService taskService;
 	private String tasklistId;
+	private IEventBroker eventBroker;
+	private ProviderSetting setting;
 
-	public LoadTaskJob(TaskService taskService, IEventBroker eventBroker,
-			String taskId, String tasklistId, ProviderSetting setting) {
-		super("Lade Tasklisten");
-		setUser(true);
-		setRule(new LoadTaskSchedulingRule());
+	public AddTaskJob(Task task, String tasklistId,
+			TaskService taskService, IEventBroker eventBroker,
+			ProviderSetting setting) {
+		super("Füge Task hinzu");
+		this.task = task;
+		this.tasklistId = tasklistId;
 		this.taskService = taskService;
 		this.eventBroker = eventBroker;
-		this.taskId = taskId;
-		this.tasklistId = tasklistId;
 		this.setting = setting;
-		taskId = tasklistId;
+		setUser(true);
+		setRule(new AddTaskSchedulingRule());
 	}
 
 	@Override
 	protected IStatus run(IProgressMonitor monitor) {
 		try {
-			Task task = taskService.loadTask(taskId, tasklistId, setting);
-			eventBroker.post(Topics.TASK_LOADED, task);
+			String taskId = taskService.addTask(task, tasklistId, setting);
+			task.setId(taskId);
+			eventBroker.post(Topics.TASK_SAVED, task);
 		} catch (ServiceException e) {
 			eventBroker.post(Topics.SERVER_EXCEPTION_THROWN, e.getMessage());
-		} catch (RemoteConnectFailureException e) {
+		}catch (RemoteConnectFailureException e) {
 			eventBroker.post(Topics.SERVER_EXCEPTION_THROWN,
 					"Keine Verbindung zum Server");
 		}
+		new LoadAllJob(taskService, eventBroker).schedule();
 		return Status.OK_STATUS;
 	}
 

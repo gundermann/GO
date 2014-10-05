@@ -42,7 +42,7 @@ public class WunderlistProvider implements ProviderService {
 
 	private WunderList getWunderlistService() throws AuthException,
 			NetworkException {
-		return WunderList.getInstance(setting.getUsername(),
+		return WunderlistConnection.getService(setting.getUsername(),
 				setting.getPassword());
 	}
 
@@ -64,10 +64,11 @@ public class WunderlistProvider implements ProviderService {
 		throw new ServiceException("Update kann auf Wunderlist noch nicht ausgeführt werden.");
 	}
 
-	public void addTask(Task task, String tasklistId) throws ServiceException {
+	public String addTask(Task task, String tasklistId) throws ServiceException {
 		try {
-			getWunderlistService().CreateTask(tasklistId, task.getTitle(), "",
+			WTask wTask = getWunderlistService().CreateTask(tasklistId, task.getTitle(), "",
 					wunderlistConverter.convertJavaDate(task.getDateOfDue()));
+			return wTask.getId();
 		} catch (NetworkException e) {
 			throw new ServiceException(e.getMessage());
 		} catch (AuthException e) {
@@ -93,19 +94,13 @@ public class WunderlistProvider implements ProviderService {
 	}
 
 	public void deleteTaskList(String tasklistId) throws ServiceException {
-		try {
-			getWunderlistService().DeleteList(tasklistId);
-		} catch (NetworkException e) {
-			throw new ServiceException(e.getMessage());
-		} catch (AuthException e) {
-			throw new ServiceException(e.getMessage());
-		}
-
+		throw new ServiceException("Löschen einer Tasklist kann auf Wunderlist noch nicht ausgeführt werden.");
+		
 	}
 
 	public void deleteTask(String task, String tasklist)
 			throws ServiceException {
-		throw new ServiceException("löschen einer Task kann auf Wunderlist noch nicht ausgeführt werden.");
+		throw new ServiceException("Löschen einer Task kann auf Wunderlist noch nicht ausgeführt werden.");
 	}
 
 }

@@ -7,33 +7,33 @@ import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 
-import de.nordakademie.wpk.tasklist.core.api.NoSettingFoundException;
 import de.nordakademie.wpk.tasklist.core.api.Provider;
 import de.nordakademie.wpk.tasklist.core.api.ProviderSetting;
-import de.nordakademie.wpk.tasklist.core.api.ProviderSetting;
 
+/**
+ * Lädt die Einstellungen für einen Provider aus einer Datei, welche nach dem
+ * Provider benannt ist.
+ * 
+ * @author Kathirn Kurtz
+ */
 public class SettingLoader {
 
-	/**
-	 * Lädt die Einstellungen für einen Provider aus einer Datei, welche nach dem Provider benannt ist.
-	 * @param provider
-	 * @return
-	 * @throws NoSettingFoundException 
-	 */
-	public ProviderSetting loadFromFile(Provider provider) throws NoSettingFoundException {
-		String directoryString = System.getProperty("User.home") +provider.toString() +".json";
-		
+	public ProviderSetting loadFromFile(Provider provider)
+			throws NoSettingFoundException {
+		String directoryString = ".tasklisten/" + provider.toString() + ".json";
+
 		ObjectMapper mapper = new ObjectMapper();
 		ProviderSetting providersetting = null;
 		try {
-			File file = new File(directoryString);
-			if(file.exists() && !file.isDirectory()){
-				providersetting = (ProviderSetting) mapper.readValue(file, ProviderSetting.class);
-			}
-			else{
+			File file = new File(System.getProperty("user.home"),
+					directoryString);
+			if (file.exists() && !file.isDirectory()) {
+				providersetting = (ProviderSetting) mapper.readValue(file,
+						ProviderSetting.class);
+			} else {
 				throw new NoSettingFoundException(provider);
 			}
-			
+
 		} catch (JsonParseException e) {
 			System.out.println("JasonPaseExeprtion");
 			throw new NoSettingFoundException(provider);
@@ -45,7 +45,7 @@ public class SettingLoader {
 			System.out.println("JIOeExeprtion");
 			throw new NoSettingFoundException(provider);
 		}
-		
+
 		return providersetting;
 	}
 

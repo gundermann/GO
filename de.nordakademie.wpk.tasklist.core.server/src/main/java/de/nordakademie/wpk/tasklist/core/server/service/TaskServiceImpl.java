@@ -8,6 +8,12 @@ import de.nordakademie.wpk.tasklist.core.api.Task;
 import de.nordakademie.wpk.tasklist.core.api.TaskList;
 import de.nordakademie.wpk.tasklist.core.api.TaskService;
 
+/**
+ * Implementation des TaskService, der an den Client übermittelt wird
+ * 
+ * @author Niels Gundermann
+ *
+ */
 public class TaskServiceImpl implements TaskService {
 
 	public TaskServiceImpl() {
@@ -74,10 +80,10 @@ public class TaskServiceImpl implements TaskService {
 		}
 	}
 
-	public void addTask(Task task, String tasklistId, ProviderSetting setting)
+	public String addTask(Task task, String tasklistId, ProviderSetting setting)
 			throws ServiceException {
 		try {
-			ProviderContainer.getInstance().getProvider(setting)
+			return ProviderContainer.getInstance().getProvider(setting)
 					.addTask(task, tasklistId);
 		} catch (ProviderNotImplementedException e) {
 			throw new ServiceException(e.getMessage());

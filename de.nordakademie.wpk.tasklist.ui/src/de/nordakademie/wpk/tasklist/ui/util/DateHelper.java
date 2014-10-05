@@ -7,6 +7,7 @@ import java.util.Date;
 
 /**
  * Helper-Klasse für den Umgabe mit Datums innerhalb des Bundles.
+ * 
  * @author Niels Gundermann
  *
  */
@@ -22,7 +23,7 @@ public class DateHelper {
 			cal.setTime(date);
 			StringBuilder sb = new StringBuilder();
 			sb.append(cal.get(Calendar.DAY_OF_MONTH)).append(".")
-					.append(cal.get(Calendar.MONTH)+1).append(".")
+					.append(cal.get(Calendar.MONTH) + 1).append(".")
 					.append(cal.get(Calendar.YEAR));
 			return sb.toString();
 		}
@@ -30,7 +31,7 @@ public class DateHelper {
 	}
 
 	public static Date getDateFromString(String dateString) {
-		if(dateString.equals(""))
+		if (dateString.equals(""))
 			return null;
 		Date parse = null;
 		try {
@@ -40,7 +41,7 @@ public class DateHelper {
 		}
 		return parse;
 	}
-	
+
 	public static int getYear(Date dateOfDue) {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(dateOfDue);
@@ -65,6 +66,16 @@ public class DateHelper {
 		cal.set(Calendar.MONTH, month);
 		cal.set(Calendar.DAY_OF_MONTH, day);
 		return cal.getTime();
+	}
+
+	public static String getDateTimeAsSting(Date date) {
+		StringBuilder dateAsSting = new StringBuilder(getDateAsSting(date));
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		dateAsSting.append(" - ").append(cal.get(Calendar.HOUR_OF_DAY))
+				.append(":").append(cal.get(Calendar.MINUTE)).append(":")
+				.append(cal.get(Calendar.SECOND));
+		return dateAsSting.toString();
 	}
 
 }

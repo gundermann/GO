@@ -28,11 +28,11 @@ public abstract class AbstractEditorHandler {
 	@Inject
 	private EModelService modelService;
 	@Inject
-	private EPartService partService;
+	protected EPartService partService;
 
 	protected void openEditor(IEditorInput<?> input, String bundleSymbolicName) {
 		MPart part = partService.findPart(input.getPartId());
-		if (part == null) {
+		if (part == null || !part.isToBeRendered()) {
 			part = MBasicFactory.INSTANCE.createPart();
 			part.setElementId(input.getPartId());
 			part.setLabel(input.getLabel());
@@ -44,10 +44,15 @@ public abstract class AbstractEditorHandler {
 					input.getResourceURIString());
 			part.setIconURI(input.getIconURIString());
 			part.setCloseable(true);
-			MPartStack editorStack = (MPartStack) modelService.find(
-					EDITOR_STACK_ID, application);
+			MPartStack editorStack = findEditorStack();
+			
 			editorStack.getChildren().add(part);
 		}
 		partService.showPart(part, PartState.ACTIVATE);
+	}
+
+	protected MPartStack findEditorStack() {
+		return (MPartStack) modelService.find(
+				EDITOR_STACK_ID, application);
 	}
 }

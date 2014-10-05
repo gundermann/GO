@@ -95,9 +95,16 @@ public class TaskView {
 
 	@Inject
 	@Optional
-	private void handleChangeEvent(
+	private void handleServerException(
 			@UIEventTopic(Topics.SERVER_EXCEPTION_THROWN) String message) {
 		MessageDialog.openInformation(parent.getShell(), "Fehler auf dem Server", message);
+	}
+	
+	@Inject
+	@Optional
+	private void handleTaskHandlingImpossible(
+			@UIEventTopic(Topics.TASK_HANDLING_IMPOSSIBILE) String message ) {
+		MessageDialog.openInformation(parent.getShell(), "Aktion nicht möglich", message);
 	}
 	
 	private void refreshInput(List<TaskList> tasklists) {
@@ -108,7 +115,7 @@ public class TaskView {
 			tasklistsItem.addTasklist(taskList);
 		}
 		treeViewer.setInput(root);
-
+		treeViewer.expandToLevel(1);
 	}
 
 }

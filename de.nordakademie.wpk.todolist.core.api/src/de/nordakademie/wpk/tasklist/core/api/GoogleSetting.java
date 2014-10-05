@@ -1,6 +1,10 @@
 package de.nordakademie.wpk.tasklist.core.api;
 
-
+/**
+ * Standardeinstellung für Google
+ * @author Niels Gundermann
+ *
+ */
 public class GoogleSetting extends ProviderSetting{
 
 	private static final long serialVersionUID = 1L;
@@ -12,7 +16,7 @@ public class GoogleSetting extends ProviderSetting{
 
 	@Override
 	public String getUsername() {
-		return "gundermann.niels.ng@googlemail.com";
+		return System.getProperty("user.name");
 	}
 
 	@Override

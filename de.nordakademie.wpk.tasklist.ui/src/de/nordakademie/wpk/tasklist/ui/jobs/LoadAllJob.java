@@ -8,6 +8,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.e4.core.services.events.IEventBroker;
+import org.springframework.remoting.RemoteConnectFailureException;
 
 import de.nordakademie.wpk.tasklist.core.api.ProviderSetting;
 import de.nordakademie.wpk.tasklist.core.api.ServiceException;
@@ -16,6 +17,11 @@ import de.nordakademie.wpk.tasklist.core.api.TaskService;
 import de.nordakademie.wpk.tasklist.core.client.ProviderSettingContainer;
 import de.nordakademie.wpk.tasklist.ui.Topics;
 
+/**
+ * Job, der alle Tasklisten vom Server holt
+ * @author Niels Gundermann
+ *
+ */
 public class LoadAllJob extends Job {
 
 	TaskService taskService;
@@ -36,13 +42,17 @@ public class LoadAllJob extends Job {
 				.getInstance().getAllActiveProviderSettings();
 		monitor.beginTask("Lade Tasklisten", activeProviderSettings.size());
 		int w = 0;
-		for(ProviderSetting providerSetting : activeProviderSettings) {
+		for (ProviderSetting providerSetting : activeProviderSettings) {
 			try {
 				loadAll.addAll(taskService.loadAll(providerSetting));
 			} catch (ServiceException e) {
 				eventBroker
 						.post(Topics.SERVER_EXCEPTION_THROWN, e.getMessage());
 				continue;
+			} catch (RemoteConnectFailureException e) {
+				eventBroker.post(Topics.SERVER_EXCEPTION_THROWN,
+						"Keine Verbindung zum Server");
+				break;
 			}
 			monitor.worked(++w);
 		}

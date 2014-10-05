@@ -11,6 +11,7 @@ import org.eclipse.e4.ui.di.Focus;
 import org.eclipse.e4.ui.di.Persist;
 import org.eclipse.e4.ui.di.UIEventTopic;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
+import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -26,17 +27,17 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
-import de.nordakademie.wpk.tasklist.core.api.NoSettingFoundException;
 import de.nordakademie.wpk.tasklist.core.api.Provider;
 import de.nordakademie.wpk.tasklist.core.api.ProviderSetting;
 import de.nordakademie.wpk.tasklist.core.api.Task;
 import de.nordakademie.wpk.tasklist.core.api.TaskService;
+import de.nordakademie.wpk.tasklist.core.client.NoSettingFoundException;
 import de.nordakademie.wpk.tasklist.core.client.ProviderSettingContainer;
 import de.nordakademie.wpk.tasklist.core.client.ProviderSettingNotActiveException;
 import de.nordakademie.wpk.tasklist.ui.ChangeListener;
 import de.nordakademie.wpk.tasklist.ui.Constants;
 import de.nordakademie.wpk.tasklist.ui.Topics;
-import de.nordakademie.wpk.tasklist.ui.jobs.AddTaskService;
+import de.nordakademie.wpk.tasklist.ui.jobs.AddTaskJob;
 import de.nordakademie.wpk.tasklist.ui.jobs.LoadTaskJob;
 import de.nordakademie.wpk.tasklist.ui.jobs.UpdateTaskJob;
 import de.nordakademie.wpk.tasklist.ui.util.DateHelper;
@@ -56,6 +57,8 @@ public class TaskEditor {
 
 	@Inject
 	private MPart editorPart;
+	@Inject
+	private EPartService partService;
 
 	@Inject
 	private IEventBroker eventBroker;
@@ -71,6 +74,7 @@ public class TaskEditor {
 	private String providerName;
 	private Composite parent;
 	private Text txtLastSync;
+	private String taskId;
 
 	@PostConstruct
 	public void createPartControl(Composite parent) {
@@ -152,12 +156,14 @@ public class TaskEditor {
 		formToolkit.paintBordersFor(dateTime);
 
 		Label lblLetzteAktualisierung = new Label(composite, SWT.NONE);
-		lblLetzteAktualisierung.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		lblLetzteAktualisierung.setLayoutData(new GridData(SWT.RIGHT,
+				SWT.CENTER, false, false, 1, 1));
 		formToolkit.adapt(lblLetzteAktualisierung, true, true);
 		lblLetzteAktualisierung.setText("Letzte Aktualisierung:");
-		
+
 		txtLastSync = new Text(composite, SWT.BORDER);
-		txtLastSync.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		txtLastSync.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
+				false, 1, 1));
 		formToolkit.adapt(txtLastSync, true, true);
 		txtLastSync.setEnabled(false);
 		new Label(composite, SWT.NONE);
@@ -199,32 +205,47 @@ public class TaskEditor {
 		providerName = split[1];
 		tasklistId = split[2];
 		if (split.length > 3) {
-			String taskId = split[3];
-			new LoadTaskJob(taskService, eventBroker, taskId, tasklistId, getSetting()).schedule();
+			taskId = split[3];
+			loadTask(taskId);
 		} else {
+			this.task = new Task();
+			editorPart.setLabel("Neue Task");
 			txtName.setText("Neue Task");
 			editorPart.setDirty(true);
 		}
 	}
-	
-	@Inject
-	@Optional
-	private void handleTaskLoaded(
-			@UIEventTopic(Topics.TASK_LOADED) Task task) {
-		refreshInput(task);
+
+	private void loadTask(String taskId) {
+		new LoadTaskJob(taskService, eventBroker, taskId, tasklistId,
+				getSetting()).schedule();
 	}
-	
+
 	@Inject
 	@Optional
-	private void handleTaskSaved(
-			@UIEventTopic(Topics.TASK_SAVED) Task task) {
-		if(task == this.task)
+	private void handleTaskLoaded(@UIEventTopic(Topics.TASK_LOADED) Task task) {
+		if (this.task == null || task.getId().equals(this.task.getId())) {
+			refreshInput(task);
+		}
+	}
+
+	@Inject
+	@Optional
+	private void handleTaskSaved(@UIEventTopic(Topics.TASK_SAVED) Task task) {
+		if (task == this.task) {
+			String elementId = editorPart.getElementId();
+			if (elementId.lastIndexOf('#') == elementId.length() - 1) {
+				this.task.setId(task.getId());
+				editorPart.setElementId(elementId + task.getId());
+			}
 			editorPart.setDirty(false);
+			loadTask(task.getId());
+		}
 	}
 
 	private void refreshInput(Task task) {
 		this.task = task;
 		if (task != null) {
+			editorPart.setLabel(task.getTitle());
 			txtName.setText(task.getTitle());
 			txtComment.setText(task.getComment());
 			btnFertig.setSelection(task.getStatus());
@@ -241,7 +262,8 @@ public class TaskEditor {
 						DateHelper.getMonth(dateOfDue),
 						DateHelper.getDay(dateOfDue));
 			}
-			txtLastSync.setText(DateHelper.getDateAsSting(task.getLastSync()));
+			txtLastSync.setText(DateHelper.getDateTimeAsSting(task
+					.getLastSync()));
 		}
 		editorPart.setDirty(false);
 	}
@@ -268,26 +290,24 @@ public class TaskEditor {
 
 	@Persist
 	public void save() {
-		if (task != null) {
+		if (!task.getId().equals("")) {
 			updateTask();
 		} else {
 			saveNewTask();
 		}
-//		editorPart.setDirty(false);
 	}
 
 	private void saveNewTask() {
-		task = new Task();
 		setupTask();
-		new AddTaskService(task, tasklistId, taskService, eventBroker,
+		new AddTaskJob(task, tasklistId, taskService, eventBroker,
 				getSetting()).schedule();
-//		editorPart.setDirty(false);
 	}
 
 	/**
 	 * Übernahme der eingegebenen Daten aus dem UI in das Taskobjekt.
 	 */
 	private void setupTask() {
+		editorPart.setLabel(task.getTitle());
 		task.setTitle(txtName.getText());
 		task.setComment(txtComment.getText());
 		task.setStatus(btnFertig.getSelection());
@@ -304,6 +324,5 @@ public class TaskEditor {
 		setupTask();
 		new UpdateTaskJob(task, tasklistId, taskService, eventBroker,
 				getSetting()).schedule();
-//		editorPart.setDirty(false);
 	}
 }
